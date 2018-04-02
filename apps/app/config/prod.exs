@@ -9,7 +9,7 @@ if System.get_env("DATA_DB_USER") do
     database: "gonano",
     pool_size: 10
 else
-    import_config "prod.secret.exs"
+    #import_config "prod.secret.exs"
 end
 
 
