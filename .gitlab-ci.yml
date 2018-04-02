@@ -1,0 +1,71 @@
+image: pedrodc/nanobox 
+
+stages:
+  - test
+  - deploy_dev
+  - deploy_prod
+
+variables:
+  NANOBOX_USERNAME: $NANOBOX_USERNAME
+  NANOBOX_PASSWORD: $NANOBOX_PASSWORD
+
+test-coverage:
+  variables:
+    MIX_ENV: "test"
+  stage: test
+  script:
+    - nanobox run MIX_ENV=test mix coveralls
+  only:
+    - develop
+    - master
+  environment:
+    name: test
+
+test-frontend:
+  variables:
+    MIX_ENV: "test"
+  script:
+    - echo "frontend tests"
+  only:
+    - develop
+    - master
+  environment:
+    name: test
+
+
+codequality:
+  variables:
+    MIX_ENV: "test"
+  stage: test
+  script:
+    - nanobox run mix credo --only warning
+  only:
+    - develop
+    - master
+  environment:
+    name: test
+
+deploy_dev:
+  variables:
+    MIX_ENV: "dev"
+  stage: deploy_dev
+  script:
+    - nanobox remote add cubicon-b-dev
+    - nanobox deploy
+  only:
+    - develop
+  environment:
+    name: development
+
+deploy_prod:
+  variables:
+    MIX_ENV: "prod"
+  stage: deploy_prod
+  script:
+    - nanobox remote add cubicon-b
+    - nanobox deploy
+  only:
+    - master
+  environment:
+    name: production
+

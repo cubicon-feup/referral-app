@@ -1,0 +1,22 @@
+run.config:
+  engine: elixir
+  extra_packages:
+    - nodejs
+  dev_packages:
+    - inotify-tools
+  cache_dirs:
+    - apps/app_web/assets/node_modules
+  extra_path_dirs:
+    - apps/app_web/assets/node_modules/.bin
+  fs_watch: true
+
+deploy.config:
+  extra_steps:
+    - mix deps.get 
+    - cd apps/app_web/assets && npm install
+
+data.db:
+  image: nanobox/postgresql:9.5
+
+web.site:
+  start: node-start mix phoenix.server
