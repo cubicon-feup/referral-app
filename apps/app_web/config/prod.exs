@@ -60,10 +60,5 @@ config :app_web, AppWeb.Endpoint,
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 
-if System.get_env("DATA_DB_USER") do
-  config :app_web, AppWeb.Endpoint,
+config :app_web, AppWeb.Endpoint,
     secret_key_base: "lMHClqE24pWsLBJdrtyeCjBE/PZNy6kzuPsLgQHoiuyU0BCNxqfy12styJGigJGc"
-else
-  #import_config "prod.secret.exs"
-end
-
