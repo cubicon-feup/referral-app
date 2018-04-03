@@ -7,6 +7,9 @@ jobs:
     - stage: test
       script: nanobox run mix test
       if: branch IN (develop, master)
+    - stage: test
+      script: nanobox run mix credo
+      if: branch IN (develop, master)
     - stage: deploy-staging
       if: branch = develop
       script: 

@@ -19,8 +19,10 @@ defmodule AppWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", AppWeb do
-  #   pipe_through :api
-  # end
+   #Other scopes may use custom stacks.
+   scope "/api", App do
+     pipe_through :api
+
+     get "/test", TestApi, :test
+   end
 end
