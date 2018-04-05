@@ -5,10 +5,10 @@ install: sudo bash -c "$(curl -fsSL https://s3.amazonaws.com/tools.nanobox.io/bo
 jobs:
   include:
     - stage: test
-      script: nanobox run mix test
+      script: nanobox run MIX_ENV="test" mix coveralls
       if: branch IN (develop, master)
     - stage: test
-      script: nanobox run mix credo
+      script: nanobox run mix credo --only warning
       if: branch IN (develop, master)
     - stage: deploy-staging
       if: branch = develop
