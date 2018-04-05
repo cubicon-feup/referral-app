@@ -7,7 +7,9 @@ jobs:
     - stage: test
       env:
         - MIX_ENV=test
-      script: nanobox run mix coveralls
+      script:
+        - nanobox evar add MIX_ENV="test"
+        - nanobox run mix coveralls.travis
       if: branch IN (develop, master)
     - stage: test
       env:
