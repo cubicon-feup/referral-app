@@ -23,7 +23,6 @@ defmodule AppWeb.Router do
    scope "/api", AppWeb do
      pipe_through :api
      resources "/brands", BrandController, except: [:new, :edit]
-     get "/user", UserController, :index
-     get "/user/:id", UserController, :show
+     resources "/user", UserController
    end
 end
