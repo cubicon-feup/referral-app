@@ -23,7 +23,6 @@ defmodule AppWeb.Router do
    scope "/api", AppWeb do
      pipe_through :api
 
-     get "/user", UserController, :index
-     get "/user/:id", UserController, :show
+     resources "/user", UserController
    end
 end
