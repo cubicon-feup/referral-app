@@ -1,3 +1,9 @@
+## CI
+### Master
+[![Build Status](https://travis-ci.org/cubicon-feup/referral-app.svg?branch=master)](https://travis-ci.org/cubicon-feup/referral-app)
+### Develop
+[![Build Status](https://travis-ci.org/cubicon-feup/referral-app.svg?branch=develop)](https://travis-ci.org/cubicon-feup/referral-app)
+
 ## Setup
 
 #### Install docker
