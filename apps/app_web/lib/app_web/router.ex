@@ -22,7 +22,7 @@ defmodule AppWeb.Router do
    #Other scopes may use custom stacks.
    scope "/api", AppWeb do
      pipe_through :api
-
+     resources "/brands", BrandController, except: [:new, :edit]
      get "/user", UserController, :index
      get "/user/:id", UserController, :show
    end
