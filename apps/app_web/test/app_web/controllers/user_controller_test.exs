@@ -4,7 +4,7 @@ defmodule AppWeb.UserControllerTest do
   alias App.Users
   alias App.Users.User
 
-  @create_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", priveleges_level: "some priveleges_level"}
+  @create_attrs %{date_of_birth: 2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", priveleges_level: "some priveleges_level"}
   @update_attrs %{date_of_birth: ~D[2011-05-18], deleted: false, email: "some updated email", name: "some updated name", password: "some updated password", picture_path: "some updated picture_path", priveleges_level: "some updated priveleges_level"}
   @invalid_attrs %{date_of_birth: nil, deleted: nil, email: nil, name: nil, password: nil, picture_path: nil, priveleges_level: nil}
 
@@ -32,7 +32,7 @@ defmodule AppWeb.UserControllerTest do
       conn = get conn, user_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "date_of_birth" => ~D[2010-04-17],
+        "date_of_birth" => "2010-04-17",
         "deleted" => true,
         "email" => "some email",
         "name" => "some name",
@@ -57,7 +57,7 @@ defmodule AppWeb.UserControllerTest do
       conn = get conn, user_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "date_of_birth" => ~D[2011-05-18],
+        "date_of_birth" => "2011-05-18",
         "deleted" => false,
         "email" => "some updated email",
         "name" => "some updated name",
