@@ -20,9 +20,10 @@ defmodule AppWeb.Router do
   end
 
    #Other scopes may use custom stacks.
-   scope "/api", App do
+   scope "/api", AppWeb do
      pipe_through :api
 
-     get "/test", TestApi, :test
+     get "/user", UserController, :index
+     get "/user/:id", UserController, :show
    end
 end
