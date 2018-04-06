@@ -28,6 +28,8 @@ defmodule AppWeb.Router do
      resources "/payments", PaymentController, except: [:new, :edit]
      resources "/payment_voucher", Payment_voucherController, except: [:new, :edit]
      resources "/contracts", ContractController, except: [:new, :edit]
+     resources "/vouchers", VoucherController, except: [:new, :edit]
+     resources "/sales", SaleController, except: [:new, :edit]
      resources "/user", UserController
    end
 end
