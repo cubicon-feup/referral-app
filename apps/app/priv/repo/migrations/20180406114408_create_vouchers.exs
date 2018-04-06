@@ -2,7 +2,7 @@ defmodule App.Repo.Migrations.CreateVouchers do
   use Ecto.Migration
 
   def change do
-    create table(:vouchers) do
+    create table(:voucher) do
       add :amount, :decimal
       add :free_shipping, :boolean, default: false, null: false
       add :expiration_date, :naive_datetime
@@ -17,6 +17,6 @@ defmodule App.Repo.Migrations.CreateVouchers do
       timestamps()
     end
 
-    create index(:vouchers, [:contract_id])
+    create index(:voucher, [:contract_id])
   end
 end

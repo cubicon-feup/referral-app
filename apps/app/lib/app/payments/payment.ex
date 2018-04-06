@@ -3,7 +3,7 @@ defmodule App.Payments.Payment do
   import Ecto.Changeset
 
 
-  schema "payments" do
+  schema "payment" do
     field :paid, :boolean, default: false
     field :requestDate, :naive_datetime
     field :value, :decimal

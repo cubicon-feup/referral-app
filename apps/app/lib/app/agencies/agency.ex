@@ -3,7 +3,7 @@ defmodule App.Agencies.Agency do
   import Ecto.Changeset
 
 
-  schema "agencies" do
+  schema "agency" do
     field :name, :string
     field :user_id, :id
 

@@ -2,7 +2,7 @@ defmodule App.Repo.Migrations.CreateContracts do
   use Ecto.Migration
 
   def change do
-    create table(:contracts) do
+    create table(:contract) do
       add :static_amount_on_sales, :decimal
       add :percent_amount_on_sales, :decimal
       add :static_amount_on_set_of_sales, :decimal
@@ -23,7 +23,7 @@ defmodule App.Repo.Migrations.CreateContracts do
       timestamps()
     end
 
-    create index(:contracts, [:influencer_id])
-    create index(:contracts, [:brand_id])
+    create index(:contract, [:influencer_id])
+    create index(:contract, [:brand_id])
   end
 end

@@ -3,7 +3,7 @@ defmodule App.Contracts.Contract do
   import Ecto.Changeset
 
 
-  schema "contracts" do
+  schema "contract" do
     field :current_amount, :decimal
     field :is_requestable, :boolean, default: false
     field :minimum_amount_of_sales, :decimal

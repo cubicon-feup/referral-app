@@ -3,7 +3,7 @@ defmodule App.Clients.Client do
   import Ecto.Changeset
 
 
-  schema "clients" do
+  schema "client" do
     field :age, :integer
     field :client_id, :integer
     field :country, :string

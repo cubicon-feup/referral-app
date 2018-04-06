@@ -3,7 +3,7 @@ defmodule App.Plans.Plan do
   import Ecto.Changeset
 
 
-  schema "plans" do
+  schema "plan" do
     field :max_influencers, :integer
     field :name, :string
 

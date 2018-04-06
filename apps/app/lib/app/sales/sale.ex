@@ -3,7 +3,7 @@ defmodule App.Sales.Sale do
   import Ecto.Changeset
 
 
-  schema "sales" do
+  schema "sale" do
     field :date, :naive_datetime
     field :value, :decimal
     field :contract_id, :id

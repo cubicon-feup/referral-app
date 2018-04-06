@@ -3,9 +3,9 @@ defmodule App.Brands.Brand do
   import Ecto.Changeset
 
 
-  schema "brands" do
+  schema "brand" do
     field :name, :string
-    field :user_id, :id
+    field :brand_id, :id
 
     timestamps()
   end

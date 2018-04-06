@@ -2,7 +2,7 @@ defmodule App.Repo.Migrations.CreateClients do
   use Ecto.Migration
 
   def change do
-    create table(:clients) do
+    create table(:client) do
       add :client_id, :integer
       add :country, :string
       add :gender, :boolean, default: false, null: false
