@@ -30,6 +30,7 @@ defmodule AppWeb.Router do
      resources "/contracts", ContractController, except: [:new, :edit]
      resources "/vouchers", VoucherController, except: [:new, :edit]
      resources "/sales", SaleController, except: [:new, :edit]
+     resources "/clients", ClientController, except: [:new, :edit]
      resources "/user", UserController
    end
 end
