@@ -3,11 +3,12 @@ defmodule App.Repo.Migrations.CreateAgencies do
 
   def change do
     create table(:agency) do
-      add :name, :string
-      add :agency_id, references(:user, on_delete: :nothing)
+      add :name, :string, null: false
+      add :agency_id, references(:user, on_delete: :nothing), null: false
 
       timestamps()
     end
 
+    create unique_index(:agency, [:name])
   end
 end

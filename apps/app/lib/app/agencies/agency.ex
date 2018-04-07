@@ -15,5 +15,6 @@ defmodule App.Agencies.Agency do
     agency
     |> cast(attrs, [:name])
     |> validate_required([:name])
+    |> unique_constraint([:name])
   end
 end

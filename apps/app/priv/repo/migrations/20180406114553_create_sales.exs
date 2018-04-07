@@ -3,9 +3,9 @@ defmodule App.Repo.Migrations.CreateSales do
 
   def change do
     create table(:sale) do
-      add :date, :naive_datetime
-      add :value, :decimal
-      add :contract_id, references(:contract, on_delete: :nothing)
+      add :date, :naive_datetime, null: false
+      add :value, :decimal, null: false
+      add :contract_id, references(:contract, on_delete: :nothing), null: false
 
       timestamps()
     end

@@ -3,13 +3,13 @@ defmodule App.Repo.Migrations.CreatePaymentVoucher do
 
   def change do
     create table(:payment_voucher) do
-      add :amount, :decimal
+      add :amount, :decimal, null: false
       add :expiration_date, :naive_datetime
       add :minimum_spent_to_use, :decimal
       add :maximum_spent_to_use, :decimal
       add :comulative_with_vouchers, :boolean, default: false, null: false
       add :comulative_with_sales, :boolean, default: false, null: false
-      add :payment_id, references(:payment, on_delete: :nothing)
+      add :payment_id, references(:payment, on_delete: :nothing), null: false
 
       timestamps()
     end

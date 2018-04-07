@@ -15,5 +15,6 @@ defmodule App.Plans.Plan do
     plan
     |> cast(attrs, [:name, :max_influencers])
     |> validate_required([:name, :max_influencers])
+    |> unique_constraint([:name])
   end
 end

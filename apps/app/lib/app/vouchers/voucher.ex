@@ -23,5 +23,6 @@ defmodule App.Vouchers.Voucher do
     voucher
     |> cast(attrs, [:amount, :free_shipping, :expiration_date, :minimum_spent_to_use, :maximum_spent_to_use, :comulative_with_vouchers, :comulative_with_sales, :uses_per_person, :uses])
     |> validate_required([:amount, :free_shipping, :expiration_date, :minimum_spent_to_use, :maximum_spent_to_use, :comulative_with_vouchers, :comulative_with_sales, :uses_per_person, :uses])
+    |> unique_constraint([:contract_id])
   end
 end

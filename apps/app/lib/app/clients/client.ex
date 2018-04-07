@@ -17,5 +17,6 @@ defmodule App.Clients.Client do
     client
     |> cast(attrs, [:client_id, :country, :gender, :age])
     |> validate_required([:client_id, :country, :gender, :age])
+    |> unique_constraint([:client_id])
   end
 end

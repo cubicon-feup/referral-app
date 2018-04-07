@@ -18,5 +18,6 @@ defmodule App.Influencers.Influencer do
     influencer
     |> cast(attrs, [:name, :address, :nib, :code])
     |> validate_required([:name, :address, :nib, :code])
+    |> unique_constraint([:influencer_id])
   end
 end

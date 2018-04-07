@@ -3,8 +3,8 @@ defmodule App.Repo.Migrations.CreateBrands do
 
   def change do
     create table(:brand) do
-      add :name, :string
-      add :brand_id, references(:user, on_delete: :nothing)
+      add :name, :string, null: false
+      add :brand_id, references(:user, on_delete: :nothing), null: false
 
       timestamps()
     end

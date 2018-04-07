@@ -3,11 +3,11 @@ defmodule App.Repo.Migrations.CreateInfluencers do
 
   def change do
     create table(:influencer) do
-      add :name, :string
-      add :address, :string
-      add :nib, :integer
-      add :code, :string
-      add :influencer_id, references(:user, on_delete: :nothing)
+      add :name, :string, null: false
+      add :address, :string, null: false
+      add :nib, :integer, null: false
+      add :code, :string, null: false
+      add :influencer_id, references(:user, on_delete: :nothing), null: false
 
       timestamps()
     end

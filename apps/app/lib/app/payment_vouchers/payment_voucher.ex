@@ -20,5 +20,6 @@ defmodule App.Payment_vouchers.Payment_voucher do
     payment_voucher
     |> cast(attrs, [:amount, :expiration_date, :minimum_spent_to_use, :maximum_spent_to_use, :comulative_with_vouchers, :comulative_with_sales])
     |> validate_required([:amount, :expiration_date, :minimum_spent_to_use, :maximum_spent_to_use, :comulative_with_vouchers, :comulative_with_sales])
+    |> unique_constraint([:payment_id])
   end
 end
