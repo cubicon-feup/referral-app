@@ -3,7 +3,7 @@ defmodule App.UsersTest do
 
   alias App.Users
 
-  describe "user" do
+  describe "users" do
     alias App.Users.User
 
     @valid_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", priveleges_level: "some priveleges_level"}
@@ -19,9 +19,9 @@ defmodule App.UsersTest do
       user
     end
 
-    test "list_user/0 returns all user" do
+    test "list_users/0 returns all users" do
       user = user_fixture()
-      assert Users.list_user() == [user]
+      assert Users.list_users() == [user]
     end
 
     test "get_user!/1 returns the user with given id" do

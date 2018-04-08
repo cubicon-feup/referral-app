@@ -3,7 +3,7 @@ defmodule App.Users.User do
   import Ecto.Changeset
 
 
-  schema "user" do
+  schema "users" do
     field :date_of_birth, :date
     field :deleted, :boolean, default: false
     field :email, :string
@@ -18,7 +18,8 @@ defmodule App.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:date_of_birth, :email, :name, :password, :picture_path, :priveleges_level, :deleted])
-    |> validate_required([:date_of_birth, :email, :name, :password, :picture_path, :priveleges_level, :deleted])
+    |> cast(attrs, [:date_of_birth, :deleted, :email, :name, :password, :picture_path, :priveleges_level])
+    |> validate_required([:date_of_birth, :deleted, :email, :name, :password, :picture_path, :priveleges_level])
+    |> unique_constraint(:email)
   end
 end

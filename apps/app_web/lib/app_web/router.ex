@@ -17,12 +17,15 @@ defmodule AppWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/users", UserController
+    
   end
 
-   #Other scopes may use custom stacks.
-   scope "/api", AppWeb do
-     pipe_through :api
-     resources "/brands", BrandController, except: [:new, :edit]
-     resources "/user", UserController
-   end
+  #Other scopes may use custom stacks.
+  scope "/api", AppWeb.Api, as: :api do
+    pipe_through :api
+
+    resources "/users", UserController
+
+  end
 end
