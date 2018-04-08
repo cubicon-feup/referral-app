@@ -4,39 +4,57 @@ defmodule AppWeb.UserController do
   alias App.Users
   alias App.Users.User
 
-  action_fallback AppWeb.FallbackController
-
   def index(conn, _params) do
-    user = Users.list_user()
-    render(conn, "index.json", user: user)
+    users = Users.list_users()
+    render(conn, "index.html", users: users)
+  end
+
+  def new(conn, _params) do
+    changeset = Users.change_user(%User{})
+    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Users.create_user(user_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", user_path(conn, :show, user))
-      |> render("show.json", user: user)
+    case Users.create_user(user_params) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "User created successfully.")
+        |> redirect(to: user_path(conn, :show, user))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.json", user: user)
+    render(conn, "show.html", user: user)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    user = Users.get_user!(id)
+    changeset = Users.change_user(user)
+    render(conn, "edit.html", user: user, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Users.get_user!(id)
 
-    with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
-      render(conn, "show.json", user: user)
+    case Users.update_user(user, user_params) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "User updated successfully.")
+        |> redirect(to: user_path(conn, :show, user))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", user: user, changeset: changeset)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    with {:ok, %User{}} <- Users.delete_user(user) do
-      send_resp(conn, :no_content, "")
-    end
+    {:ok, _user} = Users.delete_user(user)
+
+    conn
+    |> put_flash(:info, "User deleted successfully.")
+    |> redirect(to: user_path(conn, :index))
   end
 end
