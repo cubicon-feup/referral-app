@@ -21,11 +21,5 @@ defmodule App.Users.User do
     |> cast(attrs, [:date_of_birth, :email, :name, :password, :picture_path, :priveleges_level, :deleted])
     |> validate_required([:date_of_birth, :email, :name, :password, :picture_path, :priveleges_level, :deleted])
     |> unique_constraint([:email])
-    |> hash_pass()
   end
-
-  defp hash_pass(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, password: Bcrypt.hash_pwd_salt(password))
-  end
-  defp hash_pass(changeset), do: changeset
 end
