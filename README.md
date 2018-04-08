@@ -41,6 +41,20 @@ Go to: ``` phoenix.local:4000 ``` to see your app!
 #### exit the console
 ```exit```
 
+## GENERATING HTML AND JSON
+
+Example:
+
+```
+mix phx.gen.html Blog Post posts title:string content:string
+```
+
+then run:
+
+```
+mix phx.gen.json Blog Post posts title:string content:string --web Api --no-context --no-schema
+```
+
 
 Usefull commands:
 
