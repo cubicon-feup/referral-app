@@ -3,9 +3,12 @@ defmodule App.Brands.Brand do
   import Ecto.Changeset
 
 
-  schema "brands" do
+  schema "brand" do
     field :name, :string
-    field :user_id, :id
+    field :brand_id, :id
+    field :hostname, :string
+    field :api_key, :string
+    field :api_password, :string
 
     timestamps()
   end
@@ -13,8 +16,8 @@ defmodule App.Brands.Brand do
   @doc false
   def changeset(brand, attrs) do
     brand
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :hostname, :api_key, :api_password])
+    |> validate_required([:name, :hostname, :api_key, :api_password])
     |> unique_constraint(:name)
   end
 end
