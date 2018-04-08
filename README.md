@@ -55,6 +55,17 @@ then run:
 mix phx.gen.json Blog Post posts title:string content:string --web Api --no-context --no-schema
 ```
 
+Other example:
+```
+mix phx.gen.json Users V1.User users date_of_birth:date deleted:boolean email:string:unique name:string password:string picture_path:string priveleges_level:string
+```
+
+then:
+
+```
+mix phx.gen.json Users User users date_of_birth:date deleted:boolean email:string:unique name:string password:string picture_path:string priveleges_level:string --web Api --no-context --no-schema
+```
+
 
 Usefull commands:
 
