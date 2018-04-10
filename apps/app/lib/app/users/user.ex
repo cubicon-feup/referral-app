@@ -3,7 +3,7 @@ defmodule App.Users.User do
   import Ecto.Changeset
 
 
-  schema "user" do
+  schema "users" do
     field :date_of_birth, :date
     field :deleted, :boolean, default: false
     field :email, :string

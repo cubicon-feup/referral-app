@@ -2,7 +2,7 @@ defmodule App.Repo.Migrations.CreateUser do
   use Ecto.Migration
 
   def change do
-    create table(:user) do
+    create table(:users) do
       add :date_of_birth, :date
       add :email, :string
       add :name, :string

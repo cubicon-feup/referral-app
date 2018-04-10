@@ -24,5 +24,13 @@ defmodule AppWeb.Router do
      pipe_through :api
      resources "/brands", BrandController, except: [:new, :edit]
      resources "/user", UserController
+     resources "/influencers", InfluencerController
+     resources "/agencies", AgencyController
+     resources "/plans", PlanController
+     resources "/payments", PaymentController
+     resources "/contracts", ContractController
+     resources "/vouchers", VoucherController
+     resources "/sales", SaleController
+     resources "/clients", ClientController
    end
 end
