@@ -33,7 +33,7 @@ defmodule AppWeb.Router do
    scope "/api", AppWeb do
      pipe_through :api
      resources "/brands", BrandController, except: [:new, :edit]
-     resources "/users", UserController
+     resources "/user", UserController
      resources "/influencers", InfluencerController
      resources "/agencies", AgencyController
      resources "/plans", PlanController
