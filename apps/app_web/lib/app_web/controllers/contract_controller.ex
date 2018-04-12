@@ -3,6 +3,9 @@ defmodule AppWeb.ContractController do
 
   alias App.Contracts
   alias App.Contracts.Contract
+  alias App.Vouchers
+  alias App.Vouchers.Voucher
+
 
   def index(conn, _params) do
     contracts = Contracts.list_contracts()
@@ -27,7 +30,8 @@ defmodule AppWeb.ContractController do
 
   def show(conn, %{"id" => id}) do
     contract = Contracts.get_contract!(id)
-    render(conn, "show.html", contract: contract)
+    voucher =  Vouchers.get_voucher_by_contract!(id)
+    render(conn, "show.html", contract: contract, voucher: voucher)
   end
 
   def edit(conn, %{"id" => id}) do

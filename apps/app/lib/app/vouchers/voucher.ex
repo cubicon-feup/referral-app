@@ -13,7 +13,7 @@ defmodule App.Vouchers.Voucher do
   @doc false
   def changeset(voucher, attrs) do
     voucher
-    |> cast(attrs, [:code])
+    |> cast(attrs, [:code,:contract_id])
     |> validate_required([:code])
   end
 end

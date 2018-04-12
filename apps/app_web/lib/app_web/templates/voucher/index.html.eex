@@ -4,7 +4,9 @@
   <thead>
     <tr>
       <th>Code</th>
-
+      <th>
+        ID
+</th>
       <th></th>
     </tr>
   </thead>
@@ -12,6 +14,7 @@
 <%= for voucher <- @vouchers do %>
     <tr>
       <td><%= voucher.code %></td>
+      <td><%= voucher.contract_id %></td>
 
       <td class="text-right">
         <span><%= link "Show", to: voucher_path(@conn, :show, voucher), class: "btn btn-default btn-xs" %></span>

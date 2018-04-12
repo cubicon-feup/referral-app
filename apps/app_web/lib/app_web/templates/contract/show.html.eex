@@ -72,6 +72,11 @@
     <%= @contract.send_notification_to_brand %>
   </li>
 
+  <li>
+    <strong> voucher: </strong>
+    <%= @voucher.id %>
+  </li>
+
 </ul>
 
 <span><%= link "Edit", to: contract_path(@conn, :edit, @contract) %></span>

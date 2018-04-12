@@ -101,4 +101,5 @@ defmodule App.Contracts do
   def change_contract(%Contract{} = contract) do
     Contract.changeset(contract, %{})
   end
+
 end

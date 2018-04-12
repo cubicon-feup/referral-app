@@ -101,4 +101,7 @@ defmodule App.Vouchers do
   def change_voucher(%Voucher{} = voucher) do
     Voucher.changeset(voucher, %{})
   end
+
+  def get_voucher_by_contract!(contract_id), do: Repo.get_by!(Voucher, contract_id: contract_id)
+
 end

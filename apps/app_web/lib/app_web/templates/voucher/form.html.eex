@@ -12,6 +12,12 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :contract_id, class: "control-label" %>
+    <%= number_input f, :contract_id, step: "any", class: "form-control" %>
+    <%= error_tag f, :contract_id %>
+  </div>
+
+  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
