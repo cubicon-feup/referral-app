@@ -1,4 +1,4 @@
-defmodule App.Repo.Migrations.CreateUser do
+defmodule App.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do
@@ -8,7 +8,7 @@ defmodule App.Repo.Migrations.CreateUser do
       add :name, :string
       add :password, :string
       add :picture_path, :string
-      add :priveleges_level, :string
+      add :privileges_level, :string
       add :deleted, :boolean, default: false, null: false
 
       timestamps()

@@ -4,8 +4,11 @@ defmodule App.Brands.Brand do
 
 
   schema "brands" do
+    field :api_key, :string
+    field :api_password, :string
+    field :hostname, :string
     field :name, :string
-    field :user_id, :id
+    field :brand_id, :id
 
     timestamps()
   end
@@ -13,8 +16,7 @@ defmodule App.Brands.Brand do
   @doc false
   def changeset(brand, attrs) do
     brand
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
-    |> unique_constraint(:name)
+    |> cast(attrs, [:name, :hostname, :api_key, :api_password])
+    |> validate_required([:name, :hostname, :api_key, :api_password])
   end
 end

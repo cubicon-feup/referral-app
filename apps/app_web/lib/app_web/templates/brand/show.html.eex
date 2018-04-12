@@ -1,0 +1,28 @@
+<h2>Show Brand</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @brand.name %>
+  </li>
+
+  <li>
+    <strong>Hostname:</strong>
+    <%= @brand.hostname %>
+  </li>
+
+  <li>
+    <strong>Api key:</strong>
+    <%= @brand.api_key %>
+  </li>
+
+  <li>
+    <strong>Api password:</strong>
+    <%= @brand.api_password %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: brand_path(@conn, :edit, @brand) %></span>
+<span><%= link "Back", to: brand_path(@conn, :index) %></span>
