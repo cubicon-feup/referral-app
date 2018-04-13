@@ -17,11 +17,13 @@ jobs:
       if: branch IN (develop, master)
     - stage: deploy-staging
       if: branch = develop
-      script: 
+      script:
         - nanobox remote add cubicon-b-dev
+        - nanobox run mix migrate
         - nanobox deploy
     - stage: deploy-production
       if: branch = master
       script:
         - nanobox remote add cubicon-b
+        - nanobox run mix migrate
         - nanobox deploy
