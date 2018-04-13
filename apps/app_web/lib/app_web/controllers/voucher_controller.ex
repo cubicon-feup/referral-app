@@ -47,8 +47,7 @@ defmodule AppWeb.VoucherController do
       end
 
       def update(conn, %{"id" => id, "voucher" => voucher_params}) do
-        voucher = Vouchers.get!(Ecto.assoc(conn.assigns[:contract], :voucher), id)
-        changeset = Vouchers.change_voucher(voucher_params)
+        voucher = Vouchers.get_voucher!(id)
         case Vouchers.update_voucher(voucher, voucher_params) do
           {:ok, voucher} ->
             conn
