@@ -1,0 +1,5 @@
+<h2>Edit Voucher</h2>
+
+<%= render "form.html", Map.put(assigns, :action, voucher_path(@conn, :update, @voucher)) %>
+
+<span><%= link "Back", to: voucher_path(@conn, :index) %></span>
