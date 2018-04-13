@@ -8,7 +8,7 @@ jobs:
       env:
         - MIX_ENV=test
       script:
-        - nanobox run mix test
+        - nanobox run mix coveralls
       if: branch IN (develop, master)
     - stage: test
       env:
