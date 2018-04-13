@@ -30,8 +30,7 @@ defmodule AppWeb.ContractController do
 
   def show(conn, %{"id" => id}) do
     contract = Contracts.get_contract!(id)
-    voucher =  Vouchers.get_voucher_by_contract!(id)
-    render(conn, "show.html", contract: contract, voucher: voucher)
+    render(conn, "show.html", contract: contract)
   end
 
   def edit(conn, %{"id" => id}) do

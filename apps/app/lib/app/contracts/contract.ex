@@ -20,6 +20,7 @@ defmodule App.Contracts.Contract do
     field :time_between_payments, :integer
     field :influencer_id, :id
     field :brand_id, :id
+    has_one :voucher, App.Vouchers.Voucher
 
     timestamps()
   end

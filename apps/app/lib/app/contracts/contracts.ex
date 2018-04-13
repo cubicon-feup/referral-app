@@ -35,7 +35,9 @@ defmodule App.Contracts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_contract!(id), do: Repo.get!(Contract, id)
+  def get_contract!(id) do
+     Repo.get!(Contract, id)
+   end
 
   @doc """
   Creates a contract.

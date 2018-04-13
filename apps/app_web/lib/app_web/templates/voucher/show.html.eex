@@ -9,5 +9,5 @@
 
 </ul>
 
-<span><%= link "Edit", to: voucher_path(@conn, :edit, @voucher) %></span>
-<span><%= link "Back", to: voucher_path(@conn, :index) %></span>
+<span><%= link "Edit", to: contract_voucher_path(@conn, :edit, @contract, @voucher) %></span>
+<span><%= link "Back", to: contract_voucher_path(@conn, :index, @contract) %></span>

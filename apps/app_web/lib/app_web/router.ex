@@ -22,8 +22,9 @@ defmodule AppWeb.Router do
     resources "/agencies", AgencyController
     resources "/plans", PlanController
     resources "/payments", PaymentController
-    resources "/contracts", ContractController 
-    resources "/vouchers", VoucherController
+    resources "/contracts", ContractController do
+      resources "/vouchers", VoucherController       
+    end
     resources "/sales", SaleController
     resources "/clients", ClientController
     get "/", PageController, :index

@@ -18,7 +18,7 @@ defmodule App.Vouchers do
 
   """
   def list_vouchers do
-    Repo.all(Voucher)
+    Ecto.assoc(Voucher, :contracts)
   end
 
   @doc """
@@ -103,5 +103,7 @@ defmodule App.Vouchers do
   end
 
   def get_voucher_by_contract!(contract_id), do: Repo.get_by!(Voucher, contract_id: contract_id)
+
+  #def list_vouchers_contract(), do: Repo.all(assoc(contract, :vouchers))
 
 end

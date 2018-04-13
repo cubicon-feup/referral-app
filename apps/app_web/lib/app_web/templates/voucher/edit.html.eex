@@ -1,5 +1,5 @@
 <h2>Edit Voucher</h2>
 
-<%= render "form.html", Map.put(assigns, :action, voucher_path(@conn, :update, @voucher)) %>
+<%= render "form.html", Map.put(assigns, :action, contract_voucher_path(@conn, :update, @contract, @voucher)) %>
 
-<span><%= link "Back", to: voucher_path(@conn, :index) %></span>
+<span><%= link "Back", to: contract_voucher_path(@conn, :index, @contract) %></span>
