@@ -15,7 +15,7 @@ defmodule AppWeb.Router do
 
   scope "/", AppWeb do
     pipe_through :browser # Use the default browser stack
-    resources "/brands", BrandController, except: [:new, :edit]
+    resources "/brands", BrandController
     resources "/users", UserController
     resources "/influencers", InfluencerController
     resources "/agencies", AgencyController
@@ -32,7 +32,7 @@ defmodule AppWeb.Router do
    #Other scopes may use custom stacks.
    scope "/api", AppWeb.Api, as: :api do
      pipe_through :api
-     resources "/brands", BrandController, except: [:new, :edit]
+     resources "/brands", BrandController
      resources "/users", UserController
      resources "/influencers", InfluencerController
      resources "/agencies", AgencyController
