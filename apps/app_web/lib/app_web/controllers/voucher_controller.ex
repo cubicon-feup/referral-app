@@ -9,8 +9,16 @@ defmodule AppWeb.VoucherController do
 
   def index(conn, %{"contract_id" => contract_id}) do
     #not sure if I should REPO
-    voucher = Vouchers.get_voucher_by_contract!(contract_id)
-    render(conn, "show.html", voucher: voucher)
+    #voucher = Vouchers.get_voucher_by_contract!(contract_id)
+
+    case  Vouchers.get_voucher_by_contract!(contract_id) do
+      {:ok, voucher} ->
+        render(conn, "show.html", voucher: voucher)
+      {:error, _} ->
+        conn
+        |> put_flash(:info, "There is no voucher associated with this contract.")
+        |> redirect(to: contract_voucher_path(conn, :new, contract_id))
+    end
   end
 
   def new(conn, _params) do

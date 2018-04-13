@@ -102,7 +102,19 @@ defmodule App.Vouchers do
     Voucher.changeset(voucher, %{})
   end
 
-  def get_voucher_by_contract!(contract_id), do: Repo.get_by!(Voucher, contract_id: contract_id)
+  def get_voucher_by_contract!(contract_id) do
+
+    IO.inspect(Repo.get_by(Voucher, contract_id: contract_id), label: "::::")
+
+    case Repo.get_by(Voucher, contract_id: contract_id) do
+      nil ->
+        {:error, :not_found}
+      voucher ->
+        {:ok, voucher}
+
+
+    end
+  end
 
   #def list_vouchers_contract(), do: Repo.all(assoc(contract, :vouchers))
 
