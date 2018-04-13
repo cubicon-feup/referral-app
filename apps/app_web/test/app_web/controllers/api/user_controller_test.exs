@@ -32,7 +32,7 @@ defmodule AppWeb.Api.UserControllerTest do
       conn = get conn, api_user_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "date_of_birth" => ~D[2010-04-17],
+        "date_of_birth" => "2010-04-17",
         "deleted" => true,
         "email" => "some email",
         "name" => "some name",
@@ -57,7 +57,7 @@ defmodule AppWeb.Api.UserControllerTest do
       conn = get conn, api_user_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "date_of_birth" => ~D[2011-05-18],
+        "date_of_birth" => "2011-05-18",
         "deleted" => false,
         "email" => "some updated email",
         "name" => "some updated name",
