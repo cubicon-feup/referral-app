@@ -26,8 +26,8 @@ defmodule AppWeb.Router do
     resources "/sales", SaleController
     resources "/clients", ClientController
     get "/", PageController, :index
+    resources "/users", UserController
   end
-
 
    #Other scopes may use custom stacks.
    scope "/api", AppWeb.Api, as: :api do
