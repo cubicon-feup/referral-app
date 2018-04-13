@@ -19,11 +19,11 @@ jobs:
       if: branch = develop
       script:
         - nanobox remote add cubicon-b-dev
-        - nanobox run mix migrate
+        - nanobox run mix ecto.migrate
         - nanobox deploy
     - stage: deploy-production
       if: branch = master
       script:
         - nanobox remote add cubicon-b
-        - nanobox run mix migrate
+        - nanobox run mix ecto.migrate
         - nanobox deploy
