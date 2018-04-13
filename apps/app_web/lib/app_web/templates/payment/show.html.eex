@@ -9,7 +9,7 @@
 
   <li>
     <strong>Paid:</strong>
-    <%= @payment.paid %>
+    <%= @payment.value %>
   </li>
 
   <li>

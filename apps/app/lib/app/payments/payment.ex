@@ -2,10 +2,12 @@ defmodule App.Payments.Payment do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "payments" do
-    field :paid, :boolean, default: false
+    field :status, :string, default: "pending"
     field :request_date, :naive_datetime
+    field :payment_date, :naive_datetime
+    field :type, :string
+    field :description, :string
     field :value, :decimal
     field :brand_id, :id
     field :influencer_id, :id
@@ -16,7 +18,9 @@ defmodule App.Payments.Payment do
   @doc false
   def changeset(payment, attrs) do
     payment
-    |> cast(attrs, [:request_date, :paid, :value])
-    |> validate_required([:request_date, :paid, :value])
+    |> cast(attrs, [:request_date, :payment_date, :type, :status, :value, :description, :influencer_id])
+    |> validate_required([:influencer_id, :type, :value])
+    |> validate_inclusion(:status, ["pending", "complete", "cancelled"])
+    |> validate_inclusion(:type, ["money", "voucher", "products"])
   end
 end

@@ -3,20 +3,25 @@ defmodule AppWeb.PaymentController do
 
   alias App.Payments
   alias App.Payments.Payment
-
+  alias App.Brands
+  
   def index(conn, _params) do
     payments = Payments.list_payments()
     render(conn, "index.html", payments: payments)
   end
 
   def new(conn, _params) do
+    influencers = Brands.get_brand_influencers(1)
+    IO.inspect(influencers, label: "ON DISPLAY -----------  >")
     changeset = Payments.change_payment(%Payment{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, influencers: influencers)
   end
 
   def create(conn, %{"payment" => payment_params}) do
+    IO.inspect(payment_params, label: "BEFORE CREATE -----------  >")
     case Payments.create_payment(payment_params) do
       {:ok, payment} ->
+        IO.inspect("ok", label: "AFTER CREATE -----------  >")
         conn
         |> put_flash(:info, "Payment created successfully.")
         |> redirect(to: payment_path(conn, :show, payment))
