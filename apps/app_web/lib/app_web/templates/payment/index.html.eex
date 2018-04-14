@@ -17,7 +17,7 @@
   <tbody>
 <%= for payment <- @payments do %>
     <tr>
-      <td><%= payment.influencer_id %></td>
+      <td><%= get_influencer(payment.influencer_id).name %></td>
       <td><%= payment.type %></td>
       <td><%= payment.value %>€ <%= payment.description %></td>
       <td>TODO</td>
