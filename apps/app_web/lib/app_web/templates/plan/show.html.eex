@@ -1,0 +1,18 @@
+<h2>Show Plan</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @plan.name %>
+  </li>
+
+  <li>
+    <strong>Max influencers:</strong>
+    <%= @plan.max_influencers %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: plan_path(@conn, :edit, @plan) %></span>
+<span><%= link "Back", to: plan_path(@conn, :index) %></span>

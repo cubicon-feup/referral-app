@@ -13,11 +13,11 @@ defmodule AppWeb.Api.UserView do
   def render("user.json", %{user: user}) do
     %{id: user.id,
       date_of_birth: user.date_of_birth,
-      deleted: user.deleted,
       email: user.email,
       name: user.name,
       password: user.password,
       picture_path: user.picture_path,
-      priveleges_level: user.priveleges_level}
+      privileges_level: user.privileges_level,
+      deleted: user.deleted}
   end
 end

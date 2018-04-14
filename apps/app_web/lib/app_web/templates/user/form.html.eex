@@ -12,12 +12,6 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :deleted, class: "control-label" %>
-    <%= checkbox f, :deleted, class: "checkbox" %>
-    <%= error_tag f, :deleted %>
-  </div>
-
-  <div class="form-group">
     <%= label f, :email, class: "control-label" %>
     <%= text_input f, :email, class: "form-control" %>
     <%= error_tag f, :email %>
@@ -42,9 +36,15 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :priveleges_level, class: "control-label" %>
-    <%= text_input f, :priveleges_level, class: "form-control" %>
-    <%= error_tag f, :priveleges_level %>
+    <%= label f, :privileges_level, class: "control-label" %>
+    <%= text_input f, :privileges_level, class: "form-control" %>
+    <%= error_tag f, :privileges_level %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :deleted, class: "control-label" %>
+    <%= checkbox f, :deleted, class: "checkbox" %>
+    <%= error_tag f, :deleted %>
   </div>
 
   <div class="form-group">

@@ -1,0 +1,52 @@
+<h2>Listing Contracts</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Static amount on sales</th>
+      <th>Percent amount on sales</th>
+      <th>Static amount on set of sales</th>
+      <th>Size of set of sales</th>
+      <th>Static amount on views</th>
+      <th>Number of views</th>
+      <th>Minimum amount of sales</th>
+      <th>Minimum amout of views</th>
+      <th>Minimum sales</th>
+      <th>Time between payments</th>
+      <th>Current amount</th>
+      <th>Is requestable</th>
+      <th>Send notification to influencer</th>
+      <th>Send notification to brand</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for contract <- @contracts do %>
+    <tr>
+      <td><%= contract.static_amount_on_sales %></td>
+      <td><%= contract.percent_amount_on_sales %></td>
+      <td><%= contract.static_amount_on_set_of_sales %></td>
+      <td><%= contract.size_of_set_of_sales %></td>
+      <td><%= contract.static_amount_on_views %></td>
+      <td><%= contract.number_of_views %></td>
+      <td><%= contract.minimum_amount_of_sales %></td>
+      <td><%= contract.minimum_amout_of_views %></td>
+      <td><%= contract.minimum_sales %></td>
+      <td><%= contract.time_between_payments %></td>
+      <td><%= contract.current_amount %></td>
+      <td><%= contract.is_requestable %></td>
+      <td><%= contract.send_notification_to_influencer %></td>
+      <td><%= contract.send_notification_to_brand %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: contract_path(@conn, :show, contract), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: contract_path(@conn, :edit, contract), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: contract_path(@conn, :delete, contract), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Contract", to: contract_path(@conn, :new) %></span>

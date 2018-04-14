@@ -1,0 +1,32 @@
+<h2>Listing Influencers</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Nib</th>
+      <th>Code</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for influencer <- @influencers do %>
+    <tr>
+      <td><%= influencer.name %></td>
+      <td><%= influencer.address %></td>
+      <td><%= influencer.nib %></td>
+      <td><%= influencer.code %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: influencer_path(@conn, :show, influencer), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: influencer_path(@conn, :edit, influencer), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: influencer_path(@conn, :delete, influencer), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Influencer", to: influencer_path(@conn, :new) %></span>

@@ -4,16 +4,15 @@ defmodule App.Repo.Migrations.CreateUsers do
   def change do
     create table(:users) do
       add :date_of_birth, :date
-      add :deleted, :boolean, default: false, null: false
       add :email, :string
       add :name, :string
       add :password, :string
       add :picture_path, :string
-      add :priveleges_level, :string
+      add :privileges_level, :string
+      add :deleted, :boolean, default: false, null: false
 
       timestamps()
     end
 
-    create unique_index(:users, [:email])
   end
 end
