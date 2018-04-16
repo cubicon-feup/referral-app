@@ -8,7 +8,7 @@ defmodule App.Brands.Brand do
     field :api_password, :string
     field :hostname, :string
     field :name, :string
-    field :brand_id, :id
+    field :user_id, :id
 
     timestamps()
   end
