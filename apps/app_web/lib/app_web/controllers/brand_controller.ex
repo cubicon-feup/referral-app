@@ -1,5 +1,8 @@
 defmodule AppWeb.BrandController do
+  require Logger
   use AppWeb, :controller
+
+  import AppWeb.Mailer
 
   alias App.Brands
   alias App.Brands.Brand
@@ -56,5 +59,17 @@ defmodule AppWeb.BrandController do
     conn
     |> put_flash(:info, "Brand deleted successfully.")
     |> redirect(to: brand_path(conn, :index))
+  end
+
+  def invite(conn, %{"id" => id}) do
+    brand = Brands.get_brand!(id)
+    render(conn, "invite.html", brand: brand)
+  end
+
+  def send_email(conn, %{"id" => id}) do
+    brand = Brands.get_brand!(id)
+    Logger.debug "Var value: #{inspect(conn.params["email_form"]["email"])}"
+    send_welcome_email(conn.params["email_form"]["email"])
+    render(conn, "show.html", brand: brand)
   end
 end

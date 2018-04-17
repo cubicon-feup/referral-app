@@ -1,0 +1,8 @@
+<h2>Invite new Influencer</h2>
+<%= @brand.name %>
+<br>
+<p><bold>Insert Influencer Email</bold></p>
+<%= form_for @conn, brand_path(@conn, :send_email, @brand), [as: :email_form], fn f -> %>
+  <%= text_input f, :email %>
+  <%= submit "Send" %>
+<% end %>

@@ -26,3 +26,4 @@
 
 <span><%= link "Edit", to: brand_path(@conn, :edit, @brand) %></span>
 <span><%= link "Back", to: brand_path(@conn, :index) %></span>
+<span><%= link "Invite", to: brand_path(@conn, :invite, @brand) %></span>
