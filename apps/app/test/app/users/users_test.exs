@@ -6,9 +6,9 @@ defmodule App.UsersTest do
   describe "users" do
     alias App.Users.User
 
-    @valid_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", priveleges_level: "some priveleges_level"}
-    @update_attrs %{date_of_birth: ~D[2011-05-18], deleted: false, email: "some updated email", name: "some updated name", password: "some updated password", picture_path: "some updated picture_path", priveleges_level: "some updated priveleges_level"}
-    @invalid_attrs %{date_of_birth: nil, deleted: nil, email: nil, name: nil, password: nil, picture_path: nil, priveleges_level: nil}
+    @valid_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", privileges_level: "some privileges_level"}
+    @update_attrs %{date_of_birth: ~D[2011-05-18], deleted: false, email: "some updated email", name: "some updated name", password: "some updated password", picture_path: "some updated picture_path", privileges_level: "some updated privileges_level"}
+    @invalid_attrs %{date_of_birth: nil, deleted: nil, email: nil, name: nil, password: nil, picture_path: nil, privileges_level: nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -37,7 +37,7 @@ defmodule App.UsersTest do
       assert user.name == "some name"
       assert user.password == "some password"
       assert user.picture_path == "some picture_path"
-      assert user.priveleges_level == "some priveleges_level"
+      assert user.privileges_level == "some privileges_level"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -54,7 +54,7 @@ defmodule App.UsersTest do
       assert user.name == "some updated name"
       assert user.password == "some updated password"
       assert user.picture_path == "some updated picture_path"
-      assert user.priveleges_level == "some updated priveleges_level"
+      assert user.privileges_level == "some updated privileges_level"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
