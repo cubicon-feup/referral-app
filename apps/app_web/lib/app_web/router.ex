@@ -18,15 +18,35 @@ defmodule AppWeb.Router do
   end
 
   pipeline :auth do
-    plug Cocu.Auth.Pipeline
+    plug App.Auth.Pipeline
   end
 
   pipeline :ensure_auth do
     plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
   end
 
+  #########################################
+  # Endpoints that require authentication #
+  #########################################
   scope "/", AppWeb do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :auth]
+
+
+  end
+
+  scope "/api", AppWeb.Api, as: :api do
+     pipe_through [:api, :auth]
+
+
+  end
+
+  ################################################
+  # Endpoints that do not require authentication #
+  ################################################
+
+  scope "/", AppWeb do
+    pipe_through [:browser, :auth]
+
     resources "/brands", BrandController
     resources "/users", UserController
     resources "/influencers", InfluencerController
@@ -41,9 +61,9 @@ defmodule AppWeb.Router do
     resources "/users", UserController
   end
 
-   #Other scopes may use custom stacks.
-   scope "/api", AppWeb.Api, as: :api do
-     pipe_through :api
+  scope "/api", AppWeb.Api, as: :api do
+     pipe_through [:api, :auth]
+
      resources "/brands", BrandController
      resources "/users", UserController
      resources "/influencers", InfluencerController
@@ -54,5 +74,13 @@ defmodule AppWeb.Router do
      resources "/vouchers", VoucherController
      resources "/sales", SaleController
      resources "/clients", ClientController
-   end
+  end
+
+  ################################################
+  # Fall back 404 Controller #
+  ################################################
+  scope "/", AppWeb do
+    get "/*path", PageNotFoundController, :error
+  end
+
 end
