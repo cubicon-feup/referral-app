@@ -33,7 +33,7 @@ defmodule AppWeb.Api.PaymentControllerTest do
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "paid" => true,
-        "request_date" => ~N[2010-04-17 14:00:00.000000],
+        "request_date" => "2010-04-17T14:00:00.000000",
         "value" => "120.5"}
     end
 
@@ -54,7 +54,7 @@ defmodule AppWeb.Api.PaymentControllerTest do
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "paid" => false,
-        "request_date" => ~N[2011-05-18 15:01:01.000000],
+        "request_date" => "2011-05-18T15:01:01.000000",
         "value" => "456.7"}
     end
 
