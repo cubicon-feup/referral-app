@@ -18,7 +18,7 @@
   </li>
 
   <li>
-    <strong>Request date:</strong>
+    <strong>Payment date:</strong>
     <%= @payment.payment_date %>
   </li>
 
