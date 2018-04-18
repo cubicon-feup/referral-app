@@ -4,7 +4,7 @@ defmodule AppWeb.PaymentView do
   alias App.Payments
   
   def get_changeset(payment) do
-    changeset = Payments.change_payment(payment)
+    Payments.change_payment(payment)
   end
 
 end

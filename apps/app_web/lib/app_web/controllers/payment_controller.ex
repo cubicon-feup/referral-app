@@ -4,7 +4,6 @@ defmodule AppWeb.PaymentController do
   alias App.Payments
   alias App.Payments.Payment
   alias App.Brands
-  alias App.Influencers
 
   def index(conn, _params) do
     payments = Payments.list_payments()
