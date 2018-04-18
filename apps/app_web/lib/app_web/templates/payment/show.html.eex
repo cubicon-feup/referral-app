@@ -4,7 +4,7 @@
 
   <li>
     <strong>Influencer:</strong>
-    <%= get_influencer(@payment.influencer_id).name %>
+    <%= @payment.influencer.name %>
   </li>
 
   <li>

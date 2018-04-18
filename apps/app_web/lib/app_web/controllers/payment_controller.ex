@@ -42,12 +42,26 @@ defmodule AppWeb.PaymentController do
 
   def update(conn, %{"id" => id, "payment" => payment_params}) do
     payment = Payments.get_payment!(id)
-
     case Payments.update_payment(payment, payment_params) do
       {:ok, payment} ->
         conn
         |> put_flash(:info, "Payment updated successfully.")
         |> redirect(to: payment_path(conn, :show, payment))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", payment: payment, changeset: changeset)
+    end
+  end
+
+  
+  def update_status(conn, %{"id" => id, "payment" => payment_params}) do
+    payment = Payments.get_payment!(id)
+    case Payments.update_payment(payment, payment_params) do
+      {:ok, payment} ->
+        IO.inspect payment, label: "Payment updated successfully."
+        conn
+        |> put_flash(:info, "Payment updated successfully.")
+        |> halt
+        |> send_resp(201, "")
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", payment: payment, changeset: changeset)
     end

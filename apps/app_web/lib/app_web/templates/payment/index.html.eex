@@ -6,7 +6,7 @@
       <th>Influencer</th>
       <th>Reward</th>
       <th>Description</th>
-      <th>Owner</th>
+      <%# <th>Owner</th> %>
       <th>Request</th>
       <th>Deadline/Confirmed</th>
       <th>Status</th>
@@ -17,13 +17,17 @@
   <tbody>
 <%= for payment <- @payments do %>
     <tr>
-      <td><%= get_influencer(payment.influencer_id).name %></td>
+      <td><%= payment.influencer.name%></td>
       <td><%= payment.type %></td>
       <td><%= payment.value %>€ <%= payment.description %></td>
-      <td>TODO</td>
+      <%# <td>TODO</td> %>
       <td><%= payment.request_date %></td>
       <td><%= payment.payment_date %></td>
-      <td><%= payment.status %></td>
+      <td><%= render "edit_status.html", Map.merge(assigns, %{
+        action: payment_path(@conn, :update_status, payment),
+        changeset: get_changeset(payment)
+      })%> 
+      </td>
 
       <td class="text-right">
         <span><%= link "Show", to: payment_path(@conn, :show, payment), class: "btn btn-default btn-xs" %></span>

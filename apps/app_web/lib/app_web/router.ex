@@ -26,6 +26,7 @@ defmodule AppWeb.Router do
     resources "/sales", SaleController
     resources "/clients", ClientController
     get "/", PageController, :index
+    post "/payments/:id" , PaymentController, :update_status
   end
 
 

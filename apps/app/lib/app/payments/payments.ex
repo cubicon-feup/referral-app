@@ -20,6 +20,7 @@ defmodule App.Payments do
   """
   def list_payments do
     Repo.all(Payment)
+    |> Repo.preload(:influencer)
   end
 
   @doc """
@@ -63,7 +64,10 @@ defmodule App.Payments do
       ** (Ecto.NoResultsError)
 
   """
-  def get_payment!(id), do: Repo.get!(Payment, id)
+  def get_payment!(id) do
+    Repo.get!(Payment, id)
+    |> Repo.preload(:influencer)
+  end
 
   @doc """
   Creates a payment.

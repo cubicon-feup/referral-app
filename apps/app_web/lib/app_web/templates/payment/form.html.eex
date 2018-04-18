@@ -7,11 +7,11 @@
 
   <div class="form-group">
     <%= label f, :influencer_id, class: "control-label" %>
-    <%= select f, :influencer_id, Enum.map(@influencers, &{&1.name, &1.id}) %>
+    <%= select f, :influencer_id, Enum.map(@influencers, &{&1.name, &1.id}), class: "form-control" %>
     <%= error_tag f, :influencer_id %>
   </div>
 
- <div class="form-group">
+  <div class="form-group">
     <%= label f, :type, class: "control-label" %>
     <%= select f, :type, [
         [key: "Cash", value: "money"],
@@ -19,6 +19,16 @@
         [key: "In Kind", value: "products"]],
       class: "form-control" %>
     <%= error_tag f, :type %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :status, class: "control-label" %>
+    <%= select f, :status, [
+        [key: "Pending", value: "pending"],
+        [key: "Cancelled", value: "cancelled"],
+        [key: "Complete", value: "complete"]],
+      class: "form-control" %>
+    <%= error_tag f, :status %>
   </div>
 
   <div class="form-group">
