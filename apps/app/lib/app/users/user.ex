@@ -10,7 +10,7 @@ defmodule App.Users.User do
     field :name, :string
     field :password, :string
     field :picture_path, :string
-    field :priveleges_level, :string, default: "user"
+    field :privileges_level, :string, default: "user"
 
     timestamps()
   end
@@ -18,8 +18,8 @@ defmodule App.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:date_of_birth, :deleted, :email, :name, :password, :picture_path, :priveleges_level])
-    |> validate_required([:date_of_birth, :deleted, :email, :name, :password, :picture_path, :priveleges_level])
+    |> cast(attrs, [:date_of_birth, :deleted, :email, :name, :password, :picture_path, :privileges_level])
+    |> validate_required([:date_of_birth, :deleted, :email, :name, :password, :picture_path, :privileges_level])
     |> validate_inclusion(:privileges_level, ["user", "admin", "banned"])
     |> unique_constraint(:email)
     |> put_pass_hash()

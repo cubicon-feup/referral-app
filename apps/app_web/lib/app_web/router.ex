@@ -32,6 +32,7 @@ defmodule AppWeb.Router do
     pipe_through [:browser, :auth]
 
     resources "/user", UserController, only: [:index, :new, :create]
+    post "/user/login", UserController, :login
 
 
 
