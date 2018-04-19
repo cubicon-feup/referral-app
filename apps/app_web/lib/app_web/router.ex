@@ -33,6 +33,7 @@ defmodule AppWeb.Router do
 
     resources "/user", UserController, only: [:index, :new, :create]
     post "/user/login", UserController, :login
+    get "/404", PageNotFoundController, :show
 
 
 
