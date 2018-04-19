@@ -8,23 +8,39 @@ defmodule AppWeb.UserController do
 
 
   def index(conn, _params) do
-    users = Users.list_users()
-    render(conn, "index.html", users: users)
+    changeset = Auth.change_user(%User{})
+    maybe_user = Guardian.Plug.current_resource(conn)
+    conn
+    |> render(
+         "index.html",
+         changeset: changeset,
+         action: user_path(conn, :login),
+         maybe_user: maybe_user,
+         page_title: "Profile"
+       )
   end
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, page_title: "Sign up")
   end
 
   def create(conn, %{"user" => user_params}) do
-    case Users.create_user(user_params) do
-      {:ok, user} ->
+    case String.equivalent?(user_params["password_confirmation"], user_params["password"]) do
+      true ->
+        case Users.create_user(user_params) do
+          {:ok, _user} ->
+            conn = put_flash(conn, :success, "User created successfully.")
+            Auth.authenticate_user(user_params["email"], user_params["password"])
+            |> login_reply(conn)
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            render(conn, "new.html", changeset: changeset, page_title: "Sign up")
+        end
+      false ->
         conn
-        |> put_flash(:info, "User created successfully.")
-        |> redirect(to: user_path(conn, :show, user))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        |> put_flash(:warning, "Passwords don't match.")
+        |> redirect(to: user_path(conn, :new))
     end
   end
 

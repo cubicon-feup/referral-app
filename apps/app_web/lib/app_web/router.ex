@@ -31,6 +31,9 @@ defmodule AppWeb.Router do
   scope "/", AppWeb do
     pipe_through [:browser, :auth]
 
+    resources "/user", UserController, only: [:index, :new, :create]
+
+
 
   end
 
