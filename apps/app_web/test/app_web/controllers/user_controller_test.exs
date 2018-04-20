@@ -1,11 +1,9 @@
 defmodule AppWeb.UserControllerTest do
   use AppWeb.ConnCase
 
-  alias App.Users
-
-  @create_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", privileges_level: "some privileges_level"}
-  @update_attrs %{date_of_birth: ~D[2011-05-18], deleted: false, email: "some updated email", name: "some updated name", password: "some updated password", picture_path: "some updated picture_path", privileges_level: "some updated privileges_level"}
-  @invalid_attrs %{date_of_birth: nil, deleted: nil, email: nil, name: nil, password: nil, picture_path: nil, privileges_level: nil}
+  @create_attrs %{date_of_birth: ~D[2010-04-17], email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", password_confirmation: "some updated password", privileges_level: "user"}
+  #@update_attrs %{date_of_birth: ~D[2011-05-18], email: "some updated email", name: "some updated name", password: "some updated password", password_confirmation: "some updated password" , picture_path: "some updated picture_path", privileges_level: "user"}
+  #@invalid_attrs %{date_of_birth: nil, email: nil, name: nil, password: "some password", password_confirmation: "some password", picture_path: nil, privileges_level: nil}
 
   def fixture(:user) do
     {:ok, user} = Users.create_user(@create_attrs)
@@ -13,76 +11,11 @@ defmodule AppWeb.UserControllerTest do
   end
 
   describe "index" do
-    test "lists all users", %{conn: conn} do
+    test "shows user log in page when not logged in", %{conn: conn} do
       conn = get conn, user_path(conn, :index)
-      assert html_response(conn, 200) =~ "Listing Users"
+
+      assert html_response(conn, 200) =~ "SIGN IN"
     end
   end
 
-  describe "new user" do
-    test "renders form", %{conn: conn} do
-      conn = get conn, user_path(conn, :new)
-      assert html_response(conn, 200) =~ "New User"
-    end
-  end
-
-  describe "create user" do
-    test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, user_path(conn, :create), user: @create_attrs
-
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == user_path(conn, :show, id)
-
-      conn = get conn, user_path(conn, :show, id)
-      assert html_response(conn, 200) =~ "Show User"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post conn, user_path(conn, :create), user: @invalid_attrs
-      assert html_response(conn, 200) =~ "New User"
-    end
-  end
-
-  describe "edit user" do
-    setup [:create_user]
-
-    test "renders form for editing chosen user", %{conn: conn, user: user} do
-      conn = get conn, user_path(conn, :edit, user)
-      assert html_response(conn, 200) =~ "Edit User"
-    end
-  end
-
-  describe "update user" do
-    setup [:create_user]
-
-    test "redirects when data is valid", %{conn: conn, user: user} do
-      conn = put conn, user_path(conn, :update, user), user: @update_attrs
-      assert redirected_to(conn) == user_path(conn, :show, user)
-
-      conn = get conn, user_path(conn, :show, user)
-      assert html_response(conn, 200) =~ "some updated email"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
-      assert html_response(conn, 200) =~ "Edit User"
-    end
-  end
-
-  describe "delete user" do
-    setup [:create_user]
-
-    test "deletes chosen user", %{conn: conn, user: user} do
-      conn = delete conn, user_path(conn, :delete, user)
-      assert redirected_to(conn) == user_path(conn, :index)
-      assert_error_sent 404, fn ->
-        get conn, user_path(conn, :show, user)
-      end
-    end
-  end
-
-  defp create_user(_) do
-    user = fixture(:user)
-    {:ok, user: user}
-  end
 end

@@ -6,8 +6,8 @@ defmodule App.UsersTest do
   describe "users" do
     alias App.Users.User
 
-    @valid_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", privileges_level: "some privileges_level"}
-    @update_attrs %{date_of_birth: ~D[2011-05-18], deleted: false, email: "some updated email", name: "some updated name", password: "some updated password", picture_path: "some updated picture_path", privileges_level: "some updated privileges_level"}
+    @valid_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", privileges_level: "user"}
+    @update_attrs %{date_of_birth: ~D[2011-05-18], deleted: false, email: "some updated email", name: "some updated name", password: "some updated password", picture_path: "some updated picture_path", privileges_level: "user"}
     @invalid_attrs %{date_of_birth: nil, deleted: nil, email: nil, name: nil, password: nil, picture_path: nil, privileges_level: nil}
 
     def user_fixture(attrs \\ %{}) do
@@ -35,9 +35,8 @@ defmodule App.UsersTest do
       assert user.deleted == true
       assert user.email == "some email"
       assert user.name == "some name"
-      assert user.password == "some password"
       assert user.picture_path == "some picture_path"
-      assert user.privileges_level == "some privileges_level"
+      assert user.privileges_level == "user"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -52,9 +51,8 @@ defmodule App.UsersTest do
       assert user.deleted == false
       assert user.email == "some updated email"
       assert user.name == "some updated name"
-      assert user.password == "some updated password"
       assert user.picture_path == "some updated picture_path"
-      assert user.privileges_level == "some updated privileges_level"
+      assert user.privileges_level == "user"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
