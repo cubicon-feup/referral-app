@@ -15,7 +15,7 @@ defmodule App.Mixfile do
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
       deps: deps(), 
-        test_coverage: [ 
+      test_coverage: [ 
         tool: ExCoveralls 
       ], 
       preferred_cli_env: [ 
@@ -49,7 +49,10 @@ defmodule App.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 2.1"},
       {:credo, "~> 0.3", only: [:dev, :test]},
-      {:excoveralls, "~> 0.7", only: [:dev, :test]}
+      {:excoveralls, "~> 0.7", only: [:dev, :test]},
+      {:guardian, "~> 1.0-beta"},
+      {:comeonin, "~> 4.0"},
+      {:bcrypt_elixir, "~> 0.12"}
     ]
   end
 

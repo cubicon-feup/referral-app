@@ -6,51 +6,36 @@
 // explicitly imported. The only exception are files
 // in vendor, which are never wrapped in imports and
 // therefore are always executed.
-
 // Import dependencies
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
-import 'vueify/lib/insert-css'
+import "jquery"
+import "moment"
+import loadView from './views/loader';
 // Import local files
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
-import Vue from 'vue'
 
+function handleDOMContentLoaded() {
+    // Get the current view name
+    const viewName = document.getElementsByTagName('body')[0].dataset.jsViewName;
 
-new Vue({
-  el: '#vue-playground',
-  data: {
-    message: 'Hello to Vue World!'
-  }
-});
+    // Load view class and mount it
+    const ViewClass = loadView(viewName);
+    const view = new ViewClass();
+    view.mount();
 
-import Hello from './vue/hello.vue'
-import World from './vue/world.vue'
+    window.currentView = view;
+}
 
-new Vue({ 
-  el: '#main',
-  components: { Hello }
-});
+function handleDocumentUnload() {
+    window.currentView.unmount();
+}
 
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
-
-const routes = [
-  {path: '/', component: Hello},
-  {path: '/my-hello', component: Hello},
-  {path: '/my-world', component: World}
-]
-
-const router = new VueRouter({
-  routes
-})
-
-const app = new Vue({
-  router
-}).$mount('#router-main')
+window.addEventListener('DOMContentLoaded', handleDOMContentLoaded, false);
+window.addEventListener('unload', handleDocumentUnload, false);

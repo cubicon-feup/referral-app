@@ -2,7 +2,7 @@ exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {
-      joinTo: "js/app.js"
+      joinTo: "js/app.js",
 
       // To use a separate vendor.js bundle, specify two files path
       // http://brunch.io/docs/config#-files-
@@ -20,7 +20,13 @@ exports.config = {
       // }
     },
     stylesheets: {
-      joinTo: "css/app.css"
+      joinTo: "css/app.css",
+      order: {
+        before: [
+          "css/_variables.scss",
+          "css/app.scss",
+        ]
+      }
     },
     templates: {
       joinTo: "js/app.js"
@@ -47,7 +53,14 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/vendor/]
+    },
+    sass: {
+      options: {
+        includePaths: ['css']
+      }
     }
+
+
   },
 
   modules: {
@@ -58,8 +71,11 @@ exports.config = {
 
   npm: {
     enabled: true,
-    aliases: {
-      'vue': 'vue/dist/vue.common.js'
-    },
-  }
+    globals: {
+      $: 'jquery',
+      jQuery: 'jquery'
+    }
+  },
+
+  optimize: true
 };
