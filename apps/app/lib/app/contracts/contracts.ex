@@ -36,7 +36,8 @@ defmodule App.Contracts do
 
   """
   def get_contract!(id) do
-     Repo.get!(Contract, id)
+    contract = Repo.get!(Contract, id)
+    |>Repo.preload(:brand)
    end
 
   @doc """

@@ -9,6 +9,7 @@ defmodule App.Brands.Brand do
     field :hostname, :string
     field :name, :string
     field :user_id, :id
+    has_many :contracts, App.Contracts.Contract
 
     timestamps()
   end

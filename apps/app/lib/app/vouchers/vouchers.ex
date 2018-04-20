@@ -103,9 +103,6 @@ defmodule App.Vouchers do
   end
 
   def get_voucher_by_contract!(contract_id) do
-
-    IO.inspect(Repo.get_by(Voucher, contract_id: contract_id), label: "::::")
-
     case Repo.get_by(Voucher, contract_id: contract_id) do
       nil ->
         {:error, :not_found}
