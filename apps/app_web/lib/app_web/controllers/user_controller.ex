@@ -10,6 +10,7 @@ defmodule AppWeb.UserController do
   def index(conn, _params) do
     changeset = Auth.change_user(%User{})
     maybe_user = Guardian.Plug.current_resource(conn)
+    IO.inspect(maybe_user, label: "user:::::::::::::::")
     conn
     |> render(
          "index.html",
