@@ -12,8 +12,8 @@ defmodule AppWeb.Api.PaymentView do
 
   def render("payment.json", %{payment: payment}) do
     %{id: payment.id,
-      request_date: payment.request_date,
-      paid: payment.paid,
+      type: payment.type,
+      status: payment.status,
       value: payment.value}
   end
 end

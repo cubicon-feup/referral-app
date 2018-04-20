@@ -23,7 +23,7 @@ defmodule AppWeb.PaymentController do
         |> put_flash(:info, "Payment created successfully.")
         |> redirect(to: payment_path(conn, :show, payment))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, influencers: Brands.get_brand_influencers(1))
     end
   end
 
@@ -47,7 +47,7 @@ defmodule AppWeb.PaymentController do
         |> put_flash(:info, "Payment updated successfully.")
         |> redirect(to: payment_path(conn, :show, payment))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", payment: payment, changeset: changeset)
+        render(conn, "edit.html", payment: payment, changeset: changeset, influencers: Brands.get_brand_influencers(1))
     end
   end
 
@@ -62,7 +62,7 @@ defmodule AppWeb.PaymentController do
         |> halt
         |> send_resp(201, "")
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", payment: payment, changeset: changeset)
+        render(conn, "edit.html", payment: payment, changeset: changeset, influencers: Brands.get_brand_influencers(1))
     end
   end
 

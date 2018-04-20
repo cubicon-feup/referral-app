@@ -2,21 +2,33 @@ defmodule App.PaymentsTest do
   use App.DataCase
 
   alias App.Payments
+  alias App.Influencers
 
   describe "payments" do
     alias App.Payments.Payment
  
-    @valid_attrs %{influencer_id: 1, type: "voucher", value: "120.5"}
-    @update_attrs %{influencer_id: 2, type: "money", value: "456.7", status:"complete"}
+    @valid_attrs %{type: "voucher", value: "120.5"}
+    @update_attrs %{type: "money", value: "456.7", status: "complete"}
     @invalid_attrs %{influencer_id: nil, type: nil, value: nil}
 
+    @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+
+    def influencer_fixture() do
+      {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
+  
+      influencer
+    end
+
     def payment_fixture(attrs \\ %{}) do
+      influencer = influencer_fixture()
+      
       {:ok, payment} =
         attrs
+        |> Enum.into(%{influencer_id: influencer.id})
         |> Enum.into(@valid_attrs)
         |> Payments.create_payment()
 
-      payment
+      Payments.get_payment!(payment.id)
     end
 
     test "list_payments/0 returns all payments" do
@@ -30,13 +42,16 @@ defmodule App.PaymentsTest do
     end
 
     test "create_payment/1 with valid data creates a payment" do
-      assert {:ok, %Payment{} = payment} = Payments.create_payment(@valid_attrs)
-      assert payment.influencer_id == 1
+      influencer = influencer_fixture()
+      assert {:ok, %Payment{} = payment} = 
+        Enum.into(%{influencer_id: influencer.id}, @valid_attrs)
+        |> Payments.create_payment()
       assert payment.type == "voucher"
       assert payment.value == Decimal.new("120.5")
     end
 
     test "create_payment/1 with invalid data returns error changeset" do
+      #influencer = influencer_fixture()
       assert {:error, %Ecto.Changeset{}} = Payments.create_payment(@invalid_attrs)
     end
 
@@ -44,10 +59,9 @@ defmodule App.PaymentsTest do
       payment = payment_fixture()
       assert {:ok, payment} = Payments.update_payment(payment, @update_attrs)
       assert %Payment{} = payment
-      assert payment.influencer_id == 2
       assert payment.type == "money"
       assert payment.value == Decimal.new("456.7")
-      assert payment.status == complete
+      assert payment.status == "complete"
       assert payment.payment_date != nil
     end
 
