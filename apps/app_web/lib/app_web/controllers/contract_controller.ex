@@ -3,8 +3,6 @@ defmodule AppWeb.ContractController do
 
   alias App.Contracts
   alias App.Contracts.Contract
-  alias App.Vouchers
-  alias App.Vouchers.Voucher
 
 
   def index(conn, _params) do
@@ -41,7 +39,6 @@ defmodule AppWeb.ContractController do
 
   def update(conn, %{"id" => id, "contract" => contract_params}) do
     contract = Contracts.get_contract!(id)
-
     case Contracts.update_contract(contract, contract_params) do
       {:ok, contract} ->
         conn

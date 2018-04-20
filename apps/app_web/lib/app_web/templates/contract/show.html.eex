@@ -72,6 +72,11 @@
     <%= @contract.send_notification_to_brand %>
   </li>
 
+  <li>
+    <strong>Brand ID:</strong>
+    <%= @contract.brand_id %>
+  </li>
+
 
 </ul>
 

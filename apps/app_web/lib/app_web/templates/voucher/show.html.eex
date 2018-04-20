@@ -6,6 +6,11 @@
     <strong>Code:</strong>
     <%= @voucher.code %>
   </li>
+  <li>
+    <strong>Code:</strong>
+    <%= @price_rule["created_at"] %>
+  </li>
+
 
 </ul>
 

@@ -90,6 +90,14 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :brand_id, class: "control-label" %>
+    <%= number_input f, :brand_id, step: "any", class: "form-control" %>
+    <%= error_tag f, :brand_id %>
+  </div>
+
+
+
+  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
