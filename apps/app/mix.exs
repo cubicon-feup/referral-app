@@ -40,7 +40,9 @@ defmodule App.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 2.1"},
       {:credo, "~> 0.3", only: [:dev, :test]},
-      {:excoveralls, "~> 0.7", only: [:dev, :test]}
+      {:excoveralls, "~> 0.7", only: [:dev, :test]},
+      {:httpoison, "~> 1.0"},
+      {:poison, "~> 3.1"},
     ]
   end
 
