@@ -18,7 +18,7 @@ defmodule App.Vouchers do
 
   """
   def list_vouchers do
-    Ecto.assoc(Voucher, :contracts)
+    Repo.all(Voucher)
   end
 
   @doc """
@@ -101,18 +101,4 @@ defmodule App.Vouchers do
   def change_voucher(%Voucher{} = voucher) do
     Voucher.changeset(voucher, %{})
   end
-
-  def get_voucher_by_contract!(contract_id) do
-    case Repo.get_by(Voucher, contract_id: contract_id) do
-      nil ->
-        {:error, :not_found}
-      voucher ->
-        {:ok, voucher}
-
-
-    end
-  end
-
-  #def list_vouchers_contract(), do: Repo.all(assoc(contract, :vouchers))
-
 end

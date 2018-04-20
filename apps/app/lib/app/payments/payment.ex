@@ -8,7 +8,7 @@ defmodule App.Payments.Payment do
     field :request_date, :naive_datetime
     field :value, :decimal
     field :brand_id, :id
-    field :influencer, :id
+    field :influencer_id, :id
 
     timestamps()
   end

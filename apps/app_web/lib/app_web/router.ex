@@ -7,34 +7,70 @@ defmodule AppWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug AppWeb.SaveLocale
   end
 
   pipeline :api do
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug App.Auth.Pipeline
+  end
+
+  pipeline :ensure_auth do
+    plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
+  end
+
+  #########################################
+  # Endpoints that require authentication #
+  #########################################
   scope "/", AppWeb do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :auth, :ensure_auth]
+
+    post "/user/logout", UserController, :logout
+
+
+  end
+
+  scope "/api", AppWeb.Api, as: :api do
+     pipe_through [:api, :auth, :ensure_auth]
+
+
+  end
+
+  ################################################
+  # Endpoints that do not require authentication #
+  ################################################
+
+  scope "/", AppWeb do
+    pipe_through [:browser, :auth]
 
     resources "/brands", BrandController
-    resources "/user", UserController
+    resources "/users", UserController
     resources "/influencers", InfluencerController
     resources "/agencies", AgencyController
     resources "/plans", PlanController
     resources "/payments", PaymentController
+    resources "/sales", SaleController
+    resources "/clients", ClientController
     resources "/contracts", ContractController do
       resources "/vouchers", VoucherController       
     end
-    resources "/sales", SaleController
-    resources "/clients", ClientController
     get "/", PageController, :index
+    resources "/user", UserController, only: [:index, :new, :create]
+    post "/user/login", UserController, :login
+    get "/404", PageNotFoundController, :show
   end
 
-   #Other scopes may use custom stacks.
-   scope "/api", AppWeb do
-     pipe_through :api
-     resources "/brands", BrandController, except: [:new, :edit]
-     resources "/user", UserController
+  scope "/api", AppWeb.Api, as: :api do
+     pipe_through [:api, :auth]
+
+     resources "/brands", BrandController
+     resources "/users", UserController
      resources "/influencers", InfluencerController
      resources "/agencies", AgencyController
      resources "/plans", PlanController
@@ -43,5 +79,13 @@ defmodule AppWeb.Router do
      resources "/vouchers", VoucherController
      resources "/sales", SaleController
      resources "/clients", ClientController
-   end
+  end
+
+  ################################################
+  # Fall back 404 Controller #
+  ################################################
+  scope "/", AppWeb do
+    get "/*path", PageNotFoundController, :error
+  end
+
 end

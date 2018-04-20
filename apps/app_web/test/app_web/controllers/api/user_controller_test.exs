@@ -4,8 +4,8 @@ defmodule AppWeb.Api.UserControllerTest do
   alias App.Users
   alias App.Users.User
 
-  @create_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", privileges_level: "some privileges_level"}
-  @update_attrs %{date_of_birth: ~D[2011-05-18], deleted: false, email: "some updated email", name: "some updated name", password: "some updated password", picture_path: "some updated picture_path", privileges_level: "some updated privileges_level"}
+  @create_attrs %{date_of_birth: ~D[2010-04-17], deleted: true, email: "some email", name: "some name", password: "some password", picture_path: "some picture_path", privileges_level: "user"}
+  @update_attrs %{date_of_birth: ~D[2011-05-18], deleted: false, email: "some updated email", name: "some updated name", password: "some updated password", picture_path: "some updated picture_path", privileges_level: "user"}
   @invalid_attrs %{date_of_birth: nil, deleted: nil, email: nil, name: nil, password: nil, picture_path: nil, privileges_level: nil}
 
   def fixture(:user) do
@@ -25,21 +25,6 @@ defmodule AppWeb.Api.UserControllerTest do
   end
 
   describe "create user" do
-    test "renders user when data is valid", %{conn: conn} do
-      conn = post conn, api_user_path(conn, :create), user: @create_attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
-
-      conn = get conn, api_user_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "date_of_birth" => ~D[2010-04-17],
-        "deleted" => true,
-        "email" => "some email",
-        "name" => "some name",
-        "password" => "some password",
-        "picture_path" => "some picture_path",
-        "privileges_level" => "some privileges_level"}
-    end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post conn, api_user_path(conn, :create), user: @invalid_attrs
@@ -49,22 +34,6 @@ defmodule AppWeb.Api.UserControllerTest do
 
   describe "update user" do
     setup [:create_user]
-
-    test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
-      conn = put conn, api_user_path(conn, :update, user), user: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
-      conn = get conn, api_user_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "date_of_birth" => ~D[2011-05-18],
-        "deleted" => false,
-        "email" => "some updated email",
-        "name" => "some updated name",
-        "password" => "some updated password",
-        "picture_path" => "some updated picture_path",
-        "privileges_level" => "some updated privileges_level"}
-    end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
       conn = put conn, api_user_path(conn, :update, user), user: @invalid_attrs
