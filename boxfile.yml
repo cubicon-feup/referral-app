@@ -2,6 +2,7 @@ run.config:
   engine: elixir
   extra_packages:
     - nodejs
+    - python-2
   dev_packages:
     - inotify-tools
   cache_dirs:
