@@ -3,9 +3,9 @@ defmodule AppWeb.PaymentControllerTest do
 
   alias App.Payments
 
-  @create_attrs %{paid: true, request_date: ~N[2010-04-17 14:00:00.000000], value: "120.5"}
-  @update_attrs %{paid: false, request_date: ~N[2011-05-18 15:01:01.000000], value: "456.7"}
-  @invalid_attrs %{paid: nil, request_date: nil, value: nil}
+  @valid_attrs %{influencer_id: 1, type: "voucher", value: "120.5"}
+    @update_attrs %{influencer_id: 2, type: "money", value: "456.7", status:"complete"}
+    @invalid_attrs %{influencer_id: nil, type: nil, value: nil}
 
   def fixture(:payment) do
     {:ok, payment} = Payments.create_payment(@create_attrs)

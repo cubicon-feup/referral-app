@@ -5,10 +5,10 @@ defmodule App.PaymentsTest do
 
   describe "payments" do
     alias App.Payments.Payment
-
-    @valid_attrs %{paid: true, request_date: ~N[2010-04-17 14:00:00.000000], value: "120.5"}
-    @update_attrs %{paid: false, request_date: ~N[2011-05-18 15:01:01.000000], value: "456.7"}
-    @invalid_attrs %{paid: nil, request_date: nil, value: nil}
+ 
+    @valid_attrs %{influencer_id: 1, type: "voucher", value: "120.5"}
+    @update_attrs %{influencer_id: 2, type: "money", value: "456.7", status:"complete"}
+    @invalid_attrs %{influencer_id: nil, type: nil, value: nil}
 
     def payment_fixture(attrs \\ %{}) do
       {:ok, payment} =
@@ -31,8 +31,8 @@ defmodule App.PaymentsTest do
 
     test "create_payment/1 with valid data creates a payment" do
       assert {:ok, %Payment{} = payment} = Payments.create_payment(@valid_attrs)
-      assert payment.paid == true
-      assert payment.request_date == ~N[2010-04-17 14:00:00.000000]
+      assert payment.influencer_id == 1
+      assert payment.type == "voucher"
       assert payment.value == Decimal.new("120.5")
     end
 
@@ -44,9 +44,11 @@ defmodule App.PaymentsTest do
       payment = payment_fixture()
       assert {:ok, payment} = Payments.update_payment(payment, @update_attrs)
       assert %Payment{} = payment
-      assert payment.paid == false
-      assert payment.request_date == ~N[2011-05-18 15:01:01.000000]
+      assert payment.influencer_id == 2
+      assert payment.type == "money"
       assert payment.value == Decimal.new("456.7")
+      assert payment.status == complete
+      assert payment.payment_date != nil
     end
 
     test "update_payment/2 with invalid data returns error changeset" do
