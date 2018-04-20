@@ -9,59 +9,59 @@ defmodule AppWeb.VoucherController do
 
 
 def get_rules(contract_id, voucher) do
-  contract = Contracts.get_contract!(contract_id)
+  # contract = Contracts.get_contract!(contract_id)
 
-  base_url = "https://" <> contract.brand.api_key <>":"<>contract.brand.api_password<>"@"<>contract.brand.hostname
-  url = base_url<>"/admin/discount_codes/lookup.json?code="<>voucher.code
-  case HTTPoison.get(url) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-      #IO.inspect body, label: "response:"
-    {:ok, %HTTPoison.Response{status_code: 404}} ->
-      #IO.puts "Not found :("
-    {:ok, %HTTPoison.Response{status_code: 303, headers: headers}} ->
-        price_rule_id = List.keyfind(headers, "Location", 0)
-        |> elem(1)
-        |> String.split("/", trim: true)
-        |> Enum.at(4,nil)
-        case HTTPoison.get(base_url<>"/admin/price_rules/#{price_rule_id}.json") do
-          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-            price_rule = Poison.Parser.parse!(body)
-            |> get_in(["price_rule"])
-            #price_rule = Poison.decode!(body)
-          {:ok, %HTTPoison.Response{status_code: 404}} ->
-           #IO.puts "Not found :("
-        end
-        discount_code_id = List.keyfind(headers, "Location", 0)
-        |> elem(1)
-        |> String.split("/", trim: true)
-        |> Enum.at(6,nil)
-        case HTTPoison.get(base_url<>"/admin/price_rules/#{price_rule_id}/discount_codes/#{discount_code_id}.json") do
-          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-            discount_code = Poison.Parser.parse!(body)
-            |> get_in(["discount_code"])
-          {:ok, %HTTPoison.Response{status_code: 404}} ->
-           IO.puts "Not found :("
-        end
+  # base_url = "https://" <> contract.brand.api_key <>":"<>contract.brand.api_password<>"@"<>contract.brand.hostname
+  # url = base_url<>"/admin/discount_codes/lookup.json?code="<>voucher.code
+  # case HTTPoison.get(url) do
+  #   {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+  #     IO.inspect body, label: "response:"
+  #   {:ok, %HTTPoison.Response{status_code: 404}} ->
+  #    IO.puts "Not found :("
+  #   {:ok, %HTTPoison.Response{status_code: 303, headers: headers}} ->
+  #       price_rule_id = List.keyfind(headers, "Location", 0)
+  #       |> elem(1)
+  #       |> String.split("/", trim: true)
+  #       |> Enum.at(4,nil)
+  #       case HTTPoison.get(base_url<>"/admin/price_rules/#{price_rule_id}.json") do
+  #         {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+  #           price_rule = Poison.Parser.parse!(body)
+  #           |> get_in(["price_rule"])
+  #           #price_rule = Poison.decode!(body)
+  #         {:ok, %HTTPoison.Response{status_code: 404}} ->
+  #          IO.puts "Not found :("
+  #       end
+  #       discount_code_id = List.keyfind(headers, "Location", 0)
+  #       |> elem(1)
+  #       |> String.split("/", trim: true)
+  #       |> Enum.at(6,nil)
+  #       case HTTPoison.get(base_url<>"/admin/price_rules/#{price_rule_id}/discount_codes/#{discount_code_id}.json") do
+  #         {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+  #           discount_code = Poison.Parser.parse!(body)
+  #           |> get_in(["discount_code"])
+  #         {:ok, %HTTPoison.Response{status_code: 404}} ->
+  #          IO.puts "Not found :("
+  #       end
 
-      #IO.inspect   [price_rule, discount_code]
-    {:error, %HTTPoison.Error{reason: reason}} ->
-      #IO.inspect "Media: #{reason}!"
-  end
+  #     IO.inspect   [price_rule, discount_code]
+  #   {:error, %HTTPoison.Error{reason: reason}} ->
+  #     IO.inspect "Media: #{reason}!"
+  # end
 end
 
 
-  def index(conn, %{"contract_id" => contract_id}) do
-    case  Vouchers.get_voucher_by_contract!(contract_id) do
-      {:ok, voucher} ->
-      rules = get_rules(contract_id,voucher)
-        #devo fazer o get aqui ou na View?
-        render(conn, "show.html", voucher: voucher, price_rule: Enum.at(rules, 0))
-        {:error, _} ->
-          conn
-          |> put_flash(:info, "There is no voucher associated with this contract.")
-          |> redirect(to: contract_voucher_path(conn, :new, contract_id))
-        end
-      end
+def index(conn, %{"contract_id" => contract_id}) do
+  # case  Vouchers.get_voucher_by_contract!(contract_id) do
+  #   {:ok, voucher} ->
+  #   rules = get_rules(contract_id,voucher)
+  #   #devo fazer o get aqui ou na View?
+  #   render(conn, "show.html", voucher: voucher, price_rule: Enum.at(rules, 0))
+  #   {:error, _} ->
+  #     conn
+  #     |> put_flash(:info, "There is no voucher associated with this contract.")
+  #     |> redirect(to: contract_voucher_path(conn, :new, contract_id))
+  #   end
+end
 
       def new(conn, _params) do
         changeset =
@@ -111,12 +111,12 @@ end
                   #IO.inspect body, label: "PARAMS:!!!!!"
                   headers = [{"Content-type", "application/json"}]
 
-                  case HTTPoison.post(url, body, headers, []) do
-                    {:ok, response} ->
-                      #O.inspect "Media: OK!"
-                    {:error, %HTTPoison.Error{reason: reason}} ->
-                      #IO.inspect "Media: #{reason}!"
-                  end
+                  # case HTTPoison.post(url, body, headers, []) do
+                  #   {:ok, response} ->
+                  #     IO.inspect "Media: OK!"
+                  #   {:error, %HTTPoison.Error{reason: reason}} ->
+                  #     IO.inspect "Media: #{reason}!"
+                  # end
 
 
 
@@ -165,18 +165,18 @@ end
                       end
 
                       defp post_voucher(conn, %{"voucher" => voucher_params , "price_rule_id" => price_rule_id}) do
-                        changeset = conn.assigns[:contract]
-                        |> Ecto.build_assoc(:voucher)
-                        #IO.inspect(price_rule_id, "Rule::::")
+                        # changeset = conn.assigns[:contract]
+                        # |> Ecto.build_assoc(:voucher)
+                        # IO.inspect(price_rule_id, "Rule::::")
 
-                        case Vouchers.create_voucher(voucher_params) do
-                          {:ok, _voucher} ->
-                            conn
-                            |> put_flash(:info, "Voucher created successfully.")
-                            |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
-                            {:error, %Ecto.Changeset{} = changeset} ->
-                              render(conn, "new.html", changeset: changeset)
-                            end
-                          end
+                        # case Vouchers.create_voucher(voucher_params) do
+                        #   {:ok, _voucher} ->
+                        #     conn
+                        #     |> put_flash(:info, "Voucher created successfully.")
+                        #     |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
+                        #     {:error, %Ecto.Changeset{} = changeset} ->
+                        #       render(conn, "new.html", changeset: changeset)
+                        #     end
+                           end
 
                         end
