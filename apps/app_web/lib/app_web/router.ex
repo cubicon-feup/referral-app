@@ -15,14 +15,16 @@ defmodule AppWeb.Router do
 
   scope "/", AppWeb do
     pipe_through :browser # Use the default browser stack
+
     resources "/brands", BrandController
-    resources "/users", UserController
+    resources "/user", UserController
     resources "/influencers", InfluencerController
     resources "/agencies", AgencyController
     resources "/plans", PlanController
     resources "/payments", PaymentController
-    resources "/contracts", ContractController
-    resources "/vouchers", VoucherController
+    resources "/contracts", ContractController do
+      resources "/vouchers", VoucherController       
+    end
     resources "/sales", SaleController
     resources "/clients", ClientController
     get "/", PageController, :index

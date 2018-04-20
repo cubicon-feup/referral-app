@@ -35,7 +35,10 @@ defmodule App.Contracts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_contract!(id), do: Repo.get!(Contract, id)
+  def get_contract!(id) do
+    contract = Repo.get!(Contract, id)
+    |>Repo.preload(:brand)
+   end
 
   @doc """
   Creates a contract.
@@ -101,4 +104,5 @@ defmodule App.Contracts do
   def change_contract(%Contract{} = contract) do
     Contract.changeset(contract, %{})
   end
+
 end

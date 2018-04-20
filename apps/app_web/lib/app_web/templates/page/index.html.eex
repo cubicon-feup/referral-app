@@ -5,5 +5,7 @@
   <router-link to="/my-hello">Hello</router-link>
   |
   <router-link to="/my-world">World</router-link>
+  |
+   <%= link "Contracts", to: contract_path(@conn, :index) %>
   <router-view></router-view>
 </div>

@@ -6,8 +6,13 @@
     <strong>Code:</strong>
     <%= @voucher.code %>
   </li>
+  <li>
+    <strong>Code:</strong>
+    <%= @price_rule["created_at"] %>
+  </li>
+
 
 </ul>
 
-<span><%= link "Edit", to: voucher_path(@conn, :edit, @voucher) %></span>
-<span><%= link "Back", to: voucher_path(@conn, :index) %></span>
+<span><%= link "Edit", to: contract_voucher_path(@conn, :edit, @contract, @voucher) %></span>
+<span><%= link "Back", to: contract_path(@conn, :show, @contract) %></span>

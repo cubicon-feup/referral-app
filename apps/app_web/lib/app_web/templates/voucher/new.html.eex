@@ -1,5 +1,5 @@
 <h2>New Voucher</h2>
 
-<%= render "form.html", Map.put(assigns, :action, voucher_path(@conn, :create)) %>
+<%= render "form.html", changeset: @changeset, action: contract_voucher_path(@conn, :create, @contract) %>
 
-<span><%= link "Back", to: voucher_path(@conn, :index) %></span>
+<span><%= link "Back", to: contract_voucher_path(@conn, :index, @contract) %></span>
