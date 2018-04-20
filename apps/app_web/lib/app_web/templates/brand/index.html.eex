@@ -3,6 +3,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th>Id</th>
       <th>Name</th>
       <th>Hostname</th>
       <th>Api key</th>
@@ -14,6 +15,7 @@
   <tbody>
 <%= for brand <- @brands do %>
     <tr>
+      <td><%= brand.id %></td>
       <td><%= brand.name %></td>
       <td><%= brand.hostname %></td>
       <td><%= brand.api_key %></td>

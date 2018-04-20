@@ -11,21 +11,21 @@ defmodule AppWeb.Mailer do
             send_email to: email_address,
                        from: @from,
                        subject: "Welcome!",
-                       text: "Welcome to HelloPhoenix!"
+                       text: "Welcome to Inspiro!"
         end
 
         def send_welcome_html_email(email_address) do
             send_email to: email_address,
                        from: @from,
                        subject: "Welcome!",
-                       html: "<strong>Welcome to HelloPhoenix</strong>"
+                       html: "<strong>Welcome to Inspiro</strong>"
         end
 
         def send_welcome_email(email_address) do
             send_email to: email_address,
                        from: @from,
                        subject: "Welcome!",
-                       text: "Welcome to HelloPhoenix!",
-                       html: "<strong>Welcome to HelloPhoenix</strong>"
+                       text: "Welcome to Inspiro!",
+                       html: "<strong>Welcome to Inspiro</strong>"
         end
   end

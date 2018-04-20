@@ -101,4 +101,12 @@ defmodule App.Brands do
   def change_brand(%Brand{} = brand) do
     Brand.changeset(brand, %{})
   end
+
+  def list_contracts_brand(brand_id) do
+    int_id = String.to_integer(brand_id)
+    query = from c in "contracts",
+            where: c.brand_id == ^int_id,
+            select: c.id
+    Repo.all(query)
+  end
 end

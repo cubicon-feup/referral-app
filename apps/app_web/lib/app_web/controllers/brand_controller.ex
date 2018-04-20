@@ -1,9 +1,10 @@
 defmodule AppWeb.BrandController do
   require Logger
   use AppWeb, :controller
-
   import AppWeb.Mailer
 
+  alias App.Contracts
+  alias App.Contracts.Contract
   alias App.Brands
   alias App.Brands.Brand
 
@@ -62,14 +63,16 @@ defmodule AppWeb.BrandController do
   end
 
   def invite(conn, %{"id" => id}) do
+    #contracts = Brands.list_contracts_brand(id)
+    contracts = Contracts.list_contracts()
     brand = Brands.get_brand!(id)
-    render(conn, "invite.html", brand: brand)
+    render(conn, "invite.html", brand: brand, contracts: contracts)
   end
 
   def send_email(conn, %{"id" => id}) do
     brand = Brands.get_brand!(id)
     Logger.debug "Var value: #{inspect(conn.params["email_form"]["email"])}"
-    send_welcome_email(conn.params["email_form"]["email"])
+    #send_welcome_email(conn.params["email_form"]["email"])
     render(conn, "show.html", brand: brand)
   end
 end
