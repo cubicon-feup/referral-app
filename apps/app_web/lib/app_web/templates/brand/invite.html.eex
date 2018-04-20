@@ -1,14 +1,12 @@
 <h2>Invite new Influencer</h2>
-<%= @brand.name %>
-<br>
-<p><bold>Insert Influencer Email</bold></p>
-<%= form_for @conn, brand_path(@conn, :send_email, @brand), [as: :email_form], fn f -> %>
-  <%= text_input f, :email %>
-  <p>select contract</p>
-  <select id="user_roles" name="user[roles][]">
-    <%= for contract <- @contracts do %>
-      <option value="<%=contract.id%>">Contract #<%=contract.id%></option>
-    <% end %>
-  </select>
-  <%= submit "Send" %>
-<% end %>
+
+<button id="myBtn">Open Modal</button>
+
+<div id="myModal" class="modal">
+
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>

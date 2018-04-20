@@ -47,7 +47,7 @@ defmodule AppWeb.Mixfile do
       {:app, in_umbrella: true},
       {:cowboy, "~> 1.0"},
       {:mailgun, "~> 0.1.2"},
-      {:poison, "~> 2.1", override: true}
+      {:poison, "~> 3.1", override: true}
     ]
   end
 
