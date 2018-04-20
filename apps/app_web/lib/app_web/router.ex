@@ -29,18 +29,15 @@ defmodule AppWeb.Router do
   # Endpoints that require authentication #
   #########################################
   scope "/", AppWeb do
-    pipe_through [:browser, :auth]
+    pipe_through [:browser, :auth, :ensure_auth]
 
-    resources "/user", UserController, only: [:index, :new, :create]
-    post "/user/login", UserController, :login
-    get "/404", PageNotFoundController, :show
-
+    post "/user/logout", UserController, :logout
 
 
   end
 
   scope "/api", AppWeb.Api, as: :api do
-     pipe_through [:api, :auth]
+     pipe_through [:api, :auth, :ensure_auth]
 
 
   end
@@ -63,8 +60,9 @@ defmodule AppWeb.Router do
     resources "/sales", SaleController
     resources "/clients", ClientController
     get "/", PageController, :index
-    resources "/users", UserController
-    post "/user/logout", UserController, :logout
+    resources "/user", UserController, only: [:index, :new, :create]
+    post "/user/login", UserController, :login
+    get "/404", PageNotFoundController, :show
   end
 
   scope "/api", AppWeb.Api, as: :api do
