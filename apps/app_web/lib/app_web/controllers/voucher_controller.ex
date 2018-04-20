@@ -15,9 +15,9 @@ def get_rules(contract_id, voucher) do
   url = base_url<>"/admin/discount_codes/lookup.json?code="<>voucher.code
   case HTTPoison.get(url) do
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-      IO.inspect body, label: "response:"
+      #IO.inspect body, label: "response:"
     {:ok, %HTTPoison.Response{status_code: 404}} ->
-     IO.puts "Not found :("
+      #IO.puts "Not found :("
     {:ok, %HTTPoison.Response{status_code: 303, headers: headers}} ->
         price_rule_id = List.keyfind(headers, "Location", 0)
         |> elem(1)
@@ -29,7 +29,7 @@ def get_rules(contract_id, voucher) do
             |> get_in(["price_rule"])
             #price_rule = Poison.decode!(body)
           {:ok, %HTTPoison.Response{status_code: 404}} ->
-           IO.puts "Not found :("
+           #IO.puts "Not found :("
         end
         discount_code_id = List.keyfind(headers, "Location", 0)
         |> elem(1)
@@ -43,9 +43,9 @@ def get_rules(contract_id, voucher) do
            IO.puts "Not found :("
         end
 
-      IO.inspect   [price_rule, discount_code]
+      #IO.inspect   [price_rule, discount_code]
     {:error, %HTTPoison.Error{reason: reason}} ->
-      IO.inspect "Media: #{reason}!"
+      #IO.inspect "Media: #{reason}!"
   end
 end
 
@@ -108,14 +108,14 @@ end
                   \"code\": \"FREESHIPPINGPOST\"
                 }
               }"
-                  IO.inspect body, label: "PARAMS:!!!!!"
+                  #IO.inspect body, label: "PARAMS:!!!!!"
                   headers = [{"Content-type", "application/json"}]
 
                   case HTTPoison.post(url, body, headers, []) do
                     {:ok, response} ->
-                      IO.inspect "Media: OK!"
+                      #O.inspect "Media: OK!"
                     {:error, %HTTPoison.Error{reason: reason}} ->
-                      IO.inspect "Media: #{reason}!"
+                      #IO.inspect "Media: #{reason}!"
                   end
 
 
@@ -167,7 +167,7 @@ end
                       defp post_voucher(conn, %{"voucher" => voucher_params , "price_rule_id" => price_rule_id}) do
                         changeset = conn.assigns[:contract]
                         |> Ecto.build_assoc(:voucher)
-                        IO.inspect(price_rule_id, "Rule::::")
+                        #IO.inspect(price_rule_id, "Rule::::")
 
                         case Vouchers.create_voucher(voucher_params) do
                           {:ok, _voucher} ->
