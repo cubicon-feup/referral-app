@@ -64,6 +64,7 @@ defmodule AppWeb.Router do
     resources "/clients", ClientController
     get "/", PageController, :index
     resources "/users", UserController
+    post "/user/logout", UserController, :logout
   end
 
   scope "/api", AppWeb.Api, as: :api do

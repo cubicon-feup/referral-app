@@ -19,7 +19,7 @@ defmodule App.Users.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:date_of_birth, :deleted, :email, :name, :password, :picture_path, :privileges_level])
-    |> validate_required([:date_of_birth, :deleted, :email, :name, :password, :picture_path, :privileges_level])
+    |> validate_required([:deleted, :email, :name, :password, :privileges_level])
     |> validate_inclusion(:privileges_level, ["user", "admin", "banned"])
     |> unique_constraint(:email)
     |> put_pass_hash()
