@@ -55,10 +55,11 @@ defmodule AppWeb.Router do
     resources "/agencies", AgencyController
     resources "/plans", PlanController
     resources "/payments", PaymentController
-    resources "/contracts", ContractController
-    resources "/vouchers", VoucherController
     resources "/sales", SaleController
     resources "/clients", ClientController
+    resources "/contracts", ContractController do
+      resources "/vouchers", VoucherController       
+    end
     get "/", PageController, :index
     resources "/user", UserController, only: [:index, :new, :create]
     post "/user/login", UserController, :login

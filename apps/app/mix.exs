@@ -52,6 +52,8 @@ defmodule App.Mixfile do
       {:excoveralls, "~> 0.7", only: [:dev, :test]},
       {:guardian, "~> 1.0-beta"},
       {:comeonin, "~> 4.0"},
+      {:httpoison, "~> 1.0"},
+      {:poison, "~> 3.1"},
       {:bcrypt_elixir, "~> 0.12"}
     ]
   end
