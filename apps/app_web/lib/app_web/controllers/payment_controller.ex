@@ -56,7 +56,6 @@ defmodule AppWeb.PaymentController do
     payment = Payments.get_payment!(id)
     case Payments.update_payment(payment, payment_params) do
       {:ok, payment} ->
-        IO.inspect payment, label: "Payment updated successfully."
         conn
         |> put_flash(:info, "Payment updated successfully.")
         |> halt
