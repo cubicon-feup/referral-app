@@ -7,11 +7,12 @@ defmodule App.Repo.Migrations.CreateBrands do
       add :hostname, :string
       add :api_key, :string
       add :api_password, :string
-      add :brand_id, references(:users, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :nothing)
 
       timestamps()
     end
 
-    create index(:brands, [:brand_id])
+    create index(:brands, [:user_id])
+    
   end
 end
