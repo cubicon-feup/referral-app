@@ -7,6 +7,7 @@ defmodule App.Brands do
   alias App.Repo
 
   alias App.Brands.Brand
+  alias App.Influencers.Influencer
 
   @doc """
   Returns the list of brands.
@@ -36,6 +37,24 @@ defmodule App.Brands do
 
   """
   def get_brand!(id), do: Repo.get!(Brand, id)
+
+  @doc """
+  Gets a all influencers of a brand.
+
+  Raises `Ecto.NoResultsError` if the Brand does not exist.
+
+  ## Examples
+
+      iex> get_brand_influencers!(123)
+      %Brand{}???
+
+      iex> get_brand!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_brand_influencers(id) do
+    Repo.all(Influencer)
+  end
 
   @doc """
   Creates a brand.
