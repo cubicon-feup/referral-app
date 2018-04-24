@@ -60,7 +60,7 @@ defmodule AppWeb.BrandControllerTest do
       assert redirected_to(conn) == brand_path(conn, :show, brand)
 
       conn = get conn, brand_path(conn, :show, brand)
-      assert html_response(conn, 200) =~ "some updated api_key"
+      assert html_response(conn, 200) =~ "some updated name"
     end
 
     test "renders errors when data is invalid", %{conn: conn, brand: brand} do
