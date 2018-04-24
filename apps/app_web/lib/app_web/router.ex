@@ -65,6 +65,8 @@ defmodule AppWeb.Router do
     resources "/user", UserController, only: [:index, :new, :create]
     post "/user/login", UserController, :login
     get "/404", PageNotFoundController, :show
+    get "/brands/:id/new_influencer", BrandController, :new_influencer
+    post "/brands/:id/create_influencer", BrandController, :create_influencer
 
   end
 
