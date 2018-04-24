@@ -72,7 +72,14 @@
     <%= @contract.send_notification_to_brand %>
   </li>
 
+  <li>
+    <strong>Brand ID:</strong>
+    <%= @contract.brand_id %>
+  </li>
+
+
 </ul>
 
+<span><%= link "Voucher", to: contract_voucher_path(@conn, :index, @contract) %></span>
 <span><%= link "Edit", to: contract_path(@conn, :edit, @contract) %></span>
 <span><%= link "Back", to: contract_path(@conn, :index) %></span>
