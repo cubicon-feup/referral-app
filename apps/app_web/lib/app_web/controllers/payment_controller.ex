@@ -7,7 +7,8 @@ defmodule AppWeb.PaymentController do
 
   def index(conn, _params) do
     payments = Payments.list_payments()
-    render(conn, "index.html", payments: payments)
+    total = Payments.get_total()
+    render(conn, "index.html", payments: payments ,total: total)
   end
 
   def new(conn, _params) do
@@ -51,7 +52,7 @@ defmodule AppWeb.PaymentController do
     end
   end
 
-  
+
   def update_status(conn, %{"id" => id, "payment" => payment_params}) do
     payment = Payments.get_payment!(id)
     case Payments.update_payment(payment, payment_params) do

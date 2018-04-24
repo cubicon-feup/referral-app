@@ -133,4 +133,15 @@ defmodule App.Payments do
   def change_payment(%Payment{} = payment) do
     Payment.changeset(payment, %{})
   end
+@doc """
+get total money spent on
+"""
+  def get_total do
+    #Create the query
+    query = from p in Payment, select: sum(p.value)
+    
+    #send query to Repo
+    Repo.all(query)
+  end
+
 end

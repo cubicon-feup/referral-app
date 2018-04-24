@@ -26,7 +26,7 @@
       <td><%= render "edit_status.html", Map.merge(assigns, %{
         action: payment_path(@conn, :update_status, payment),
         changeset: get_changeset(payment)
-      })%> 
+      })%>
       </td>
 
       <td class="text-right">
@@ -40,3 +40,4 @@
 </table>
 
 <span><%= link "New Payment", to: payment_path(@conn, :new) %></span>
+<%= inspect @total %>
