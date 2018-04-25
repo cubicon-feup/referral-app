@@ -7,6 +7,8 @@ defmodule AppWeb.BrandController do
   alias App.Influencers
   alias App.Influencers.Influencer
 
+  import AppWeb.Mailer
+
   def index(conn, _params) do
     brands = Brands.list_brands()
     render(conn, "index.html", brands: brands)
@@ -72,6 +74,7 @@ defmodule AppWeb.BrandController do
 
     case Influencers.create_influencer(influencer_params) do
       {:ok, influencer} ->
+        send_welcome_email(influencer.contact, influencer.name)
         conn
         |> put_flash(:info, "Influencer created successfully.")
         |> redirect(to: brand_path(conn, :show, id))

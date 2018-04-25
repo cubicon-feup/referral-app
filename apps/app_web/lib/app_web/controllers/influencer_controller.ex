@@ -57,4 +57,12 @@ defmodule AppWeb.InfluencerController do
     |> put_flash(:info, "Influencer deleted successfully.")
     |> redirect(to: influencer_path(conn, :index))
   end
+
+  def invited_welcome(conn, %{"email" => email, "name" => name}) do
+    IO.inspect email
+    IO.inspect name
+
+    influencers = Influencers.list_influencers()
+    render(conn, "index.html", influencers: influencers)
+  end
 end

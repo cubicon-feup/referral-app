@@ -67,6 +67,7 @@ defmodule AppWeb.Router do
     get "/404", PageNotFoundController, :show
     get "/brands/:id/new_influencer", BrandController, :new_influencer
     post "/brands/:id/create_influencer", BrandController, :create_influencer
+    get "influencers/:email/:name/invited_welcome", InfluencerController, :invited_welcome
 
   end
 
