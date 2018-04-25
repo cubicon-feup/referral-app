@@ -69,7 +69,6 @@ defmodule AppWeb.BrandController do
 
   def create_influencer(conn, %{"id" => id, "influencer" => influencer_params}) do
     brand = Brands.get_brand!(id)
-    IO.inspect influencer_params
 
     case Influencers.create_influencer(influencer_params) do
       {:ok, influencer} ->
@@ -79,9 +78,5 @@ defmodule AppWeb.BrandController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new_influencer.html", brand: brand, changeset: changeset)
     end
-    
-    #conn
-    #|> put_flash(:info, "Influencer created successfully.")
-    #|> redirect(to: brand_path(conn, :show, id))
   end
 end
