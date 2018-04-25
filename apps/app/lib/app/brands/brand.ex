@@ -17,7 +17,8 @@ defmodule App.Brands.Brand do
   @doc false
   def changeset(brand, attrs) do
     brand
-    |> cast(attrs, [:name, :hostname, :api_key, :api_password])
+    |> cast(attrs, [:name, :hostname, :api_key, :api_password, :user_id])
     |> validate_required([:name, :hostname, :api_key, :api_password])
+    |> foreign_key_constraint(:user_id)
   end
 end
