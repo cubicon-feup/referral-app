@@ -5,6 +5,7 @@ defmodule App.Vouchers do
 
   import Ecto.Query, warn: false
   alias App.Repo
+  alias App.Contracts
 
   alias App.Vouchers.Voucher
 
@@ -18,7 +19,7 @@ defmodule App.Vouchers do
 
   """
   def list_vouchers do
-    Repo.all(Voucher)
+    Ecto.assoc(Voucher, :contracts)
   end
 
   @doc """
@@ -35,7 +36,19 @@ defmodule App.Vouchers do
       ** (Ecto.NoResultsError)
 
   """
-  def get_voucher!(id), do: Repo.get!(Voucher, id)
+  def get_voucher!(id) do
+    voucher =
+      Repo.get!(Voucher, id)
+      |> Repo.preload(:contract)
+
+    case voucher do
+      voucher ->
+        {:ok, voucher}
+
+      nil ->
+        {:error, :not_found}
+    end
+  end
 
   @doc """
   Creates a voucher.
@@ -102,13 +115,7 @@ defmodule App.Vouchers do
     Voucher.changeset(voucher, %{})
   end
 
-  def get_voucher_by_contract!(contract_id) do
-    case Repo.get_by(Voucher, contract_id: contract_id) do
-      nil ->
-        {:error, :not_found}
-
-      voucher ->
-        {:ok, voucher}
-    end
+  def get_vouchers_by_contract!(contract_id) do
+    Repo.all(from(voucher in Voucher, where: [contract_id: ^contract_id]))
   end
 end
