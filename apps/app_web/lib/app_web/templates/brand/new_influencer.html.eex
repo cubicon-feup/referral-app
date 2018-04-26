@@ -22,7 +22,7 @@
                                     <%= error_tag f, :contact %>
                                 </div>
                                 <div class="sign-up-button">
-                                <% var = String.upcase(gettext "Add Influencer") %>
+                                    <% var = String.upcase(gettext "Add Influencer") %>
                                     <%= submit var, class: "btn btn-primary btn-block" %>
                                 </div>
                             <% end %>
