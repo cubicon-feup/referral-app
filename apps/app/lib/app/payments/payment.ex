@@ -2,13 +2,15 @@ defmodule App.Payments.Payment do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "payments" do
-    field :paid, :boolean, default: false
+    field :status, :string, default: "pending"
     field :request_date, :naive_datetime
+    field :payment_date, :naive_datetime
+    field :type, :string
+    field :description, :string
     field :value, :decimal
     field :brand_id, :id
-    field :influencer_id, :id
+    belongs_to :influencer, App.Influencers.Influencer
 
     timestamps()
   end
@@ -16,7 +18,20 @@ defmodule App.Payments.Payment do
   @doc false
   def changeset(payment, attrs) do
     payment
-    |> cast(attrs, [:request_date, :paid, :value])
-    |> validate_required([:request_date, :paid, :value])
+    |> cast(attrs, [:request_date, :payment_date, :type, :status, :value, :description, :influencer_id])
+    |> cast_assoc(:influencer)
+    |> validate_required([:influencer_id, :type, :value])
+    |> validate_inclusion(:status, ["pending", "complete", "cancelled"])
+    |> validate_inclusion(:type, ["money", "voucher", "products"])
+    |> check_payment_date(:status)
+  end
+
+   @doc false
+   defp check_payment_date(payment, status) do
+    if Map.has_key?(payment.changes, :status) and payment.changes.status == "complete" do
+      change(payment, payment_date: Ecto.DateTime.utc(:usec))
+    else
+      payment
+    end
   end
 end

@@ -6,20 +6,34 @@
   <% end %>
 
   <div class="form-group">
-    <%= label f, :request_date, class: "control-label" %>
-    <%= datetime_select f, :request_date, class: "form-control" %>
-    <%= error_tag f, :request_date %>
+    <%= label f, :influencer_id, class: "control-label" %>
+    <%= select f, :influencer_id, Enum.map(@influencers, &{&1.name, &1.id}), class: "form-control" %>
+    <%= error_tag f, :influencer_id %>
   </div>
 
   <div class="form-group">
-    <%= label f, :paid, class: "control-label" %>
-    <%= checkbox f, :paid, class: "checkbox" %>
-    <%= error_tag f, :paid %>
+    <%= label f, :type, class: "control-label" %>
+    <%= select f, :type, [
+        [key: "Cash", value: "money"],
+        [key: "Voucher", value: "voucher"],
+        [key: "In Kind", value: "products"]],
+      class: "form-control" %>
+    <%= error_tag f, :type %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :status, class: "control-label" %>
+    <%= select f, :status, [
+        [key: "Pending", value: "pending"],
+        [key: "Cancelled", value: "cancelled"],
+        [key: "Complete", value: "complete"]],
+      class: "form-control" %>
+    <%= error_tag f, :status %>
   </div>
 
   <div class="form-group">
     <%= label f, :value, class: "control-label" %>
-    <%= number_input f, :value, step: "any", class: "form-control" %>
+    <%= number_input f, :value, step: "any", min: 0, class: "form-control" %>
     <%= error_tag f, :value %>
   </div>
 

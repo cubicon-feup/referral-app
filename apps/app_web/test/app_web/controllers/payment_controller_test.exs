@@ -2,14 +2,29 @@ defmodule AppWeb.PaymentControllerTest do
   use AppWeb.ConnCase
 
   alias App.Payments
+  alias App.Influencers
 
-  @create_attrs %{paid: true, request_date: ~N[2010-04-17 14:00:00.000000], value: "120.5"}
-  @update_attrs %{paid: false, request_date: ~N[2011-05-18 15:01:01.000000], value: "456.7"}
-  @invalid_attrs %{paid: nil, request_date: nil, value: nil}
+  @create_attrs %{type: "voucher", value: "120.5"}
+  @update_attrs %{type: "money", value: "456.7", status: "complete"}
+  @invalid_attrs %{type: nil, value: nil}
+
+  @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+
+
+  def influencer_fixture() do
+    {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
+
+    influencer
+  end
 
   def fixture(:payment) do
-    {:ok, payment} = Payments.create_payment(@create_attrs)
-    payment
+    influencer = influencer_fixture()
+
+    {:ok, payment} = 
+      Enum.into(%{influencer_id: influencer.id}, @create_attrs)
+      |> Payments.create_payment()
+    
+    Payments.get_payment!(payment.id)
   end
 
   describe "index" do
@@ -28,7 +43,9 @@ defmodule AppWeb.PaymentControllerTest do
 
   describe "create payment" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, payment_path(conn, :create), payment: @create_attrs
+      influencer = influencer_fixture()
+      attrs = Enum.into(%{influencer_id: influencer.id}, @create_attrs)
+      conn = post conn, payment_path(conn, :create), payment: attrs
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == payment_path(conn, :show, id)

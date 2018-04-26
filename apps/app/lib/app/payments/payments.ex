@@ -7,6 +7,7 @@ defmodule App.Payments do
   alias App.Repo
 
   alias App.Payments.Payment
+  alias App.Influencers.Influencer
 
   @doc """
   Returns the list of payments.
@@ -19,7 +20,35 @@ defmodule App.Payments do
   """
   def list_payments do
     Repo.all(Payment)
+    |> Repo.preload(:influencer)
   end
+
+  @doc """
+  Returns the list of payments.
+
+  ## Examples
+
+      iex> list_payments_brand()
+      [%Payment{}, ...]
+
+  """
+  def list_payments_brand(brand_id) do
+    query = from p in Payment,
+      join: i in Influencer, on: [id: p.influencer_id],
+      select: %{
+        status: p.status,
+        request_date: p.request_date,
+        payment_date: p.payment_date,
+        type: p.type,
+        description: p.description,
+        value: p.value,
+        brand_id: p.brand_id,
+        influencer_id: i.id,
+        influencer_name: i.name
+      }
+    Repo.all(query)
+  end
+
 
   @doc """
   Gets a single payment.
@@ -35,7 +64,10 @@ defmodule App.Payments do
       ** (Ecto.NoResultsError)
 
   """
-  def get_payment!(id), do: Repo.get!(Payment, id)
+  def get_payment!(id) do
+    Repo.get!(Payment, id)
+    |> Repo.preload(:influencer)
+  end
 
   @doc """
   Creates a payment.

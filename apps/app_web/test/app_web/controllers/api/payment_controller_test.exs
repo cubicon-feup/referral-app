@@ -4,13 +4,28 @@ defmodule AppWeb.Api.PaymentControllerTest do
   alias App.Payments
   alias App.Payments.Payment
 
-  @create_attrs %{paid: true, request_date: ~N[2010-04-17 14:00:00.000000], value: "120.5"}
-  @update_attrs %{paid: false, request_date: ~N[2011-05-18 15:01:01.000000], value: "456.7"}
-  @invalid_attrs %{paid: nil, request_date: nil, value: nil}
+  alias App.Influencers
+
+  @create_attrs %{type: "voucher", value: "120.5"}
+  @update_attrs %{type: "money", value: "456.7", status: "complete"}
+  @invalid_attrs %{type: nil, value: nil}
+
+  @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+
+  def influencer_fixture() do
+    {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
+
+    influencer
+  end
 
   def fixture(:payment) do
-    {:ok, payment} = Payments.create_payment(@create_attrs)
-    payment
+    influencer = influencer_fixture()
+
+    {:ok, payment} = 
+      Enum.into(%{influencer_id: influencer.id}, @create_attrs)
+      |> Payments.create_payment()
+    
+    Payments.get_payment!(payment.id)
   end
 
   setup %{conn: conn} do
@@ -26,14 +41,16 @@ defmodule AppWeb.Api.PaymentControllerTest do
 
   describe "create payment" do
     test "renders payment when data is valid", %{conn: conn} do
-      conn = post conn, api_payment_path(conn, :create), payment: @create_attrs
+      influencer = influencer_fixture()
+      attrs = Enum.into(%{influencer_id: influencer.id}, @create_attrs)
+      conn = post conn, api_payment_path(conn, :create), payment: attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get conn, api_payment_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "paid" => true,
-        "request_date" => "2010-04-17T14:00:00.000000",
+        "type" => "voucher",
+        "status" => "pending",
         "value" => "120.5"}
     end
 
@@ -53,8 +70,8 @@ defmodule AppWeb.Api.PaymentControllerTest do
       conn = get conn, api_payment_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "paid" => false,
-        "request_date" => "2011-05-18T15:01:01.000000",
+        "type" => "money",
+        "status" => "complete",
         "value" => "456.7"}
     end
 
