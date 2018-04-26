@@ -164,7 +164,7 @@ defmodule AppWeb.UserController do
 
   def has_brand(conn, user) do
 
-    case Brands.get_brand_by_user!(user.id) do
+    case Brands.get_brand_by_user(user.id) do
       nil ->
         conn
       brand ->

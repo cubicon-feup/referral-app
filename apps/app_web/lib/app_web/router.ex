@@ -37,9 +37,7 @@ defmodule AppWeb.Router do
 
     get "/user/logout", UserController, :logout # temporary route for testing purposes
     post "/user/logout", UserController, :logout
-    get "/shorten/new", LinkController, :new
-    get "/shorten/:id", LinkController, :show
-    post "/shorten/", LinkController, :create
+    resources "/shorten", LinkController
 
 
   end

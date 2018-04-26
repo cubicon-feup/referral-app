@@ -5,11 +5,11 @@ defmodule App.Repo.Migrations.CreateLinks do
     create table(:links) do
       add :url, :string
       add :shortcode, :string
-      add :influencer_id, references(:influencers, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :nothing)
 
       timestamps()
     end
 
-    create index(:links, [:influencer_id])
+    create index(:links, [:user_id])
   end
 end

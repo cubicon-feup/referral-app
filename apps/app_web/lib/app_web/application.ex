@@ -10,6 +10,8 @@ defmodule AppWeb.Application do
       supervisor(AppWeb.Endpoint, []),
       # Start your own worker by calling: AppWeb.Worker.start_link(arg1, arg2, arg3)
       # worker(AppWeb.Worker, [arg1, arg2, arg3]),
+      # Start the cache
+      supervisor(App.Cache.Supervisor, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
