@@ -2,13 +2,12 @@ defmodule App.Influencers.Influencer do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "influencers" do
-    field :address, :string
-    field :code, :string
-    field :name, :string
-    field :nib, :integer
-    field :user_id, :id
+    field(:address, :string)
+    field(:code, :string)
+    field(:name, :string)
+    field(:nib, :integer)
+    field(:influencer_id, :id)
 
     timestamps()
   end
