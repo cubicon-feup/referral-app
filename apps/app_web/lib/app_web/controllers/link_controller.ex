@@ -43,8 +43,6 @@ defmodule AppWeb.LinkController do
     link_params = Map.merge(link_params, %{"user_id" => Guardian.Plug.current_resource(conn).id})
     case Links.create_link(link_params) do
       {:ok, link} ->
-        IO.inspect(link, label: "link::::::")
-
         Cache.warm(link.shortcode)
 
         conn
