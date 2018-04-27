@@ -2,27 +2,48 @@ defmodule App.ContractsTest do
   use App.DataCase
 
   alias App.Contracts
+  alias App.Influencers
+  alias App.Brands
 
   describe "contracts" do
     alias App.Contracts.Contract
 
-    @valid_attrs %{current_amount: "120.5", is_requestable: true, minimum_amount_of_sales: "120.5", minimum_amout_of_views: 42, minimum_sales: "120.5", number_of_views: 42, percent_amount_on_sales: "120.5", send_notification_to_brand: true, send_notification_to_influencer: true, size_of_set_of_sales: 42, static_amount_on_sales: "120.5", static_amount_on_set_of_sales: "120.5", static_amount_on_views: "120.5", time_between_payments: 42}
-    @update_attrs %{current_amount: "456.7", is_requestable: false, minimum_amount_of_sales: "456.7", minimum_amout_of_views: 43, minimum_sales: "456.7", number_of_views: 43, percent_amount_on_sales: "456.7", send_notification_to_brand: false, send_notification_to_influencer: false, size_of_set_of_sales: 43, static_amount_on_sales: "456.7", static_amount_on_set_of_sales: "456.7", static_amount_on_views: "456.7", time_between_payments: 43}
-    @invalid_attrs %{current_amount: nil, is_requestable: nil, minimum_amount_of_sales: nil, minimum_amout_of_views: nil, minimum_sales: nil, number_of_views: nil, percent_amount_on_sales: nil, send_notification_to_brand: nil, send_notification_to_influencer: nil, size_of_set_of_sales: nil, static_amount_on_sales: nil, static_amount_on_set_of_sales: nil, static_amount_on_views: nil, time_between_payments: nil}
+    @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+    @valid_attrs_brand %{api_key: "some api_key", api_password: "some api_password", hostname: "some hostname", name: "some name"}
+
+    @valid_attrs %{minimum_points: 42, payment_period: 42, points: 42}
+    @update_attrs %{minimum_points: 43, payment_period: 43, points: 43}
+    @invalid_attrs %{brand_id: nil, influencer_id: nil, minimum_points: nil, payment_period: nil, points: nil}
+
+    def influencer_fixture() do
+      {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
+  
+      influencer
+    end
+
+    def brand_fixture() do
+      {:ok, brand} = Brands.create_brand(@valid_attrs_brand)
+  
+      brand
+    end
 
     def contract_fixture(attrs \\ %{}) do
+      influencer = influencer_fixture()
+      brand = brand_fixture()
+
       {:ok, contract} =
         attrs
+        |> Enum.into(%{influencer_id: influencer.id, brand_id: brand.id})
         |> Enum.into(@valid_attrs)
         |> Contracts.create_contract()
 
-      contract |> Repo.preload(:brand)
+      contract
     end
 
-    # test "list_contracts/0 returns all contracts" do
-    #   contract = contract_fixture()
-    #   assert Contracts.list_contracts() == [contract]
-    # end
+    test "list_contracts/0 returns all contracts" do
+      contract = contract_fixture()
+      assert Contracts.list_contracts() == [contract]
+    end
 
     test "get_contract!/1 returns the contract with given id" do
       contract = contract_fixture()
@@ -30,21 +51,16 @@ defmodule App.ContractsTest do
     end
 
     test "create_contract/1 with valid data creates a contract" do
-      assert {:ok, %Contract{} = contract} = Contracts.create_contract(@valid_attrs)
-      assert contract.current_amount == Decimal.new("120.5")
-      assert contract.is_requestable == true
-      assert contract.minimum_amount_of_sales == Decimal.new("120.5")
-      assert contract.minimum_amout_of_views == 42
-      assert contract.minimum_sales == Decimal.new("120.5")
-      assert contract.number_of_views == 42
-      assert contract.percent_amount_on_sales == Decimal.new("120.5")
-      assert contract.send_notification_to_brand == true
-      assert contract.send_notification_to_influencer == true
-      assert contract.size_of_set_of_sales == 42
-      assert contract.static_amount_on_sales == Decimal.new("120.5")
-      assert contract.static_amount_on_set_of_sales == Decimal.new("120.5")
-      assert contract.static_amount_on_views == Decimal.new("120.5")
-      assert contract.time_between_payments == 42
+      influencer = influencer_fixture()
+      brand = brand_fixture()
+
+      assert {:ok, %Contract{} = contract} = 
+        %{influencer_id: influencer.id, brand_id: brand.id}
+        |> Enum.into(@valid_attrs)
+        |> Contracts.create_contract()
+      assert contract.minimum_points == 42
+      assert contract.payment_period == 42
+      assert contract.points == 42
     end
 
     test "create_contract/1 with invalid data returns error changeset" do
@@ -55,20 +71,9 @@ defmodule App.ContractsTest do
       contract = contract_fixture()
       assert {:ok, contract} = Contracts.update_contract(contract, @update_attrs)
       assert %Contract{} = contract
-      assert contract.current_amount == Decimal.new("456.7")
-      assert contract.is_requestable == false
-      assert contract.minimum_amount_of_sales == Decimal.new("456.7")
-      assert contract.minimum_amout_of_views == 43
-      assert contract.minimum_sales == Decimal.new("456.7")
-      assert contract.number_of_views == 43
-      assert contract.percent_amount_on_sales == Decimal.new("456.7")
-      assert contract.send_notification_to_brand == false
-      assert contract.send_notification_to_influencer == false
-      assert contract.size_of_set_of_sales == 43
-      assert contract.static_amount_on_sales == Decimal.new("456.7")
-      assert contract.static_amount_on_set_of_sales == Decimal.new("456.7")
-      assert contract.static_amount_on_views == Decimal.new("456.7")
-      assert contract.time_between_payments == 43
+      assert contract.minimum_points == 43
+      assert contract.payment_period == 43
+      assert contract.points == 43
     end
 
     test "update_contract/2 with invalid data returns error changeset" do

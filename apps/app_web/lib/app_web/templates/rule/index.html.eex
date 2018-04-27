@@ -1,0 +1,42 @@
+<h2>Listing Rules</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Contract</th>
+      <th>Sales counter</th>
+      <th>Set of sales</th>
+      <th>Percent on sales</th>
+      <th>Points on sales</th>
+      <th>Views counter</th>
+      <th>Set of views</th>
+      <th>Points on views</th>
+      <th>Points per month</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for rule <- @rules do %>
+    <tr>
+      <td><%= rule.contract_id %></td>
+      <td><%= rule.sales_counter %></td>
+      <td><%= rule.set_of_sales %></td>
+      <td><%= rule.percent_on_sales %></td>
+      <td><%= rule.points_on_sales %></td>
+      <td><%= rule.views_counter %></td>
+      <td><%= rule.set_of_views %></td>
+      <td><%= rule.points_on_views %></td>
+      <td><%= rule.points_per_month %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: rule_path(@conn, :show, rule), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: rule_path(@conn, :edit, rule), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: rule_path(@conn, :delete, rule), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Rule", to: rule_path(@conn, :new) %></span>
