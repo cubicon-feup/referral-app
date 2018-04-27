@@ -5,9 +5,12 @@ defmodule AppWeb.WebhookController do
   alias App.Brands.Brand
   alias App.Influencers
   alias App.Influencers.Influencer
+  alias App.Contracts
+  alias App.Contracts.Contract
 
   def handleData(conn, params) do
     discount_codes = conn.body_params["discount_codes"]
+    value = String.to_integer(conn.body_params["total_price"])
 
     case discount_codes do
       nil ->
@@ -18,22 +21,29 @@ defmodule AppWeb.WebhookController do
           Plug.Conn.get_req_header(conn, "x-shopify-shop-domain")
           |> List.first()
 
-        assignPromoCodes(store, discount_codes)
+        assignPromoCodes(store, discount_codes, value)
 
         send_resp(conn, 200, "ok")
     end
   end
 
-  def assignPromoCodes(store, discount_codes) do
+  def assignPromoCodes(store, discount_codes, value) do
     brand = Brands.get_brand_by_hostname(store)[:brand_id]
-    codes = []
+    influencers = []
 
-    codes =
+    influencers =
       for discount_code <- discount_codes do
         Influencers.get_influencer_by_code(discount_code["code"])[:influencer_id]
       end
 
+    # for influencer <- influencers do
+    #   contract = Contracts.get_contract_by_brand_and_influencer(brand, influencer)
+    #   new_value = contract[:act_value] + value
+    #   Contracts.update_contract()
+    # end
+
     IO.inspect(brand)
-    IO.inspect(codes)
+    IO.inspect(influencers)
+    IO.inspect(value)
   end
 end
