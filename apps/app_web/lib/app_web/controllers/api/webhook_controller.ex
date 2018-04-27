@@ -41,9 +41,5 @@ defmodule AppWeb.WebhookController do
     #   new_value = contract[:act_value] + value
     #   Contracts.update_contract()
     # end
-
-    IO.inspect(brand)
-    IO.inspect(influencers)
-    IO.inspect(value)
   end
 end
