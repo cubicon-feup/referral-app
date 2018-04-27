@@ -20,6 +20,6 @@ defmodule App.Contracts.Contract do
     |> cast_assoc(:brand)
     |> cast_assoc(:influencer)
     |> validate_required([:influencer_id, :brand_id])
-   
+    |> unique_constraint(:unique_index_brand_influencer, name: :index_brand_influencer, message: "A tua mae")
   end
 end
