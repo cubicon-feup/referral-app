@@ -2,17 +2,47 @@ defmodule App.RulesTest do
   use App.DataCase
 
   alias App.Rules
+  alias App.Influencers
+  alias App.Brands
+  alias App.Contracts
 
   describe "rules" do
     alias App.Rules.Rule
 
-    @valid_attrs %{contract_id: 42, percent_on_sales: "120.5", points_on_sales: 42, points_on_views: 42, points_per_month: 42, sales_counter: 42, set_of_sales: 42, set_of_views: 42, views_counter: 42}
-    @update_attrs %{contract_id: 43, percent_on_sales: "456.7", points_on_sales: 43, points_on_views: 43, points_per_month: 43, sales_counter: 43, set_of_sales: 43, set_of_views: 43, views_counter: 43}
+    @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+    @valid_attrs_brand %{api_key: "some api_key", api_password: "some api_password", hostname: "some hostname", name: "some name"}
+    @valid_attrs_contract %{minimum_points: 42, payment_period: 42, points: 42}
+  
+    @valid_attrs %{percent_on_sales: "120.5", points_on_sales: 42, points_on_views: 42, points_per_month: 42, sales_counter: 42, set_of_sales: 42, set_of_views: 42, views_counter: 42}
+    @update_attrs %{percent_on_sales: "456.7", points_on_sales: 43, points_on_views: 43, points_per_month: 43, sales_counter: 43, set_of_sales: 43, set_of_views: 43, views_counter: 43}
     @invalid_attrs %{contract_id: nil, percent_on_sales: nil, points_on_sales: nil, points_on_views: nil, points_per_month: nil, sales_counter: nil, set_of_sales: nil, set_of_views: nil, views_counter: nil}
 
+
+    def influencer_fixture() do
+      {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
+      influencer
+    end
+
+    def brand_fixture() do
+      {:ok, brand} = Brands.create_brand(@valid_attrs_brand)
+      brand
+    end
+
+    def contract_fixture() do
+      influencer = influencer_fixture()
+      brand = brand_fixture()
+      {:ok, contract} =
+        %{influencer_id: influencer.id, brand_id: brand.id}
+        |> Enum.into(@valid_attrs_contract)
+        |> Contracts.create_contract()
+      contract
+    end
+
     def rule_fixture(attrs \\ %{}) do
+      contract = contract_fixture()
       {:ok, rule} =
         attrs
+        |> Enum.into(%{contract_id: contract.id})
         |> Enum.into(@valid_attrs)
         |> Rules.create_rule()
 
@@ -30,8 +60,9 @@ defmodule App.RulesTest do
     end
 
     test "create_rule/1 with valid data creates a rule" do
-      assert {:ok, %Rule{} = rule} = Rules.create_rule(@valid_attrs)
-      assert rule.contract_id == 42
+      contract = contract_fixture();
+      attrs = Enum.into(%{contract_id: contract.id}, @valid_attrs)
+      assert {:ok, %Rule{} = rule} = Rules.create_rule(attrs)
       assert rule.percent_on_sales == Decimal.new("120.5")
       assert rule.points_on_sales == 42
       assert rule.points_on_views == 42
@@ -50,7 +81,6 @@ defmodule App.RulesTest do
       rule = rule_fixture()
       assert {:ok, rule} = Rules.update_rule(rule, @update_attrs)
       assert %Rule{} = rule
-      assert rule.contract_id == 43
       assert rule.percent_on_sales == Decimal.new("456.7")
       assert rule.points_on_sales == 43
       assert rule.points_on_views == 43

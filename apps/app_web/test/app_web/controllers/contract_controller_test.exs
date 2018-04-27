@@ -2,13 +2,37 @@ defmodule AppWeb.ContractControllerTest do
   use AppWeb.ConnCase
 
   alias App.Contracts
+  alias App.Influencers
+  alias App.Brands
 
-  @create_attrs %{brand_id: 42, influencer_id: 42, minimum_points: 42, payment_period: 42, points: 42}
-  @update_attrs %{brand_id: 43, influencer_id: 43, minimum_points: 43, payment_period: 43, points: 43}
+  @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+  @valid_attrs_brand %{api_key: "some api_key", api_password: "some api_password", hostname: "some hostname", name: "some name"}
+
+  @create_attrs %{minimum_points: 42, payment_period: 42, points: 42}
+  @update_attrs %{minimum_points: 43, payment_period: 43, points: 43}
   @invalid_attrs %{brand_id: nil, influencer_id: nil, minimum_points: nil, payment_period: nil, points: nil}
 
+  def influencer_fixture() do
+    {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
+  
+    influencer
+  end
+
+  def brand_fixture() do
+    {:ok, brand} = Brands.create_brand(@valid_attrs_brand)
+  
+    brand
+  end
+
   def fixture(:contract) do
-    {:ok, contract} = Contracts.create_contract(@create_attrs)
+    influencer = influencer_fixture()
+    brand = brand_fixture()
+
+    {:ok, contract} =
+      %{influencer_id: influencer.id, brand_id: brand.id}
+      |> Enum.into(@create_attrs)
+      |> Contracts.create_contract()
+
     contract
   end
 
@@ -28,7 +52,10 @@ defmodule AppWeb.ContractControllerTest do
 
   describe "create contract" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, contract_path(conn, :create), contract: @create_attrs
+      influencer = influencer_fixture();
+      brand = brand_fixture();
+      attrs = Enum.into(%{influencer_id: influencer.id, brand_id: brand.id}, @create_attrs)
+      conn = post conn, contract_path(conn, :create), contract: attrs
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == contract_path(conn, :show, id)

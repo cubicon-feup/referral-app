@@ -2,8 +2,7 @@ defmodule App.Repo.Migrations.CreateContracts do
   use Ecto.Migration
 
   def change do
-    create unique_index(:contracts, [:brand_id, :influencer_id], name: :index_brand_influencer)
-
+    
     create table(:contracts) do
       add :influencer_id, references(:influencers, on_delete: :nothing)
       add :brand_id, references(:brands, on_delete: :nothing)
@@ -13,6 +12,8 @@ defmodule App.Repo.Migrations.CreateContracts do
 
       timestamps()
     end
+
+    create unique_index(:contracts, [:brand_id, :influencer_id], name: :index_brand_influencer)
 
   end
 end
