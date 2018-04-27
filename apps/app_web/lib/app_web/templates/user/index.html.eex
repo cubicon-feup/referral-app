@@ -40,6 +40,7 @@
           <% end %>
           <% else %>
             <h1>Hello <%= @maybe_user.name%>!</h1>
+            <h1>User nº <%= @maybe_user.id%>!</h1>
             <span id="logout-link"><%= link "Logout", to: user_path(@conn, :logout), method: :post%></span>
           <% end %>
         </div>

@@ -10,7 +10,7 @@ defmodule AppWeb.WebhookController do
 
   def handleData(conn, params) do
     discount_codes = conn.body_params["discount_codes"]
-    value = String.to_integer(conn.body_params["total_price"])
+    value = String.to_float(conn.body_params["total_price"])
 
     case discount_codes do
       nil ->

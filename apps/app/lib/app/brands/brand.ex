@@ -7,7 +7,7 @@ defmodule App.Brands.Brand do
     field(:api_password, :string)
     field(:hostname, :string)
     field(:name, :string)
-    field(:brand_id, :id)
+    field(:user_id, :id)
     has_many(:contracts, App.Contracts.Contract)
 
     timestamps()
@@ -16,7 +16,8 @@ defmodule App.Brands.Brand do
   @doc false
   def changeset(brand, attrs) do
     brand
-    |> cast(attrs, [:name, :hostname, :api_key, :api_password])
+    |> cast(attrs, [:name, :hostname, :api_key, :api_password, :user_id])
     |> validate_required([:name, :hostname, :api_key, :api_password])
+    |> foreign_key_constraint(:user_id)
   end
 end

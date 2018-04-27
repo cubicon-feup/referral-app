@@ -7,7 +7,7 @@ defmodule App.Influencers.Influencer do
     field(:code, :string)
     field(:name, :string)
     field(:nib, :integer)
-    field(:influencer_id, :id)
+    field(:user_id, :id)
 
     timestamps()
   end
