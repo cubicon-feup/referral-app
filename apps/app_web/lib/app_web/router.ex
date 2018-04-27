@@ -57,6 +57,7 @@ defmodule AppWeb.Router do
     resources "/payments", PaymentController
     resources "/sales", SaleController
     resources "/clients", ClientController
+    resources "/rules", RuleController
     resources "/contracts", ContractController do
       resources "/vouchers", VoucherController       
     end
@@ -77,6 +78,7 @@ defmodule AppWeb.Router do
      resources "/agencies", AgencyController
      resources "/plans", PlanController
      resources "/payments", PaymentController
+     resources "/rules", RuleController
      resources "/contracts", ContractController
      resources "/vouchers", VoucherController
      resources "/sales", SaleController
