@@ -31,6 +31,7 @@ defmodule AppWeb.Router do
   scope "/", AppWeb do
     pipe_through [:browser, :auth, :ensure_auth]
 
+    get "/user/logout", UserController, :logout # temporary route for testing purposes
     post "/user/logout", UserController, :logout
 
 
@@ -63,7 +64,7 @@ defmodule AppWeb.Router do
     end
     get "/", PageController, :index
     post "/payments/:id" , PaymentController, :update_status
-    resources "/user", UserController, only: [:index, :new, :create]
+    resources "/user", UserController, only: [:index, :new, :create, :show]
     post "/user/login", UserController, :login
     get "/404", PageNotFoundController, :show
 
