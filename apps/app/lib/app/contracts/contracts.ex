@@ -101,4 +101,11 @@ defmodule App.Contracts do
   def change_contract(%Contract{} = contract) do
     Contract.changeset(contract, %{})
   end
+
+  def add_points(%Contract{} = contract, add) do
+    #add_sale
+    new_points = Decimal.to_float(contract.points) + add
+
+    update_contract(contract, %{points: new_points})
+  end
 end

@@ -7,6 +7,7 @@ defmodule App.Rules do
   alias App.Repo
 
   alias App.Rules.Rule
+  alias App.Contracts
 
   @doc """
   Returns the list of rules.
@@ -100,5 +101,35 @@ defmodule App.Rules do
   """
   def change_rule(%Rule{} = rule) do
     Rule.changeset(rule, %{})
+  end
+
+   @doc """
+  TODO
+  """
+  def test do
+    rule = get_rule!(1)
+    add_sale(rule, 1)
+  end
+
+  def add_sale(%Rule{} = rule, sale_value) do
+    #add_sale
+    new_counter = rule.sales_counter + 1
+
+    #calculate points 
+    fixed = if (rule.set_of_sales != 0 and Integer.mod(new_counter, rule.set_of_sales) == 0) do
+      Decimal.to_float(rule.points_on_sales)
+    else
+      0
+    end
+    percent = Float.floor(Decimal.to_float(rule.percent_on_sales) * sale_value, 2)
+    points = fixed + percent
+    
+    #check if not zero
+    if (points != 0) do
+      contract = Contracts.get_contract!(rule.contract_id)
+      Contracts.add_points(contract, points)
+    end
+    #update
+    update_rule(rule, %{sales_counter: new_counter})
   end
 end

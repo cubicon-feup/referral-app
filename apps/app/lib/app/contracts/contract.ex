@@ -8,7 +8,7 @@ defmodule App.Contracts.Contract do
     belongs_to :influencer, App.Influencers.Influencer
     field :minimum_points, :integer, default: 0
     field :payment_period, :integer, default: 0
-    field :points, :integer, default: 0
+    field :points, :decimal, default: 0
 
     timestamps()
   end
