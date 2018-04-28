@@ -18,8 +18,7 @@ defmodule AppWeb.PageController do
       nil ->
         redirect(conn, to: "/user")
       user ->
-        render("index.html")
-
+        redirect(conn, to: "/user")
     end
   end
 end

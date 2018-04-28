@@ -37,6 +37,7 @@ defmodule AppWeb.Router do
 
     get "/user/logout", UserController, :logout # temporary route for testing purposes
     post "/user/logout", UserController, :logout
+    resources "/user", UserController, only: [:show, :edit, :delete]
     resources "/shorten", LinkController
 
 
@@ -77,7 +78,7 @@ defmodule AppWeb.Router do
     end
     get "/", PageController, :index
     post "/payments/:id" , PaymentController, :update_status
-    resources "/user", UserController, only: [:index, :new, :create, :show]
+    resources "/user", UserController, only: [:index, :new, :create]
     get "/terms", UserController, :terms
     post "/user/login", UserController, :login
     get "/404", PageNotFoundController, :show

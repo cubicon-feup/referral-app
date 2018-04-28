@@ -9,16 +9,23 @@ defmodule AppWeb.UserController do
 
 
   def index(conn, _params) do
-    changeset = Auth.change_user(%User{})
-    maybe_user = Guardian.Plug.current_resource(conn)
-    conn
-    |> render(
-         "index.html",
-         changeset: changeset,
-         action: user_path(conn, :login),
-         maybe_user: maybe_user,
-         page_title: "Profile"
-       )
+    case Guardian.Plug.current_resource(conn) do 
+      nil ->
+        changeset = Auth.change_user(%User{})
+        maybe_user = Guardian.Plug.current_resource(conn)
+        conn
+        |> render(
+            "index.html",
+            changeset: changeset,
+            action: user_path(conn, :login),
+            maybe_user: maybe_user,
+            page_title: "Profile"
+          )
+      user ->
+        conn
+        |> redirect(to: user_path(conn, :show, user))
+    end
+    
   end
 
   def new(conn, _params) do
