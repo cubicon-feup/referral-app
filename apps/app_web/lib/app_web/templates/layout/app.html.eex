@@ -42,61 +42,62 @@
       <meta name='guardian_token' content="<%= Guardian.Plug.current_token(@conn) %>">
     <%end%>
 
+    <div class="page">
+      <div class="page-main">
+        <div class="header py-4">
+          <%= render Elixir.AppWeb.LayoutView, "header.html", assigns %>
+        </div>
 
-    
-     <%= render Elixir.AppWeb.LayoutView, "header.html", assigns %>
+        <main role="test">
+            <%= if error = get_flash(@conn, :error) do %>
+              <div class="ui negative message" role="alert">
+            <% else %>
+              <div class="ui negative message" role="alert" style="display: none;">
+            <% end %>
+                <i class="close icon"></i>
+                <div class="header">
+                  <%= error %>
+                </div>
+              </div>
 
+            <%= if warning = get_flash(@conn, :warning) do %>
+              <div class="ui warning message" role="alert">
+            <% else %>
+              <div class="ui warning message" role="alert" style="display: none;">
+            <% end %>
+                <i class="close icon"></i>
+                <div class="header">
+                  <%= warning %>
+                </div>
+              </div>
+            <%= if info = get_flash(@conn, :info) do %>
+              <div class="ui info message" role="alert">
+            <% else %>
+              <div class="ui info message" role="alert" style="display: none;">
+            <% end %>
+                <i class="close icon"></i>
+                <div class="header">
+                  <%= info %>
+                </div>
+              </div>
 
-    <main role="test">
-        <%= if error = get_flash(@conn, :error) do %>
-          <div class="ui negative message" role="alert">
-        <% else %>
-          <div class="ui negative message" role="alert" style="display: none;">
-        <% end %>
-            <i class="close icon"></i>
-            <div class="header">
-              <%= error %>
-            </div>
-          </div>
-
-        <%= if warning = get_flash(@conn, :warning) do %>
-          <div class="ui warning message" role="alert">
-        <% else %>
-          <div class="ui warning message" role="alert" style="display: none;">
-        <% end %>
-            <i class="close icon"></i>
-            <div class="header">
-              <%= warning %>
-            </div>
-          </div>
-        <%= if info = get_flash(@conn, :info) do %>
-          <div class="ui info message" role="alert">
-        <% else %>
-          <div class="ui info message" role="alert" style="display: none;">
-        <% end %>
-            <i class="close icon"></i>
-            <div class="header">
-              <%= info %>
-            </div>
-          </div>
-
-        <%= if success = get_flash(@conn, :success) do %>
-          <div class="ui success message" role="alert">
-        <% else %>
-          <div class="ui success message" role="alert" style="display: none;">
-        <% end %>
-            <i class="close icon"></i>
-            <div class="header">
-              <%= success %>
-            </div>
-          </div>
-
-
+            <%= if success = get_flash(@conn, :success) do %>
+              <div class="ui success message" role="alert">
+            <% else %>
+              <div class="ui success message" role="alert" style="display: none;">
+            <% end %>
+                <i class="close icon"></i>
+                <div class="header">
+                  <%= success %>
+                </div>
+              </div>
+        </main>
         <%= render @view_module, @view_template, assigns %>
-    </main>
-
-    <%= render Elixir.AppWeb.LayoutView,  "footer.html", assigns %>
-
+      </div>
+      <footer class="footer">
+        <%= render Elixir.AppWeb.LayoutView,  "footer.html", assigns %>
+      </footer>      
+    </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

@@ -1,49 +1,41 @@
-<div class="page">
-  <div class="page-single">
-    <div class="container">
-      <div class="row">
-        <div class="col col-login mx-auto">
-          <div class="text-center mb-6">
-            <img src="" class="h-6" alt="logo">
-          </div>
-          <%= if @maybe_user == nil do %>
-            <%= form_for @changeset, @action, fn f -> %>
-              <div class="card-body p-6">
-                <div class="card-title">Login to your account</div>
-                <div class="form-group">
-                  <%= label f, :email, class: "form-label" %>
-                  <%= text_input f, :email, class: "form-control", id: "exampleInputEmail1", placeholder: "Enter email" %>
-                  <%= error_tag f, :email %>
-                </div>
-                <div class="form-group">
-                    <%= label f, :password, class: "control-label" %>
-                    <a href="./forgot-password.html" class="float-right small">I forgot password</a>
-                    <%= password_input f, :password, class: "form-control", id: "exampleInputPassword1", placeholder: "Password"%>
-                    <%= error_tag f, :password %>
-                </div>
-                <div class="form-group">
-                  <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" />
-                    <span class="custom-control-label">Remember me</span>
-                  </label>
-                </div>
-                <div class="form-footer">
-                  <% var = String.upcase(gettext "Sign in")%>
-                  <%= submit var, class: "btn btn-primary btn-block" %>
-                </div>
+<div class="page-single">
+  <div class="container">
+    <div class="row">
+      <div class="col col-5 mx-auto">
+        <%= form_for @changeset, @action, fn f -> %>
+            <div class="card-body p-6">
+              <div class="card-title">Login to your account</div>
+              <div class="form-group">
+                <%= label f, :email, class: "form-label" %>
+                <%= text_input f, :email, class: "form-control", id: "exampleInputEmail1", placeholder: "Enter email" %>
+                <%= error_tag f, :email %>
               </div>
-              <div class="text-center text-muted">
-                <% var1 = gettext "Don't have account yet?"%>
-                <% var2 = gettext "Create a Cocu Account" %>
-                <div class="go-sign-up"><%= var1%> <%= link var2, to: user_path(@conn, :new) %></div>
+              <div class="form-group">
+                  <%= label f, :password, class: "control-label" %>
+                  <a href="./forgot-password.html" class="float-right small">I forgot password</a>
+                  <%= password_input f, :password, class: "form-control", id: "exampleInputPassword1", placeholder: "Password"%>
+                  <%= error_tag f, :password %>
               </div>
-          <% end %>
-          <% else %>
-            <h1>Hello <%= @maybe_user.name%>!</h1>
-            <h1>User nº <%= @maybe_user.id%>!</h1>
-            <span id="logout-link"><%= link "Logout", to: user_path(@conn, :logout), method: :post%></span>
-          <% end %>
-        </div>
+              <div class="form-group">
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" />
+                  <span class="custom-control-label">Remember me</span>
+                </label>
+              </div>
+              <div class="form-footer">
+                <% var = String.upcase(gettext "Sign in")%>
+                <%= submit var, class: "btn btn-primary btn-block" %>
+              </div>
+            </div>
+            <div class="text-center text-muted">
+              <% var1 = gettext "Don't have account yet?"%>
+              <% var2 = gettext "Create a Cocu Account" %>
+              <div class="go-sign-up"><%= var1%> <%= link var2, to: user_path(@conn, :new) %></div>
+            </div>
+        <% end %>
+      </div>
+      <div class="col col-7">
+        <img src="<%= static_path(@conn, "/images/login-banner.png") %>" class="img-responsive center-block">
       </div>
     </div>
   </div>

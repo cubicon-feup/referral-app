@@ -65,7 +65,6 @@ defmodule AppWeb.Router do
     pipe_through [:browser, :auth]
 
     resources "/brands", BrandController
-    resources "/users", UserController
     resources "/influencers", InfluencerController
     resources "/agencies", AgencyController
     resources "/plans", PlanController
@@ -104,7 +103,7 @@ defmodule AppWeb.Router do
   # Fall back 404 Controller #
   ################################################
   scope "/", AppWeb do
-    get "/*path", PageNotFoundController, :error
+    #get "/*path", PageNotFoundController, :error
   end
 
 
