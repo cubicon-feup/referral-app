@@ -14,6 +14,12 @@ defmodule AppWeb.PageController do
   end
 
   def index(conn, _params) do
-    render conn, "index.html"
+    case Guardian.Plug.current_resource(conn) do 
+      nil ->
+        redirect(conn, to: "/user")
+      user ->
+        render("index.html")
+
+    end
   end
 end

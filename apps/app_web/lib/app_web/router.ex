@@ -78,6 +78,7 @@ defmodule AppWeb.Router do
     get "/", PageController, :index
     post "/payments/:id" , PaymentController, :update_status
     resources "/user", UserController, only: [:index, :new, :create, :show]
+    get "/terms", UserController, :terms
     post "/user/login", UserController, :login
     get "/404", PageNotFoundController, :show
 

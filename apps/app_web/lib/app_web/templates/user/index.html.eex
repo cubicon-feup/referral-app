@@ -1,7 +1,7 @@
 <div class="page-single">
   <div class="container">
     <div class="row">
-      <div class="col col-5 mx-auto">
+      <div class="col col-md-6 col-lg-5 mx-auto">
         <%= form_for @changeset, @action, fn f -> %>
             <div class="card-body p-6">
               <div class="card-title">Login to your account</div>
@@ -29,12 +29,12 @@
             </div>
             <div class="text-center text-muted">
               <% var1 = gettext "Don't have account yet?"%>
-              <% var2 = gettext "Create a Cocu Account" %>
+              <% var2 = gettext "Create an account" %>
               <div class="go-sign-up"><%= var1%> <%= link var2, to: user_path(@conn, :new) %></div>
             </div>
         <% end %>
       </div>
-      <div class="col col-7">
+      <div class="col col-md-6 col-lg-7 d-none d-md-block">
         <img src="<%= static_path(@conn, "/images/login-banner.png") %>" class="img-responsive center-block">
       </div>
     </div>

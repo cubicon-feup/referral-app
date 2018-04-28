@@ -1,1 +1,13 @@
-<%= render "form.html", Map.put(assigns, :action, user_path(@conn, :create)) %>
+
+<div class="page-single">
+  <div class="container">
+    <div class="row">
+      <div class="col col-md-6 col-lg-5 mx-auto">
+        <%= render "form.html", Map.put(assigns, :action, user_path(@conn, :create)) %>
+      </div>
+      <div class="col col-md-6 col-lg-7 d-none d-md-block">
+        <img src="<%= static_path(@conn, "/images/signup-banner.png") %>" class="img-responsive center-block">
+      </div>
+    </div>
+  </div>
+</div>

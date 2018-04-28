@@ -26,6 +26,10 @@ defmodule AppWeb.UserController do
     render(conn, "new.html", changeset: changeset, page_title: "Sign up")
   end
 
+  def terms(conn, _params) do
+    render(conn, "terms.html", page_title: "Terms and Policy")
+  end
+
   def create(conn, %{"user" => user_params}) do
     case String.equivalent?(user_params["password_confirmation"], user_params["password"]) do
       true ->
