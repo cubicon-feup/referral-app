@@ -4,12 +4,9 @@
             <img src="" class="header-brand-img" alt="inspiro logo">
         </a>
         <div class="d-flex order-lg-2 ml-auto">
-            <div class="nav-item d-none d-md-flex">
-                <a href="https://github.com/tabler/tabler" class="btn btn-sm btn-outline-primary" target="_blank">Source code</a>
-            </div>
             <div class="dropdown d-none d-md-flex">
                 <a class="nav-link icon" data-toggle="dropdown">
-                    <i class="fe fe-bell"></i>
+                    <i class="fa fa-bell"></i>
                     <span class="nav-unread"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
