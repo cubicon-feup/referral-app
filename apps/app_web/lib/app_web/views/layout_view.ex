@@ -1,6 +1,9 @@
 defmodule AppWeb.LayoutView do
   use AppWeb, :view
 
+  alias App.Brands
+  alias App.Influencers
+  alias App.Users
   @doc """
   Generates name for the JavaScript view we want to use
   in this combination of view/template.
@@ -26,5 +29,17 @@ defmodule AppWeb.LayoutView do
   defp get_locale(conn) do
     conn
     |> Plug.Conn.get_session(:locale)
+  end
+
+  defp get_brand(conn) do
+    conn
+    |> Plug.Conn.get_session(:brand_id)
+    |> Brands.get_brand!()
+    
+  end
+
+  defp get_user(conn) do
+    conn
+    |> Guardian.Plug.current_resource
   end
 end
