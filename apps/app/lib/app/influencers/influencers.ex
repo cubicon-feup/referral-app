@@ -115,4 +115,7 @@ defmodule App.Influencers do
       _ -> %{status: "influencer not found"}
     end
   end
+
+  def get_influencer_by_user(user_id), do: Repo.get_by(Influencer, user_id: user_id) 
+
 end

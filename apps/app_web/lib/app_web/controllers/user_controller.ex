@@ -4,26 +4,37 @@ defmodule AppWeb.UserController do
   alias App.Users
   alias App.Users.User
   alias App.Brands
+  alias App.Influencers
   alias App.Auth
   alias App.Auth.Guardian
 
   def index(conn, _params) do
-    changeset = Auth.change_user(%User{})
-    maybe_user = Guardian.Plug.current_resource(conn)
-
-    conn
-    |> render(
-      "index.html",
-      changeset: changeset,
-      action: user_path(conn, :login),
-      maybe_user: maybe_user,
-      page_title: "Profile"
-    )
+    case Guardian.Plug.current_resource(conn) do 
+      nil ->
+        changeset = Auth.change_user(%User{})
+        maybe_user = Guardian.Plug.current_resource(conn)
+        conn
+        |> render(
+            "index.html",
+            changeset: changeset,
+            action: user_path(conn, :login),
+            maybe_user: maybe_user,
+            page_title: "Profile"
+          )
+      user ->
+        conn
+        |> redirect(to: user_path(conn, :show, user))
+    end
+    
   end
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
     render(conn, "new.html", changeset: changeset, page_title: "Sign up")
+  end
+
+  def terms(conn, _params) do
+    render(conn, "terms.html", page_title: "Terms and Policy")
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -187,9 +198,19 @@ defmodule AppWeb.UserController do
   defp login_reply({:ok, user}, conn) do
     put_flash(conn, :success, "Welcome back!")
     |> Guardian.Plug.sign_in(user)
+    |> is_influencer(user)
     |> has_brand(user)
     |> redirect(to: "/")
     |> halt()
+  end
+
+  def is_influencer(conn, user) do
+    case Influencers.get_influencer_by_user(user.id) do
+      nil ->
+        conn
+      influencer ->
+         conn |> put_session(:influencer_id, influencer.id) 
+    end
   end
 
   def has_brand(conn, user) do

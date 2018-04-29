@@ -1,14 +1,14 @@
-## `msgid`s in this file come from POT (.pot) files.
+## This file is a PO Template file.
 ##
-## Do not add, change, or remove `msgid`s manually here as
-## they're tied to the ones in the corresponding POT file
-## (with the same domain).
+## `msgid`s here are often extracted from source code.
+## Add new translations manually only if they're dynamic
+## translations that can't be statically extracted.
 ##
-## Use `mix gettext.extract --merge` or `mix gettext.merge`
-## to merge POT files into PO files.
+## Run `mix gettext.extract` to bring this file up to
+## date. Leave `msgstr`s empty as changing them here as no
+## effect: edit them in PO (`.po`) files instead.
 msgid ""
 msgstr ""
-"Language: en_EN\n"
 
 #, elixir-format
 #: lib/app_web/templates/user/form.html.eex:28
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/app_web/templates/user/form.html.eex:13
 msgid "Enter name"
 msgstr ""
