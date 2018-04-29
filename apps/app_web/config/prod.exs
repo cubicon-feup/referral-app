@@ -17,7 +17,8 @@ config :app_web, AppWeb.Endpoint,
   load_from_system_env: true,
   http: [port: 8080],
   url: [host: "cubicon-b.nanoapp.io", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  force_ssl: [hsts: true]
 
 # ## SSL Support
 #
