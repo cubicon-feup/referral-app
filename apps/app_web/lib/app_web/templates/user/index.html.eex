@@ -4,22 +4,22 @@
       <div class="col col-md-6 col-lg-5 mx-auto">
         <%= form_for @changeset, @action, fn f -> %>
             <div class="card-body p-6">
-              <div class="card-title">Login to your account</div>
+              <div class="card-title"><%= gettext("Login to your account") %></div>
               <div class="form-group">
                 <%= label f, :email, class: "form-label" %>
-                <%= text_input f, :email, class: "form-control", id: "exampleInputEmail1", placeholder: "Enter email" %>
+                <%= text_input f, :email, class: "form-control", id: "exampleInputEmail1", placeholder: gettext("Enter email") %>
                 <%= error_tag f, :email %>
               </div>
               <div class="form-group">
                   <%= label f, :password, class: "control-label" %>
-                  <a href="./forgot-password.html" class="float-right small">I forgot password</a>
-                  <%= password_input f, :password, class: "form-control", id: "exampleInputPassword1", placeholder: "Password"%>
+                  <a href="./forgot-password.html" class="float-right small"><%= gettext("I forgot password") %></a>
+                  <%= password_input f, :password, class: "form-control", id: "exampleInputPassword1", placeholder: gettext("Password")%>
                   <%= error_tag f, :password %>
               </div>
               <div class="form-group">
                 <label class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" />
-                  <span class="custom-control-label">Remember me</span>
+                  <span class="custom-control-label"><%= gettext("Remember me") %></span>
                 </label>
               </div>
               <div class="form-footer">

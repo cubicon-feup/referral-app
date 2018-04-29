@@ -16,10 +16,10 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                     <a class="dropdown-item" href="<%= brand_path(@conn, :index) %>">
-                        <i class="dropdown-icon fa fa-user"></i> Dashboard
+                        <i class="dropdown-icon fa fa-user"></i> <%= gettext("Dashboard") %>
                     </a>
                     <a class="dropdown-item" href="<%= brand_path(@conn, :show, brand) %>">
-                        <i class="dropdown-icon fa fa-cog"></i> Settings
+                        <i class="dropdown-icon fa fa-cog"></i> <%= gettext("Settings") %>
                     </a>
                 </div>
             </div> 
@@ -33,13 +33,13 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                     <a class="dropdown-item" href="<%= user_path(@conn, :show, user) %>">
-                        <i class="dropdown-icon fa fa-user"></i> Profile
+                        <i class="dropdown-icon fa fa-user"></i><%= gettext("Profile") %>
                     </a>
                     <a class="dropdown-item" href="#">
-                        <i class="dropdown-icon fa fa-cog"></i> Settings
+                        <i class="dropdown-icon fa fa-cog"></i>  <%= gettext("Settings") %>
                     </a>
                     <a class="dropdown-item" href="<%= user_path(@conn, :logout) %>">
-                        <i class="dropdown-icon fa fa-sign-out"></i> Sign out
+                        <i class="dropdown-icon fa fa-sign-out"></i> <%= gettext("Sign out") %>
                     </a>
                 </div>
             </div>

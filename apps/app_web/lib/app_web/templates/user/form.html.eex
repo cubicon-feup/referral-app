@@ -6,34 +6,34 @@
     </div>
   <% end %>
   <div class="card-body p-6">
-    <div class="card-title">Create new account</div>
+    <div class="card-title"> <%= gettext("Create new account") %></div>
     <div class="form-group">
       <% name = gettext("Name") %>
       <%= label f, name, class: "form-label" %>
-      <%= text_input f, :name, class: "form-control", required: true, placeholder: "Enter name"%>
+      <%= text_input f, :name, class: "form-control", required: true, placeholder: gettext("Enter name")%>
       <%= error_tag f, :name %>
     </div>
     <div class="form-group">
       <%= label f, :email, class: "form-label" %>
-      <%= text_input f, :email, class: "form-control", type: "email", required: true, placeholder: "Enter email"%>
+      <%= text_input f, :email, class: "form-control", type: "email", required: true, placeholder: gettext("Enter email")%>
       <%= error_tag f, :email %>
     </div>
     <div class="form-group">
       <%= label f, :password, class: "form-label" %>
-      <%= text_input f, :password, class: "form-control", type: "password", required: true, placeholder: "Enter password"%>
+      <%= text_input f, :password, class: "form-control", type: "password", required: true, placeholder: gettext("Enter password")%>
       <%= error_tag f, :password %>
     </div>
     <div class="ui input">
       <label for="confirmPassword">
           <%= gettext ("Confirm Password") %>
       </label>
-      <%= text_input f, :password_confirmation, class: "form-control", type: "password", id: "confirmPassword", required: true, placeholder: "Repeat password" %>
+      <%= text_input f, :password_confirmation, class: "form-control", type: "password", id: "confirmPassword", required: true, placeholder: gettext("Repeat password") %>
     </div>
     <div class="form-group">
     <label class="custom-control custom-checkbox">
       <input type="checkbox" class="custom-control-input" />
-      <span class="custom-control-label">Agree the
-        <%= link " terms and policy", to: user_path(@conn, :terms) %>
+      <span class="custom-control-label"> <%= gettext("Agree the") %>
+        <%= link gettext(" terms and policy"), to: user_path(@conn, :terms) %>
       </span>
     </label>
     </div>
@@ -44,5 +44,5 @@
   </div>
 <% end %>
 <div class="text-center text-muted">
-  <div class="go-sign-in">Already account? Sign in<%= link " here", to: user_path(@conn, :index) %></div>
+  <div class="go-sign-in"> <%= gettext("Already account? Sign in")%><%= link gettext(" here"), to: user_path(@conn, :index) %></div>
 </div>
