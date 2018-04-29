@@ -34,7 +34,7 @@ defmodule AppWeb.LayoutView do
   defp get_brand(conn) do
     conn
     |> Plug.Conn.get_session(:brand_id)
-    |> Brands.get_brand!()
+    |> Brands.get_brand()
     
   end
 
