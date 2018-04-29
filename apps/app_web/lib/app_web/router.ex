@@ -73,14 +73,14 @@ defmodule AppWeb.Router do
     resources "/sales", SaleController
     resources "/clients", ClientController
     resources "/rules", RuleController
+    resources "/account", UserController, only: [:index, :new, :create]
+    get "/", PageController, :index
+    post "/payments/:id" , PaymentController, :update_status
+    get "/terms", UserController, :terms
+    post "/user/login", UserController, :login
     resources "/contracts", ContractController do
       resources "/vouchers", VoucherController       
     end
-    get "/", PageController, :index
-    post "/payments/:id" , PaymentController, :update_status
-    resources "/user", UserController, only: [:index, :new, :create]
-    get "/terms", UserController, :terms
-    post "/user/login", UserController, :login
     get "/404", PageNotFoundController, :show
 
   end

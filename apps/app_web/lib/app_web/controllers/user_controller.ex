@@ -4,6 +4,7 @@ defmodule AppWeb.UserController do
   alias App.Users
   alias App.Users.User
   alias App.Brands
+  alias App.Influencers
   alias App.Auth
   alias App.Auth.Guardian
 
@@ -168,20 +169,28 @@ defmodule AppWeb.UserController do
   defp login_reply({:ok, user}, conn) do
     put_flash(conn, :success, "Welcome back!")
     |> Guardian.Plug.sign_in(user)
+    |> is_influencer(user)
     |> has_brand(user)
     |> redirect(to: "/")
     |> halt()
   end
 
-  def has_brand(conn, user) do
+  def is_influencer(conn, user) do
+    case Influencers.get_influencer_by_user(user.id) do
+      nil ->
+        conn
+      influencer ->
+         conn |> put_session(:influencer_id, influencer.id) 
+    end
+  end
 
+  def has_brand(conn, user) do
     case Brands.get_brand_by_user(user.id) do
       nil ->
         conn
       brand ->
          conn |> put_session(:brand_id, brand.id) 
     end
-
   end
 
   def logout(conn, _) do
