@@ -108,7 +108,7 @@ defmodule App.Rules do
   """
   def test do
     rule = get_rule!(1)
-    add_sale(rule, 1)
+    add_view(rule)
   end
 
   def add_sale(%Rule{} = rule, sale_value) do
@@ -131,5 +131,25 @@ defmodule App.Rules do
     end
     #update
     update_rule(rule, %{sales_counter: new_counter})
+  end
+
+  def add_view(%Rule{} = rule) do
+    #add_sale
+    new_counter = rule.views_counter + 1
+
+    #calculate points 
+    points = if (rule.set_of_views != 0 and Integer.mod(new_counter, rule.set_of_views) == 0) do
+      Decimal.to_float(rule.points_on_views)
+    else
+      0
+    end
+    
+    #check if not zero
+    if (points != 0) do
+      contract = Contracts.get_contract!(rule.contract_id)
+      Contracts.add_points(contract, points)
+    end
+    #update
+    update_rule(rule, %{views_counter: new_counter})
   end
 end
