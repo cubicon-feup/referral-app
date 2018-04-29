@@ -17,6 +17,11 @@ defmodule AppWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :webhook do
+    plug :accepts, ["json"]
+    plug App.Auth.Webhook
+  end
+
   pipeline :auth do
     plug App.Auth.Pipeline
   end
@@ -74,7 +79,7 @@ defmodule AppWeb.Router do
     resources "/clients", ClientController
     resources "/rules", RuleController
     resources "/contracts", ContractController do
-      resources "/vouchers", VoucherController       
+      resources "/vouchers", VoucherController
     end
     get "/", PageController, :index
     post "/payments/:id" , PaymentController, :update_status
@@ -98,6 +103,12 @@ defmodule AppWeb.Router do
      resources "/vouchers", VoucherController
      resources "/sales", SaleController
      resources "/clients", ClientController
+  end
+
+  scope "/webhook", AppWeb do
+    pipe_through :webhook
+
+    post "/handle", WebhookController, :handleData
   end
 
   ################################################
