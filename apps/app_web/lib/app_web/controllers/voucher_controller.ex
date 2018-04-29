@@ -5,6 +5,7 @@ defmodule AppWeb.VoucherController do
   alias App.Vouchers.Voucher
   alias App.Contracts
   alias App.Repo
+  alias App.Brands
 
   def build_url(contract_id) do
     contract = Contracts.get_contract!(contract_id)
@@ -60,7 +61,10 @@ defmodule AppWeb.VoucherController do
   def create(conn, %{"voucher" => voucher_params}) do
     contract = conn.assigns.contract
 
+    price_rule_id = Map.get(voucher_params, "price_rule_id", nil)
     voucher_params = Map.put(voucher_params, "contract_id", contract.id)
+    brand_id = Plug.Conn.get_session(conn, :brand_id)
+    post_discount(voucher_params["code"], price_rule_id, brand_id)
 
     case Vouchers.create_voucher(voucher_params) do
       {:ok, _voucher} ->
@@ -148,5 +152,31 @@ defmodule AppWeb.VoucherController do
     |> put_flash(:error, "Invalid contract!")
     |> redirect(to: page_path(conn, :index))
     |> halt
+  end
+
+  def post_discount(voucher_code, price_rule_id, brand_id) do
+    brand = Brands.get_brand!(brand_id)
+
+    base_url = "https://" <> brand.api_key <> ":" <> brand.api_password <> "@" <> brand.hostname
+
+    url = base_url <> "/admin/price_rules/#{price_rule_id}/discount_codes.json"
+
+    header =
+      "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}"
+      |> IO.inspect()
+
+    case HTTPoison.post(url, "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}", [
+           {"Content-Type", "application/json"}
+         ]) do
+      {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
+        IO.inspect(body)
+
+      {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
+        # code already exists
+        IO.inspect(body)
+
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.inspect(reason, label: "erro:")
+    end
   end
 end

@@ -1,6 +1,7 @@
 defmodule AppWeb.VoucherView do
   use AppWeb, :view
   alias App.Brands
+  alias App.Price_rules.Price_rule
 
   def get_price_rule(brand, price_rule_id) do
     url = build_url(brand) <> "/admin/price_rules/#{price_rule_id}.json"
@@ -23,6 +24,17 @@ defmodule AppWeb.VoucherView do
         parse =
           Poison.Parser.parse!(body)
           |> get_in(["discount_code"])
+    end
+  end
+
+  def get_price_rules(brand_id) do
+    url = build_url(brand_id) <> "/admin/price_rules.json"
+
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        parse =
+          Poison.Parser.parse!(body)
+          |> get_in(["price_rules"])
     end
   end
 
