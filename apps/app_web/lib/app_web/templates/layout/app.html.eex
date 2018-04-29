@@ -48,6 +48,53 @@
           <div class="header py-4">
             <%= render Elixir.AppWeb.LayoutView, "header.html", assigns %>
           </div>
+        <% else %>
+        <div class="login-header">
+          <div class="container">
+              <div class="d-flex">
+                  <a class="header-brand" href="/">
+                      <img src="" class="header-brand-img" alt="inspiro logo">
+                  </a>
+                  <div class="d-flex order-lg-2 ml-auto">
+                      <div class="dropdown">
+                          <%= if String.equivalent?(get_locale(@conn),"en") do %>
+                            <a class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                              <span class="ml-2 d-none d-lg-block">
+                                  <span class="text-default"><%= gettext "English" %></span>
+                                  <i class="flag flag-gb"></i>
+                                  <i id="dropdown-icon-language" class="dropdown icon"></i>
+                              </span>
+                            </a>
+                          <%end%>
+                          <%= if String.equivalent?(get_locale(@conn),"pt") do %>
+                            <a class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                              <span class="ml-2 d-none d-lg-block">
+                                  <span class="text-default"><%= gettext "Portuguese" %></span>
+                                  <i class="flag flag-pt"></i>
+                                  <i id="dropdown-icon-language" class="dropdown icon"></i>
+                              </span>
+                            </a>
+                          <%end%>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                              <%= if !String.equivalent?(get_locale(@conn),"en") do %>
+                                <a class="dropdown-item" href=<%= "/en" <> assigns[:conn].request_path %>>
+                                    <%= gettext "English" %>
+                                    <i class="flag flag-gb"></i>
+                                </a>
+                              <%end %>
+
+                              <%= if !String.equivalent?(get_locale(@conn),"pt") do %>
+                                <a class="dropdown-item" href=<%= "/pt" <> assigns[:conn].request_path %>>
+                                    <%= gettext "Portuguese" %>
+                                    <i class="flag flag-pt"></i>
+                                </a>
+                              <%end%>
+                          </div>
+                      </div> 
+                  </div>
+              </div>
+          </div>
+        </div>
         <% end %>
         
         <main role="test">

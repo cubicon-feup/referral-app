@@ -43,6 +43,43 @@
                     </a>
                 </div>
             </div>
+            <div class="dropdown">
+                <%= if String.equivalent?(get_locale(@conn),"en") do %>
+                <a class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                    <span class="ml-2 d-none d-lg-block">
+                        <%= gettext "English" %>
+                    </span>
+                    <span class="ml-2 d-none d-lg-block">
+                       <i class="flag flag-gb"></i>
+                    </span>
+                </a>
+                <%end%>
+                <%= if String.equivalent?(get_locale(@conn),"pt") do %>
+                <a class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                    <span class="ml-2 d-none d-lg-block">
+                        <%= gettext "Portuguese" %>
+                    </span>
+                    <span class="ml-2 d-none d-lg-block">
+                        <i class="flag flag-pt"></i>
+                    </span>
+                </a>
+                <%end%>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                    <%= if !String.equivalent?(get_locale(@conn),"en") do %>
+                    <a class="dropdown-item" href=<%= "/en" <> assigns[:conn].request_path %>>
+                        <%= gettext "English" %>
+                        <i class="flag flag-gb"></i>
+                    </a>
+                    <%end %>
+
+                    <%= if !String.equivalent?(get_locale(@conn),"pt") do %>
+                    <a class="dropdown-item" href=<%= "/pt" <> assigns[:conn].request_path %>>
+                        <%= gettext "Portuguese" %>
+                        <i class="flag flag-pt"></i>
+                    </a>
+                    <%end%>
+                </div>
+            </div> 
         </div>
         <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
             <span class="header-toggler-icon"></span>
