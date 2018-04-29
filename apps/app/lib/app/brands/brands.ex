@@ -122,4 +122,18 @@ defmodule App.Brands do
   def change_brand(%Brand{} = brand) do
     Brand.changeset(brand, %{})
   end
+
+  def get_brand_by_hostname(hostname) do
+    query =
+      from(
+        b in Brand,
+        where: b.hostname == ^hostname,
+        select: %{brand_id: b.id}
+      )
+
+    case Repo.all(query) do
+      [brand | _] -> brand |> Map.put("status", "ok")
+      _ -> %{status: "brand not found"}
+    end
+  end
 end
