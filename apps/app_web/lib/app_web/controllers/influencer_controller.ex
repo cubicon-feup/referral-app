@@ -21,7 +21,6 @@ defmodule AppWeb.InfluencerController do
             contract = contract |> Repo.preload(:influencer)
             contract.influencer
           end
-        IO.inspect(influencers, label: "Inf::::::::::::")
         render(conn, "index.html", influencers: influencers)
     end
   end
