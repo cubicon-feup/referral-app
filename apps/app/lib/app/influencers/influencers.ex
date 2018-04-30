@@ -101,4 +101,21 @@ defmodule App.Influencers do
   def change_influencer(%Influencer{} = influencer) do
     Influencer.changeset(influencer, %{})
   end
+
+  def get_influencer_by_code(code) do
+    query =
+      from(
+        i in Influencer,
+        where: i.code == ^code,
+        select: %{influencer_id: i.id}
+      )
+
+    case Repo.all(query) do
+      [influencer | _] -> influencer |> Map.put("status", "ok")
+      _ -> %{status: "influencer not found"}
+    end
+  end
+
+  def get_influencer_by_user(user_id), do: Repo.get_by(Influencer, user_id: user_id) 
+
 end

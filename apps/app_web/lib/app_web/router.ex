@@ -17,6 +17,11 @@ defmodule AppWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :webhook do
+    plug :accepts, ["json"]
+    plug App.Auth.Webhook
+  end
+
   pipeline :auth do
     plug App.Auth.Pipeline
   end
@@ -37,6 +42,7 @@ defmodule AppWeb.Router do
 
     get "/user/logout", UserController, :logout # temporary route for testing purposes
     post "/user/logout", UserController, :logout
+    resources "/user", UserController, only: [:show, :edit, :delete]
     resources "/shorten", LinkController
 
 
@@ -65,7 +71,6 @@ defmodule AppWeb.Router do
     pipe_through [:browser, :auth]
 
     resources "/brands", BrandController
-    resources "/users", UserController
     resources "/influencers", InfluencerController
     resources "/agencies", AgencyController
     resources "/plans", PlanController
@@ -73,13 +78,14 @@ defmodule AppWeb.Router do
     resources "/sales", SaleController
     resources "/clients", ClientController
     resources "/rules", RuleController
-    resources "/contracts", ContractController do
-      resources "/vouchers", VoucherController       
-    end
+    resources "/account", UserController, only: [:index, :new, :create]
     get "/", PageController, :index
     post "/payments/:id" , PaymentController, :update_status
-    resources "/user", UserController, only: [:index, :new, :create, :show]
+    get "/terms", UserController, :terms
     post "/user/login", UserController, :login
+    resources "/contracts", ContractController do
+      resources "/vouchers", VoucherController
+    end
     get "/404", PageNotFoundController, :show
 
   end
@@ -100,11 +106,17 @@ defmodule AppWeb.Router do
      resources "/clients", ClientController
   end
 
+  scope "/webhook", AppWeb do
+    pipe_through :webhook
+
+    post "/handle", WebhookController, :handleData
+  end
+
   ################################################
   # Fall back 404 Controller #
   ################################################
   scope "/", AppWeb do
-    get "/*path", PageNotFoundController, :error
+    #get "/*path", PageNotFoundController, :error
   end
 
 

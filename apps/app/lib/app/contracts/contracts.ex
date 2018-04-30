@@ -108,4 +108,18 @@ defmodule App.Contracts do
 
     update_contract(contract, %{points: new_points})
   end
+
+  def get_contract_by_brand_and_influencer(brand, influencer) do
+    query =
+      from(
+        c in Contract,
+        where: c.brand == ^brand and c.influencer == ^influencer,
+        select: %{contract_id: c.id, act_value: c.current_amount}
+      )
+
+    case Repo.all(query) do
+      [contract | _] -> contract |> Map.put("status", "ok")
+      _ -> %{status: "contract not found"}
+    end
+  end
 end
