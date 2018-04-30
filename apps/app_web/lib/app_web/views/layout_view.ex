@@ -32,12 +32,13 @@ defmodule AppWeb.LayoutView do
   end
 
   defp get_brand(conn) do
-    conn
-    |> Plug.Conn.get_session(:brand_id)
-    |> Brands.get_brand!()
-    
+    case Plug.Conn.get_session(conn, :brand_id) do
+      nil ->
+        nil
+      brand_id ->
+        Brands.get_brand(brand_id)
+    end
   end
-
   defp get_user(conn) do
     conn
     |> Guardian.Plug.current_resource
