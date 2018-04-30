@@ -111,6 +111,10 @@ defmodule App.Rules do
     add_view(rule)
   end
 
+  def get_contract(%Rule{} = rule) do
+    Contracts.get_contract!(rule.contract_id)
+  end
+
   def add_sale(%Rule{} = rule, sale_value) do
     #add_sale
     new_counter = rule.sales_counter + 1

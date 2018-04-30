@@ -60,7 +60,7 @@ defmodule App.ContractsTest do
         |> Contracts.create_contract()
       assert contract.minimum_points == 42
       assert contract.payment_period == 42
-      assert contract.points == 42
+      assert contract.points == Decimal.new("42")
     end
 
     test "create_contract/1 with invalid data returns error changeset" do
@@ -73,7 +73,7 @@ defmodule App.ContractsTest do
       assert %Contract{} = contract
       assert contract.minimum_points == 43
       assert contract.payment_period == 43
-      assert contract.points == 43
+      assert contract.points == Decimal.new("43")
     end
 
     test "update_contract/2 with invalid data returns error changeset" do
