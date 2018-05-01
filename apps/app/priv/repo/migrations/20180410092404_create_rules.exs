@@ -7,11 +7,11 @@ defmodule App.Repo.Migrations.CreateRules do
       add :sales_counter, :integer
       add :set_of_sales, :integer
       add :percent_on_sales, :decimal
-      add :points_on_sales, :integer
+      add :points_on_sales, :decimal
       add :views_counter, :integer
       add :set_of_views, :integer
-      add :points_on_views, :integer
-      add :points_per_month, :integer
+      add :points_on_views, :decimal
+      add :points_per_month, :decimal
 
       timestamps()
     end

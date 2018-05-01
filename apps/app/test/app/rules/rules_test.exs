@@ -64,9 +64,9 @@ defmodule App.RulesTest do
       attrs = Enum.into(%{contract_id: contract.id}, @valid_attrs)
       assert {:ok, %Rule{} = rule} = Rules.create_rule(attrs)
       assert rule.percent_on_sales == Decimal.new("120.5")
-      assert rule.points_on_sales == 42
-      assert rule.points_on_views == 42
-      assert rule.points_per_month == 42
+      assert rule.points_on_sales ==  Decimal.new("42")
+      assert rule.points_on_views == Decimal.new("42")
+      assert rule.points_per_month == Decimal.new("42")
       assert rule.sales_counter == 42
       assert rule.set_of_sales == 42
       assert rule.set_of_views == 42
@@ -82,9 +82,9 @@ defmodule App.RulesTest do
       assert {:ok, rule} = Rules.update_rule(rule, @update_attrs)
       assert %Rule{} = rule
       assert rule.percent_on_sales == Decimal.new("456.7")
-      assert rule.points_on_sales == 43
-      assert rule.points_on_views == 43
-      assert rule.points_per_month == 43
+      assert rule.points_on_sales == Decimal.new("43")
+      assert rule.points_on_views == Decimal.new("43")
+      assert rule.points_per_month == Decimal.new("43")
       assert rule.sales_counter == 43
       assert rule.set_of_sales == 43
       assert rule.set_of_views == 43

@@ -102,6 +102,13 @@ defmodule App.Contracts do
     Contract.changeset(contract, %{})
   end
 
+  def add_points(%Contract{} = contract, add) do
+    #add_sale
+    new_points = Decimal.to_float(contract.points) + add
+
+    update_contract(contract, %{points: new_points})
+  end
+
   def get_contract_by_brand_and_influencer(brand, influencer) do
     query =
       from(

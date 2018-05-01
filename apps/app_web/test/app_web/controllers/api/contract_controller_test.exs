@@ -63,7 +63,7 @@ defmodule AppWeb.Api.ContractControllerTest do
         "influencer_id" => influencer.id,
         "minimum_points" => 42,
         "payment_period" => 42,
-        "points" => 42}
+        "points" => "42"}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -90,7 +90,7 @@ defmodule AppWeb.Api.ContractControllerTest do
         "influencer_id" => influencer.id,
         "minimum_points" => 43,
         "payment_period" => 43,
-        "points" => 43}
+        "points" => "43"}
     end
 
     test "renders errors when data is invalid", %{conn: conn, contract: contract} do
