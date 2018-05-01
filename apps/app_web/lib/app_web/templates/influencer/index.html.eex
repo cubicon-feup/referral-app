@@ -2,7 +2,11 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <div class="col-lg-3 ml-auto text-right">
+        <div class="col-lg-6 ml-auto text-right">
+          <div id="reportrange">
+            <span></span>
+            <i class="fa fa-calendar"></i>&nbsp;
+          </div>
           <i class="fa fa-plus"></i>
           <span><%= link "Invite Influencer", to: influencer_path(@conn, :new) %></span>
         </div>
