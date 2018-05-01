@@ -17,13 +17,6 @@ defmodule AppWeb.Api.UserControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "index" do
-    test "lists all users", %{conn: conn} do
-      conn = get conn, api_user_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
-    end
-  end
-
   describe "create user" do
 
     test "renders errors when data is invalid", %{conn: conn} do

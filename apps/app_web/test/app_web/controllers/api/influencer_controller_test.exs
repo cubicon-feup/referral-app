@@ -17,13 +17,6 @@ defmodule AppWeb.Api.InfluencerControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "index" do
-    test "lists all influencers", %{conn: conn} do
-      conn = get conn, api_influencer_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
-    end
-  end
-
   describe "create influencer" do
     test "renders influencer when data is valid", %{conn: conn} do
       conn = post conn, api_influencer_path(conn, :create), influencer: @create_attrs
