@@ -15,13 +15,13 @@ defmodule AppWeb.Api.ContractControllerTest do
 
   def influencer_fixture() do
     {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
-  
+
     influencer
   end
 
   def brand_fixture() do
     {:ok, brand} = Brands.create_brand(@valid_attrs_brand)
-  
+
     brand
   end
 
@@ -41,12 +41,6 @@ defmodule AppWeb.Api.ContractControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "index" do
-    test "lists all contracts", %{conn: conn} do
-      conn = get conn, api_contract_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
-    end
-  end
 
   describe "create contract" do
     test "renders contract when data is valid", %{conn: conn} do
@@ -74,7 +68,7 @@ defmodule AppWeb.Api.ContractControllerTest do
 
   describe "update contract" do
     setup [:create_contract]
-    
+
     test "renders contract when data is valid", %{conn: conn, contract: %Contract{id: id} = contract} do
       influencer = influencer_fixture();
       brand = brand_fixture();

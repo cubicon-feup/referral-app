@@ -12,12 +12,6 @@ defmodule AppWeb.InfluencerControllerTest do
     influencer
   end
 
-  describe "index" do
-    test "lists all influencers", %{conn: conn} do
-      conn = get conn, influencer_path(conn, :index)
-      assert html_response(conn, 200) =~ "Listing Influencers"
-    end
-  end
 
   describe "new influencer" do
     test "renders form", %{conn: conn} do
