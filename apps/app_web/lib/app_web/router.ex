@@ -68,7 +68,7 @@ defmodule AppWeb.Router do
     get "/brands/:id/new_influencer", BrandController, :new_influencer
     post "/brands/:id/create_influencer", BrandController, :create_influencer
     get "/influencers/:email/:name/invited_new_user", InfluencerController, :invited_new_user
-    post "/influencers/invited_create_user", InfluencerController, :invited_create_user
+    post "/influencers/:email/:name/invited_create_user", InfluencerController, :invited_create_user
     put "/influencers/:id/invited_update_influencer", InfluencerController, :invited_update_influencer
 
   end

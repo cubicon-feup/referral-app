@@ -1,1 +1,1 @@
-<%= render AppWeb.UserView, "form.html", Map.put(assigns, :action, influencer_path(@conn, :invited_create_user)) %>
+<%= render AppWeb.UserView, "form.html", Map.put(assigns, :action, influencer_path(@conn, :invited_create_user, @email, @name)) %>

@@ -147,10 +147,28 @@ defmodule AppWeb.UserController do
     end
   end
 
+  def login_from_influencer(conn, user_params) do
+    case Auth.authenticate_user(Map.get(user_params, "email"), Map.get(user_params, "password")) do
+      {:ok, user} ->
+        case user.deleted do
+          true ->
+            login_reply({:error, "The account was deleted."}, conn)
+          false ->
+            login_reply_from_influencer({:ok, user}, conn)
+        end
+      {:error, error} ->
+        login_reply({:error, error}, conn)
+    end
+  end
+
   defp login_reply({:error, error}, conn) do
     conn
     |> put_flash(:error, error)
     |> redirect(to: user_path(conn, :index))
+  end
+
+  defp login_reply_from_influencer({:ok, user}, conn) do
+    Guardian.Plug.sign_in(conn, user)
   end
 
   defp login_reply({:ok, user}, conn) do

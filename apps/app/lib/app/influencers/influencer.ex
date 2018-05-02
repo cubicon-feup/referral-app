@@ -17,7 +17,7 @@ defmodule App.Influencers.Influencer do
   @doc false
   def changeset(influencer, attrs) do
     influencer
-    |> cast(attrs, [:name, :address, :nib, :code, :contact])
+    |> cast(attrs, [:name, :address, :nib, :code, :contact, :user_id])
     |> validate_required([:name, :contact])
   end
 end

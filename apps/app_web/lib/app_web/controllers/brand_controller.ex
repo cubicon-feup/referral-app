@@ -71,15 +71,21 @@ defmodule AppWeb.BrandController do
 
   def create_influencer(conn, %{"id" => id, "influencer" => influencer_params}) do
     brand = Brands.get_brand!(id)
-
-    case Influencers.create_influencer(influencer_params) do
-      {:ok, influencer} ->
-        send_welcome_email(influencer.contact, influencer.name)
+    case Influencers.get_influencer_by_email!(Map.get(influencer_params, "contact")) do
+      nil->
+        case Influencers.create_influencer(influencer_params) do
+          {:ok, influencer} ->
+            send_welcome_email(influencer.contact, influencer.name)
+            conn
+            |> put_flash(:info, "Influencer created successfully.")
+            |> redirect(to: brand_path(conn, :show, id))
+          {:error, %Ecto.Changeset{} = changeset} ->
+            render(conn, "new_influencer.html", brand: brand, changeset: changeset)
+        end
+      influencer->
         conn
-        |> put_flash(:info, "Influencer created successfully.")
+        |> put_flash(:info, "Influencer already added.")
         |> redirect(to: brand_path(conn, :show, id))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new_influencer.html", brand: brand, changeset: changeset)
     end
   end
 end

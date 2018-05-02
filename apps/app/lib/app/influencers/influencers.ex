@@ -102,5 +102,5 @@ defmodule App.Influencers do
     Influencer.changeset(influencer, %{})
   end
 
-  def get_influencer_by_email!(email), do: Repo.get_by!(Influencer, contact: email)
+  def get_influencer_by_email!(email), do: Repo.get_by(Influencer, contact: email)
 end
