@@ -17,6 +17,11 @@ defmodule AppWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :webhook do
+    plug :accepts, ["json"]
+    plug App.Auth.Webhook
+  end
+
   pipeline :auth do
     plug App.Auth.Pipeline
   end
@@ -25,13 +30,20 @@ defmodule AppWeb.Router do
     plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
   end
 
+  pipeline :public do
+    plug :accepts, ["html"]
+  end
+
   #########################################
   # Endpoints that require authentication #
   #########################################
   scope "/", AppWeb do
     pipe_through [:browser, :auth, :ensure_auth]
 
+    get "/user/logout", UserController, :logout # temporary route for testing purposes
     post "/user/logout", UserController, :logout
+    resources "/user", UserController, only: [:show, :edit, :delete]
+    resources "/shorten", LinkController
 
 
   end
@@ -43,6 +55,15 @@ defmodule AppWeb.Router do
   end
 
   ################################################
+  #            Shorten url endpoint              #
+  ################################################
+
+  scope "/promo", AppWeb do
+    pipe_through :public
+    get "/:shortcode", LinkController, :unshorten
+  end
+
+  ################################################
   # Endpoints that do not require authentication #
   ################################################
 
@@ -50,20 +71,21 @@ defmodule AppWeb.Router do
     pipe_through [:browser, :auth]
 
     resources "/brands", BrandController
-    resources "/users", UserController
     resources "/influencers", InfluencerController
     resources "/agencies", AgencyController
     resources "/plans", PlanController
     resources "/payments", PaymentController
     resources "/sales", SaleController
     resources "/clients", ClientController
-    resources "/contracts", ContractController do
-      resources "/vouchers", VoucherController       
-    end
+    resources "/rules", RuleController
+    resources "/account", UserController, only: [:index, :new, :create]
     get "/", PageController, :index
     post "/payments/:id" , PaymentController, :update_status
-    resources "/user", UserController, only: [:index, :new, :create]
+    get "/terms", UserController, :terms
     post "/user/login", UserController, :login
+    resources "/contracts", ContractController do
+      resources "/vouchers", VoucherController
+    end
     get "/404", PageNotFoundController, :show
     get "/brands/:id/new_influencer", BrandController, :new_influencer
     post "/brands/:id/create_influencer", BrandController, :create_influencer
@@ -82,17 +104,25 @@ defmodule AppWeb.Router do
      resources "/agencies", AgencyController
      resources "/plans", PlanController
      resources "/payments", PaymentController
+     resources "/rules", RuleController
      resources "/contracts", ContractController
      resources "/vouchers", VoucherController
      resources "/sales", SaleController
      resources "/clients", ClientController
   end
 
+  scope "/webhook", AppWeb do
+    pipe_through :webhook
+
+    post "/handle", WebhookController, :handleData
+  end
+
   ################################################
   # Fall back 404 Controller #
   ################################################
   scope "/", AppWeb do
-    get "/*path", PageNotFoundController, :error
+    #get "/*path", PageNotFoundController, :error
   end
+
 
 end

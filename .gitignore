@@ -19,6 +19,8 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 
+/.elixir_ls/
+
 apps/app_web/assets/package-lock\.json
 
 #ignore the /config/config.secret.exs which contains the mailgun credentials

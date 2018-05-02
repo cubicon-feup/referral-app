@@ -103,4 +103,21 @@ defmodule App.Influencers do
   end
 
   def get_influencer_by_email!(email), do: Repo.get_by(Influencer, contact: email)
+
+  def get_influencer_by_code(code) do
+    query =
+      from(
+        i in Influencer,
+        where: i.code == ^code,
+        select: %{influencer_id: i.id}
+      )
+
+    case Repo.all(query) do
+      [influencer | _] -> influencer |> Map.put("status", "ok")
+      _ -> %{status: "influencer not found"}
+    end
+  end
+
+  def get_influencer_by_user(user_id), do: Repo.get_by(Influencer, user_id: user_id) 
+
 end

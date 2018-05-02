@@ -17,12 +17,6 @@ defmodule AppWeb.Api.BrandControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "index" do
-    test "lists all brands", %{conn: conn} do
-      conn = get conn, api_brand_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
-    end
-  end
 
   describe "create brand" do
     test "renders brand when data is valid", %{conn: conn} do

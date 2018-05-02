@@ -8,7 +8,7 @@ defmodule App.Brands do
 
   alias App.Brands.Brand
   alias App.Influencers.Influencer
-
+  alias App.Contracts.Contract
   @doc """
   Returns the list of brands.
 
@@ -37,6 +37,10 @@ defmodule App.Brands do
 
   """
   def get_brand!(id), do: Repo.get!(Brand, id)
+
+  def get_brand(id), do: Repo.get(Brand, id)
+
+  def get_brand_by_user(user_id), do: Repo.get_by(Brand, user_id: user_id) 
 
   @doc """
   Gets a all influencers of a brand.
@@ -119,5 +123,19 @@ defmodule App.Brands do
   """
   def change_brand(%Brand{} = brand) do
     Brand.changeset(brand, %{})
+  end
+
+  def get_brand_by_hostname(hostname) do
+    query =
+      from(
+        b in Brand,
+        where: b.hostname == ^hostname,
+        select: %{brand_id: b.id}
+      )
+
+    case Repo.all(query) do
+      [brand | _] -> brand |> Map.put("status", "ok")
+      _ -> %{status: "brand not found"}
+    end
   end
 end

@@ -1,6 +1,8 @@
 defmodule AppWeb.PageController do
   use AppWeb, :controller
 
+  alias App.Users
+
   def init(conn, _params) do
 
     case conn.params["locale"] || get_session(conn, :locale) do
@@ -14,6 +16,25 @@ defmodule AppWeb.PageController do
   end
 
   def index(conn, _params) do
-    render conn, "index.html"
+    case Guardian.Plug.current_resource(conn) do 
+      nil ->
+        conn 
+        |> redirect(to: user_path(conn, :index))
+      user ->
+        case get_session(conn, :brand_id) do
+          nil ->
+            case get_session(conn, :influencer_id) do
+              nil -> 
+                conn 
+                |> redirect(to: user_path(conn, :index))
+              influencer_id ->
+                conn 
+                |> redirect(to: influencer_path(conn, :show, influencer_id))
+            end
+          brand_id ->
+            conn 
+            |> redirect(to: brand_path(conn, :show, brand_id))
+        end
+    end
   end
 end

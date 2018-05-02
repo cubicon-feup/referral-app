@@ -3,6 +3,8 @@ defmodule AppWeb.InfluencerController do
 
   alias App.Influencers
   alias App.Influencers.Influencer
+  alias App.Brands
+  alias App.Repo
 
   alias App.Users
   alias App.Users.User
@@ -12,8 +14,22 @@ defmodule AppWeb.InfluencerController do
   alias AppWeb.PageNotFoundController
 
   def index(conn, _params) do
-    influencers = Influencers.list_influencers()
-    render(conn, "index.html", influencers: influencers)
+    case Plug.Conn.get_session(conn, :brand_id) do
+      nil ->
+        conn
+        |> put_flash(:info, "You must be a brand to see this content.")
+        |> redirect(to: "/")
+      brand_id ->
+        brand = Brands.get_brand(brand_id) 
+                |> Repo.preload(:contracts)
+
+        influencers =
+          for contract <- brand.contracts do
+            contract = contract |> Repo.preload(:influencer)
+            contract.influencer
+          end
+        render(conn, "index.html", influencers: influencers)
+    end
   end
 
   def new(conn, _params) do
