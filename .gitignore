@@ -23,6 +23,3 @@ erl_crash.dump
 
 apps/app_web/assets/package-lock\.json
 
-#ignore the /config/config.secret.exs which contains the mailgun credentials
-/apps/app_web/config/config.secret.exs
-
