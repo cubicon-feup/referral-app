@@ -5,7 +5,6 @@ defmodule App.Influencers.Influencer do
 
   schema "influencers" do
     field :address, :string
-    field :code, :string
     field :name, :string
     field :nib, :integer
     field :user_id, :id
@@ -16,7 +15,7 @@ defmodule App.Influencers.Influencer do
   @doc false
   def changeset(influencer, attrs) do
     influencer
-    |> cast(attrs, [:name, :address, :nib, :code])
-    |> validate_required([:name, :address, :nib, :code])
+    |> cast(attrs, [:name, :address, :nib])
+    |> validate_required([:name])
   end
 end
