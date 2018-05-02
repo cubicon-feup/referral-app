@@ -68,7 +68,6 @@ defmodule AppWeb.InfluencerController do
   def invited_new_user(conn, %{"email" => email, "name" => name}) do
     case Influencers.get_influencer_by_email!(email) do
       nil->
-        IO.inspect "here"
         PageNotFoundController.error(conn, %{})
       influencer->
         case Users.get_user_by_email!(email) do
@@ -77,7 +76,6 @@ defmodule AppWeb.InfluencerController do
               changeset = Users.change_user(%User{})
               render(conn, "invited_create_user.html", changeset: changeset, email: email, name: name)
             else
-              IO.inspect "here3"
               PageNotFoundController.error(conn, %{})
             end
           user->
