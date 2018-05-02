@@ -4,11 +4,11 @@ defmodule App.Repo.Migrations.CreateVouchers do
   def change do
     create table(:vouchers) do
       add :code, :string
-      add :contract_id, references(:contracts, on_delete: :nothing)
+      add :rule_id, references(:rules, on_delete: :nothing)
 
       timestamps()
     end
 
-    create index(:vouchers, [:contract_id])
+    create index(:vouchers, [:rule_id])
   end
 end

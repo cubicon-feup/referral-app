@@ -6,7 +6,7 @@ defmodule App.Sales.Sale do
   schema "sales" do
     field :date, :naive_datetime
     field :value, :decimal
-    field :contract_id, :id
+    belongs_to :voucher, App.Vouchers.Voucher
 
     timestamps()
   end
@@ -15,6 +15,7 @@ defmodule App.Sales.Sale do
   def changeset(sale, attrs) do
     sale
     |> cast(attrs, [:date, :value])
+    |> cast_assoc(:voucher)
     |> validate_required([:date, :value])
   end
 end
