@@ -1,10 +1,10 @@
-defmodule App.Rules.Rule do
+defmodule App.Vouchers.Voucher do
   use Ecto.Schema
   import Ecto.Changeset
 
-
-  schema "rules" do
+  schema "vouchers" do
     belongs_to :contract, App.Contracts.Contract
+    field :code, :string
     field :percent_on_sales, :decimal, default: 0
     field :points_on_sales, :decimal, default: 0
     field :points_on_views, :decimal, default: 0
@@ -18,10 +18,10 @@ defmodule App.Rules.Rule do
   end
 
   @doc false
-  def changeset(rule, attrs) do
-    rule
-    |> cast(attrs, [:contract_id, :sales_counter, :set_of_sales, :percent_on_sales, :points_on_sales, :views_counter, :set_of_views, :points_on_views, :points_per_month])
+  def changeset(voucher, attrs) do
+    voucher
+    |> cast(attrs, [:code, :contract_id, :sales_counter, :set_of_sales, :percent_on_sales, :points_on_sales, :views_counter, :set_of_views, :points_on_views, :points_per_month])
     |> cast_assoc(:contract)
-    |> validate_required([:contract_id])
+    |> validate_required([:code, :contract_id])
   end
 end
