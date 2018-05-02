@@ -10,7 +10,7 @@ defmodule AppWeb.WebhookController do
 
   def handleData(conn, params) do
     discount_codes = conn.body_params["discount_codes"]
-    value = trunc(String.to_float(conn.body_params["total_price"]))
+    value = String.to_float(conn.body_params["total_price"])
 
     case discount_codes do
       nil ->
@@ -36,10 +36,13 @@ defmodule AppWeb.WebhookController do
         Influencers.get_influencer_by_code(discount_code["code"])[:influencer_id]
       end
 
-    # for influencer <- influencers do
-    #   contract = Contracts.get_contract_by_brand_and_influencer(brand, influencer)
-    #   new_value = contract[:act_value] + value
-    #   Contracts.update_contract()
-    # end
+    for influencer <- influencers do
+      contract = Contracts.get_contract_by_brand_and_influencer(brand, influencer)
+
+      c = Contracts.get_contract!(contract[:contract_id])
+      new_value = contract[:act_value] + trunc(value * 0.1)
+
+      {:ok, c} = Contracts.update_contract(c, %{points: new_value})
+    end
   end
 end

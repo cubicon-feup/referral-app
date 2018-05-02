@@ -106,8 +106,8 @@ defmodule App.Contracts do
     query =
       from(
         c in Contract,
-        where: c.brand == ^brand and c.influencer == ^influencer,
-        select: %{contract_id: c.id, act_value: c.current_amount}
+        where: c.brand_id == ^brand and c.influencer_id == ^influencer,
+        select: %{contract_id: c.id, act_value: c.points}
       )
 
     case Repo.all(query) do
