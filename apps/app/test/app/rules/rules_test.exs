@@ -9,7 +9,7 @@ defmodule App.RulesTest do
   describe "rules" do
     alias App.Rules.Rule
 
-    @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+    @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42, contact: "some contact"}
     @valid_attrs_brand %{api_key: "some api_key", api_password: "some api_password", hostname: "some hostname", name: "some name"}
     @valid_attrs_contract %{minimum_points: 42, payment_period: 42, points: 42}
   
