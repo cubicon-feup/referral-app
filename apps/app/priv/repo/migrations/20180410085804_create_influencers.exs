@@ -6,7 +6,6 @@ defmodule App.Repo.Migrations.CreateInfluencers do
       add :name, :string
       add :address, :string
       add :nib, :integer
-      add :code, :string
       add :influencer_id, references(:users, on_delete: :nothing)
 
       timestamps()

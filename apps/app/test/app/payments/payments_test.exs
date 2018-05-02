@@ -6,22 +6,22 @@ defmodule App.PaymentsTest do
 
   describe "payments" do
     alias App.Payments.Payment
- 
+
     @valid_attrs %{type: "voucher", value: "120.5"}
     @update_attrs %{type: "money", value: "456.7", status: "complete"}
     @invalid_attrs %{influencer_id: nil, type: nil, value: nil}
 
-    @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+    @valid_attrs_influencer %{address: "some address", name: "some name", nib: 42}
 
     def influencer_fixture() do
       {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
-  
+
       influencer
     end
 
     def payment_fixture(attrs \\ %{}) do
       influencer = influencer_fixture()
-      
+
       {:ok, payment} =
         attrs
         |> Enum.into(%{influencer_id: influencer.id})
@@ -43,7 +43,7 @@ defmodule App.PaymentsTest do
 
     test "create_payment/1 with valid data creates a payment" do
       influencer = influencer_fixture()
-      assert {:ok, %Payment{} = payment} = 
+      assert {:ok, %Payment{} = payment} =
         Enum.into(%{influencer_id: influencer.id}, @valid_attrs)
         |> Payments.create_payment()
       assert payment.type == "voucher"

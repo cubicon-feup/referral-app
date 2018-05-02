@@ -104,7 +104,7 @@
                 <% end %>
             </li>
             <li class="nav-item">
-                <a href="<%= contract_path(@conn, :index) %>" class="nav-link"><i class="fa fa-id-card"></i> <%= gettext("Vouchers") %></a>
+                <a href="<%= contract_path(@conn, :index) %>" class="nav-link"><i class="fa fa-id-card"></i> <%= gettext("Contracts") %></a>
             </li>
             <li class="nav-item">
                 <a href="<%= payment_path(@conn, :index) %>" class="nav-link"><i class="fa fa-gift"></i> <%= gettext("Rewards") %></a>

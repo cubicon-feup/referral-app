@@ -2,13 +2,13 @@ defmodule App.Contracts.Contract do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "contracts" do
     belongs_to :brand, App.Brands.Brand
     belongs_to :influencer, App.Influencers.Influencer
     field :minimum_points, :integer, default: 0
     field :payment_period, :integer, default: 0
     field :points, :decimal, default: 0
+    has_many(:voucher, App.Vouchers.Voucher)
 
     timestamps()
   end
