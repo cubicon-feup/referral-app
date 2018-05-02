@@ -3,8 +3,8 @@ defmodule App.Vouchers.Voucher do
   import Ecto.Changeset
 
   schema "vouchers" do
-    field(:code, :string)
-    belongs_to(:contract, App.Contracts.Contract, foreign_key: :contract_id)
+    field :code, :string
+    belongs_to :rule, App.Rules.Rule
 
     timestamps()
   end
@@ -12,7 +12,8 @@ defmodule App.Vouchers.Voucher do
   @doc false
   def changeset(voucher, attrs) do
     voucher
-    |> cast(attrs, [:code, :contract_id])
+    |> cast(attrs, [:code])
+    |> cast_assoc(:rule)
     |> validate_required([:code])
   end
 end
