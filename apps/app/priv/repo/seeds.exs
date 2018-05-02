@@ -23,7 +23,7 @@ influencer_create_attrs = %{address: "Rua Dr.Roberto Frias", nib: 258963147, nam
 {:ok, influencer} = App.Influencers.create_influencer(influencer_create_attrs)
 
 
-contract_create_attrs = %{current_amount: "120.5", is_requestable: true, minimum_amount_of_sales: "120.5", minimum_amout_of_views: 42, minimum_sales: "120.5", number_of_views: 42, percent_amount_on_sales: "120.5", send_notification_to_brand: true, send_notification_to_influencer: true, size_of_set_of_sales: 42, static_amount_on_sales: "120.5", static_amount_on_set_of_sales: "120.5", static_amount_on_views: "120.5", time_between_payments: 42, influencer_id: influencer.id, brand_id: brand.id}
+contract_create_attrs = %{influencer_id: influencer.id, brand_id: brand.id}
 {:ok, contract} = App.Contracts.create_contract(contract_create_attrs)
 
 

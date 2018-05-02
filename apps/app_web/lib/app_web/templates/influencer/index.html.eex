@@ -21,7 +21,6 @@
               <th>Name</th>
               <th>Address</th>
               <th>Nib</th>
-              <th>Code</th>
 
               <th></th>
             </tr>
@@ -32,7 +31,6 @@
                   <td><%= influencer.name %></td>
                   <td><%= influencer.address %></td>
                   <td><%= influencer.nib %></td>
-                  <td><%= influencer.code %></td>
 
                   <td class="text-right">
                     <span><%= link "Show", to: influencer_path(@conn, :show, influencer), class: "btn btn-default btn-xs" %></span>
