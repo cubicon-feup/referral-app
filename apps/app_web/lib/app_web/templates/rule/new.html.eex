@@ -1,0 +1,5 @@
+<h2>New Rule</h2>
+
+<%= render "form.html", Map.put(assigns, :action, rule_path(@conn, :create)) %>
+
+<span><%= link "Back", to: rule_path(@conn, :index) %></span>

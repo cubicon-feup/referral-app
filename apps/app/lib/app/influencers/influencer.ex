@@ -2,7 +2,6 @@ defmodule App.Influencers.Influencer do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "influencers" do
     field :address, :string
     field :name, :string

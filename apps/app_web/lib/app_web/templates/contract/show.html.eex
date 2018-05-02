@@ -3,83 +3,31 @@
 <ul>
 
   <li>
-    <strong>Static amount on sales:</strong>
-    <%= @contract.static_amount_on_sales %>
+    <strong>Influencer:</strong>
+    <%= @contract.influencer_id %>
   </li>
 
   <li>
-    <strong>Percent amount on sales:</strong>
-    <%= @contract.percent_amount_on_sales %>
-  </li>
-
-  <li>
-    <strong>Static amount on set of sales:</strong>
-    <%= @contract.static_amount_on_set_of_sales %>
-  </li>
-
-  <li>
-    <strong>Size of set of sales:</strong>
-    <%= @contract.size_of_set_of_sales %>
-  </li>
-
-  <li>
-    <strong>Static amount on views:</strong>
-    <%= @contract.static_amount_on_views %>
-  </li>
-
-  <li>
-    <strong>Number of views:</strong>
-    <%= @contract.number_of_views %>
-  </li>
-
-  <li>
-    <strong>Minimum amount of sales:</strong>
-    <%= @contract.minimum_amount_of_sales %>
-  </li>
-
-  <li>
-    <strong>Minimum amout of views:</strong>
-    <%= @contract.minimum_amout_of_views %>
-  </li>
-
-  <li>
-    <strong>Minimum sales:</strong>
-    <%= @contract.minimum_sales %>
-  </li>
-
-  <li>
-    <strong>Time between payments:</strong>
-    <%= @contract.time_between_payments %>
-  </li>
-
-  <li>
-    <strong>Current amount:</strong>
-    <%= @contract.current_amount %>
-  </li>
-
-  <li>
-    <strong>Is requestable:</strong>
-    <%= @contract.is_requestable %>
-  </li>
-
-  <li>
-    <strong>Send notification to influencer:</strong>
-    <%= @contract.send_notification_to_influencer %>
-  </li>
-
-  <li>
-    <strong>Send notification to brand:</strong>
-    <%= @contract.send_notification_to_brand %>
-  </li>
-
-  <li>
-    <strong>Brand ID:</strong>
+    <strong>Brand:</strong>
     <%= @contract.brand_id %>
   </li>
 
+  <li>
+    <strong>Minimum points:</strong>
+    <%= @contract.minimum_points %>
+  </li>
+
+  <li>
+    <strong>Payment period:</strong>
+    <%= @contract.payment_period %>
+  </li>
+
+  <li>
+    <strong>Points:</strong>
+    <%= @contract.points %>
+  </li>
 
 </ul>
 
-<span><%= link "Voucher", to: contract_voucher_path(@conn, :index, @contract) %></span>
 <span><%= link "Edit", to: contract_path(@conn, :edit, @contract) %></span>
 <span><%= link "Back", to: contract_path(@conn, :index) %></span>

@@ -2,6 +2,9 @@
 Dashboard UI
  */
 
+@import './custom';
+@import './influencer';
 @import './variables';
-@import './../node_modules/bootstrap/scss/bootstrap.scss';
 @import './dashboard/dashboard';
+@import './../node_modules/bootstrap/scss/bootstrap.scss';
+
