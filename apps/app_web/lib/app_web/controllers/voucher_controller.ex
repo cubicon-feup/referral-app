@@ -44,7 +44,8 @@ defmodule AppWeb.VoucherController do
         {:ok, %{:price_rule_id => Enum.at(split, 4, nil), :voucher_id => Enum.at(split, 6, nil)}}
 
       {:error, error} ->
-        IO.inspect(error)
+        #IO.inspect(error)
+        error
     end
   end
 
@@ -163,20 +164,21 @@ defmodule AppWeb.VoucherController do
 
     header =
       "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}"
-      |> IO.inspect()
+      #|> IO.inspect()
 
     case HTTPoison.post(url, "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}", [
            {"Content-Type", "application/json"}
          ]) do
       {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
-        IO.inspect(body)
-
+        #IO.inspect(body)
+        body
       {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
         # code already exists
-        IO.inspect(body)
-
+        #IO.inspect(body)
+        body
       {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect(reason, label: "erro:")
+        #IO.inspect(reason, label: "erro:")
+        reason
     end
   end
 end

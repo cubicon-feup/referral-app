@@ -6,9 +6,9 @@ defmodule App.InfluencersTest do
   describe "influencers" do
     alias App.Influencers.Influencer
 
-    @valid_attrs %{address: "some address", code: "some code", name: "some name", nib: 42}
-    @update_attrs %{address: "some updated address", code: "some updated code", name: "some updated name", nib: 43}
-    @invalid_attrs %{address: nil, code: nil, name: nil, nib: nil}
+    @valid_attrs %{address: "some address", name: "some name", nib: 42}
+    @update_attrs %{address: "some updated address", name: "some updated name", nib: 43}
+    @invalid_attrs %{address: nil, name: nil, nib: nil}
 
     def influencer_fixture(attrs \\ %{}) do
       {:ok, influencer} =
@@ -32,7 +32,6 @@ defmodule App.InfluencersTest do
     test "create_influencer/1 with valid data creates a influencer" do
       assert {:ok, %Influencer{} = influencer} = Influencers.create_influencer(@valid_attrs)
       assert influencer.address == "some address"
-      assert influencer.code == "some code"
       assert influencer.name == "some name"
       assert influencer.nib == 42
     end
@@ -46,7 +45,6 @@ defmodule App.InfluencersTest do
       assert {:ok, influencer} = Influencers.update_influencer(influencer, @update_attrs)
       assert %Influencer{} = influencer
       assert influencer.address == "some updated address"
-      assert influencer.code == "some updated code"
       assert influencer.name == "some updated name"
       assert influencer.nib == 43
     end
