@@ -1,17 +1,23 @@
-<h2>Listing Payments</h2>
+<div class="page-single">
+  <div class="boxedcontainer">
+<div class="row">
+  <h2 class= "col-6 col-sm-4">Vouchers</h2>
+  <div class="col-3 col-sm-3 text-right">Placeholderforcalendar</div> 
+</div>
+
+
 
 <table class="table">
   <thead>
     <tr>
-      <th>Influencer</th>
-      <th>Reward</th>
-      <th>Description</th>
-      <%# <th>Owner</th> %>
-      <th>Request</th>
-      <th>Deadline/Confirmed</th>
-      <th>Status</th>
-
-      <th></th>
+      <th>Voucher</th>
+      <th>Brand</th>
+      <th>Discount Type</th>
+      <th>Usage/Limit</th>
+      <th>Amount</th>
+      <th>Min. Spend</th>
+      <th>Products</th>
+      <th>Expiry date</th>
     </tr>
   </thead>
   <tbody>
@@ -40,3 +46,5 @@
 </table>
 
 <span><%= link "New Payment", to: payment_path(@conn, :new) %></span>
+</div>
+</div>

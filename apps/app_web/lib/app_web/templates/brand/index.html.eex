@@ -1,14 +1,21 @@
-<h2>Listing Brands</h2>
+<div class="page-single">
+  <div class="boxedcontainer">
+<div class="row">
+  <h2 class= "col-6 col-sm-4">Brands</h2>
+  <div class="col-6 col-sm-4 text-right">Placeholderforcalendar</div> 
+</div>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Hostname</th>
-      <th>Api key</th>
-      <th>Api password</th>
-
-      <th></th>
+      <th>Pos. <i class="fa fa-angle-down"></i> </th>
+      <th>Brands<i class="fa fa-angle-down"></i> </th>
+      <th>Brand Names<i class="fa fa-angle-down"></i> </th>
+      <th>Sales(#)<i class="fa fa-angle-down"></i> </th>      
+      <th>Revenue(€)<i class="fa fa-angle-down"></i> </th>
+      <th>Visitors<i class="fa fa-angle-down"></i> </th>
+      <th>To receive<i class="fa fa-angle-down"></i> </th>
+      <th>Received<i class="fa fa-angle-down"></i> </th>
     </tr>
   </thead>
   <tbody>
@@ -30,3 +37,5 @@
 </table>
 
 <span><%= link "New Brand", to: brand_path(@conn, :new) %></span>
+</div>
+</div>
