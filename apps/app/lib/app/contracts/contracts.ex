@@ -35,7 +35,10 @@ defmodule App.Contracts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_contract!(id), do: Repo.get!(Contract, id)
+  def get_contract!(id) do
+    contract =
+      Repo.get!(Contract, id)
+  end
 
   @doc """
   Creates a contract.
@@ -100,26 +103,5 @@ defmodule App.Contracts do
   """
   def change_contract(%Contract{} = contract) do
     Contract.changeset(contract, %{})
-  end
-
-  def add_points(%Contract{} = contract, add) do
-    #add_sale
-    new_points = Decimal.to_float(contract.points) + add
-
-    update_contract(contract, %{points: new_points})
-  end
-
-  def get_contract_by_brand_and_influencer(brand, influencer) do
-    query =
-      from(
-        c in Contract,
-        where: c.brand == ^brand and c.influencer == ^influencer,
-        select: %{contract_id: c.id, act_value: c.current_amount}
-      )
-
-    case Repo.all(query) do
-      [contract | _] -> contract |> Map.put("status", "ok")
-      _ -> %{status: "contract not found"}
-    end
   end
 end

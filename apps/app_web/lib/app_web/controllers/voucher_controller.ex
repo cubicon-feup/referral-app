@@ -5,78 +5,67 @@ defmodule AppWeb.VoucherController do
   alias App.Vouchers.Voucher
   alias App.Contracts
   alias App.Repo
+  alias App.Brands
 
-  def get_rules(contract_id, voucher) do
-    # contract = Contracts.get_contract!(contract_id)
+  def build_url(contract_id) do
+    contract = Contracts.get_contract!(contract_id)
 
-    # base_url = "https://" <> contract.brand.api_key <>":"<>contract.brand.api_password<>"@"<>contract.brand.hostname
-    # url = base_url<>"/admin/discount_codes/lookup.json?code="<>voucher.code
-    # case HTTPoison.get(url) do
-    #   {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-    #     IO.inspect body, label: "response:"
-    #   {:ok, %HTTPoison.Response{status_code: 404}} ->
-    #    IO.puts "Not found :("
-    #   {:ok, %HTTPoison.Response{status_code: 303, headers: headers}} ->
-    #       price_rule_id = List.keyfind(headers, "Location", 0)
-    #       |> elem(1)
-    #       |> String.split("/", trim: true)
-    #       |> Enum.at(4,nil)
-    #       case HTTPoison.get(base_url<>"/admin/price_rules/#{price_rule_id}.json") do
-    #         {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-    #           price_rule = Poison.Parser.parse!(body)
-    #           |> get_in(["price_rule"])
-    #           #price_rule = Poison.decode!(body)
-    #         {:ok, %HTTPoison.Response{status_code: 404}} ->
-    #          IO.puts "Not found :("
-    #       end
-    #       discount_code_id = List.keyfind(headers, "Location", 0)
-    #       |> elem(1)
-    #       |> String.split("/", trim: true)
-    #       |> Enum.at(6,nil)
-    #       case HTTPoison.get(base_url<>"/admin/price_rules/#{price_rule_id}/discount_codes/#{discount_code_id}.json") do
-    #         {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-    #           discount_code = Poison.Parser.parse!(body)
-    #           |> get_in(["discount_code"])
-    #         {:ok, %HTTPoison.Response{status_code: 404}} ->
-    #          IO.puts "Not found :("
-    #       end
-
-    #     IO.inspect   [price_rule, discount_code]
-    #   {:error, %HTTPoison.Error{reason: reason}} ->
-    #     IO.inspect "Media: #{reason}!"
-    # end
+    base_url =
+      "https://" <>
+        contract.brand.api_key <>
+        ":" <> contract.brand.api_password <> "@" <> contract.brand.hostname
   end
 
-  def index(conn, _params) do
+  def lookup_voucher(voucher) do
+    url =
+      build_url(voucher.contract_id) <> "/admin/discount_codes/lookup.json?code=" <> voucher.code
 
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        {:error, "200"}
+
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        {:error, "404"}
+
+      {:ok, %HTTPoison.Response{status_code: 303, headers: headers}} ->
+        location =
+          List.keyfind(headers, "Location", 0)
+          |> elem(1)
+
+        {:ok, location}
+    end
+  end
+
+  def get_rules_id(voucher) do
+    case lookup_voucher(voucher) do
+      {:ok, location} ->
+        split = String.split(location, "/", trim: true)
+
+        {:ok, %{:price_rule_id => Enum.at(split, 4, nil), :voucher_id => Enum.at(split, 6, nil)}}
+
+      {:error, error} ->
+        #IO.inspect(error)
+        error
+    end
   end
 
   def index(conn, %{"contract_id" => contract_id}) do
-    # case  Vouchers.get_voucher_by_contract!(contract_id) do
-    #   {:ok, voucher} ->
-    #   rules = get_rules(contract_id,voucher)
-    #   #devo fazer o get aqui ou na View?
-    #   render(conn, "show.html", voucher: voucher, price_rule: Enum.at(rules, 0))
-    #   {:error, _} ->
-    #     conn
-    #     |> put_flash(:info, "There is no voucher associated with this contract.")
-    #     |> redirect(to: contract_voucher_path(conn, :new, contract_id))
-    #   end
+    vouchers = Vouchers.get_vouchers_by_contract!(contract_id)
+    render(conn, "index.html", vouchers: vouchers)
   end
 
   def new(conn, _params) do
-    changeset =
-      conn.assigns[:contract]
-      |> Ecto.build_assoc(:voucher)
-      |> Vouchers.change_voucher()
-
+    changeset = Vouchers.change_voucher(%Voucher{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"voucher" => voucher_params}) do
-    changeset =
-      conn.assigns[:contract]
-      |> Ecto.build_assoc(:voucher)
+    contract = conn.assigns.contract
+
+    price_rule_id = Map.get(voucher_params, "price_rule_id", nil)
+    voucher_params = Map.put(voucher_params, "contract_id", contract.id)
+    brand_id = Plug.Conn.get_session(conn, :brand_id)
+    post_discount(voucher_params["code"], price_rule_id, brand_id)
 
     case Vouchers.create_voucher(voucher_params) do
       {:ok, _voucher} ->
@@ -90,8 +79,29 @@ defmodule AppWeb.VoucherController do
   end
 
   def show(conn, %{"id" => id}) do
-    voucher = Repo.get!(Ecto.assoc(conn.assigns[:contract], :voucher), id)
-    render(conn, "show.html", voucher: voucher)
+    case Vouchers.get_voucher!(id) do
+      {:ok, voucher} ->
+        case get_rules_id(voucher) do
+          {:ok, %{:price_rule_id => price_rule_id, :voucher_id => voucher_id}} ->
+            render(
+              conn,
+              "show.html",
+              voucher: voucher,
+              price_rule_id: price_rule_id,
+              voucher_id: voucher_id
+            )
+
+          {:error, _} ->
+            conn
+            |> put_flash(:info, "There is no voucher associated with this contract.")
+            |> redirect(to: contract_voucher_path(conn, :new, id))
+        end
+
+      {:error, _} ->
+        conn
+        |> put_flash(:info, "There is no voucher associated with this contract.")
+        |> redirect(to: contract_voucher_path(conn, :new, id))
+    end
   end
 
   def edit(conn, %{"id" => id}) do
@@ -102,25 +112,6 @@ defmodule AppWeb.VoucherController do
 
   def update(conn, %{"id" => id, "voucher" => voucher_params}) do
     voucher = Vouchers.get_voucher!(id)
-
-    url =
-      "https://e1c4afd5632958dd66626a3257ac72d7:b36782cbdc2d7991f2c804bcd63a9246@duarte-store-29.myshopify.com/admin/price_rules/" <>
-        voucher_params["price_rule_id"] <> "/discount_codes.json"
-
-    body = "{
-                \"discount_code\": {
-                  \"code\": \"FREESHIPPINGPOST\"
-                }
-              }"
-    # IO.inspect body, label: "PARAMS:!!!!!"
-    headers = [{"Content-type", "application/json"}]
-
-    # case HTTPoison.post(url, body, headers, []) do
-    #   {:ok, response} ->
-    #     IO.inspect "Media: OK!"
-    #   {:error, %HTTPoison.Error{reason: reason}} ->
-    #     IO.inspect "Media: #{reason}!"
-    # end
 
     case Vouchers.update_voucher(voucher, voucher_params) do
       {:ok, voucher} ->
@@ -164,18 +155,30 @@ defmodule AppWeb.VoucherController do
     |> halt
   end
 
-  defp post_voucher(conn, %{"voucher" => voucher_params, "price_rule_id" => price_rule_id}) do
-    # changeset = conn.assigns[:contract]
-    # |> Ecto.build_assoc(:voucher)
-    # IO.inspect(price_rule_id, "Rule::::")
+  def post_discount(voucher_code, price_rule_id, brand_id) do
+    brand = Brands.get_brand!(brand_id)
 
-    # case Vouchers.create_voucher(voucher_params) do
-    #   {:ok, _voucher} ->
-    #     conn
-    #     |> put_flash(:info, "Voucher created successfully.")
-    #     |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
-    #     {:error, %Ecto.Changeset{} = changeset} ->
-    #       render(conn, "new.html", changeset: changeset)
-    #     end
+    base_url = "https://" <> brand.api_key <> ":" <> brand.api_password <> "@" <> brand.hostname
+
+    url = base_url <> "/admin/price_rules/#{price_rule_id}/discount_codes.json"
+
+    header =
+      "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}"
+      #|> IO.inspect()
+
+    case HTTPoison.post(url, "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}", [
+           {"Content-Type", "application/json"}
+         ]) do
+      {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
+        #IO.inspect(body)
+        body
+      {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
+        # code already exists
+        #IO.inspect(body)
+        body
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        #IO.inspect(reason, label: "erro:")
+        reason
+    end
   end
 end

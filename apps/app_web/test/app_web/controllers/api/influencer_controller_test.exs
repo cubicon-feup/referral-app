@@ -4,9 +4,9 @@ defmodule AppWeb.Api.InfluencerControllerTest do
   alias App.Influencers
   alias App.Influencers.Influencer
 
-  @create_attrs %{address: "some address", code: "some code", name: "some name", nib: 42}
-  @update_attrs %{address: "some updated address", code: "some updated code", name: "some updated name", nib: 43}
-  @invalid_attrs %{address: nil, code: nil, name: nil, nib: nil}
+  @create_attrs %{address: "some address", name: "some name", nib: 42}
+  @update_attrs %{address: "some updated address", name: "some updated name", nib: 43}
+  @invalid_attrs %{address: nil, name: nil, nib: nil}
 
   def fixture(:influencer) do
     {:ok, influencer} = Influencers.create_influencer(@create_attrs)
@@ -26,7 +26,6 @@ defmodule AppWeb.Api.InfluencerControllerTest do
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "address" => "some address",
-        "code" => "some code",
         "name" => "some name",
         "nib" => 42}
     end
@@ -48,7 +47,6 @@ defmodule AppWeb.Api.InfluencerControllerTest do
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "address" => "some updated address",
-        "code" => "some updated code",
         "name" => "some updated name",
         "nib" => 43}
     end

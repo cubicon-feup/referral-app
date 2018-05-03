@@ -8,7 +8,7 @@ defmodule AppWeb.PaymentControllerTest do
   @update_attrs %{type: "money", value: "456.7", status: "complete"}
   @invalid_attrs %{type: nil, value: nil}
 
-  @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42}
+  @valid_attrs_influencer %{address: "some address", name: "some name", nib: 42}
 
 
   def influencer_fixture() do
@@ -20,10 +20,10 @@ defmodule AppWeb.PaymentControllerTest do
   def fixture(:payment) do
     influencer = influencer_fixture()
 
-    {:ok, payment} = 
+    {:ok, payment} =
       Enum.into(%{influencer_id: influencer.id}, @create_attrs)
       |> Payments.create_payment()
-    
+
     Payments.get_payment!(payment.id)
   end
 
