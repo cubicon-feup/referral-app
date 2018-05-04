@@ -12,6 +12,11 @@
     <%= @sale.value %>
   </li>
 
+  <li>
+    <strong>Contract ID:</strong>
+    <%= @sale.contract_id %>
+  </li>
+
 </ul>
 
 <span><%= link "Edit", to: sale_path(@conn, :edit, @sale) %></span>

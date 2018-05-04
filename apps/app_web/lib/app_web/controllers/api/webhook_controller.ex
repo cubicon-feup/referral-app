@@ -7,6 +7,8 @@ defmodule AppWeb.WebhookController do
   alias App.Influencers.Influencer
   alias App.Contracts
   alias App.Contracts.Contract
+  alias App.Sales
+  alias App.Sales.Sale
 
   def handleData(conn, params) do
     discount_codes = conn.body_params["discount_codes"]
@@ -37,12 +39,24 @@ defmodule AppWeb.WebhookController do
       end
 
     for influencer <- influencers do
-      contract = Contracts.get_contract_by_brand_and_influencer(brand, influencer)
-
-      c = Contracts.get_contract!(contract[:contract_id])
-      new_value = contract[:act_value] + trunc(value * 0.1)
-
-      {:ok, c} = Contracts.update_contract(c, %{points: new_value})
+      percentage = 0.1
+      updateContract(influencer, brand, value, percentage)
     end
+  end
+
+  def updateContract(influencer, brand, value, percentage) do
+    contract = Contracts.get_contract_by_brand_and_influencer(brand, influencer)
+
+    c = Contracts.get_contract!(contract[:contract_id])
+    new_value = contract[:act_value] + trunc(value * percentage)
+
+    {:ok, c} = Contracts.update_contract(c, %{points: new_value})
+
+    {:ok, sale} =
+      Sales.create_sale(%{
+        date: DateTime.utc_now(),
+        value: value,
+        contract_id: contract[:contract_id]
+      })
   end
 end
