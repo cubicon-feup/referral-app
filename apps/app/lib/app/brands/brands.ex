@@ -40,7 +40,7 @@ defmodule App.Brands do
 
   def get_brand(id), do: Repo.get(Brand, id)
 
-  def get_brand_by_user(user_id), do: Repo.get_by(Brand, user_id: user_id) 
+  def get_brand_by_user(user_id), do: Repo.get_by(Brand, user_id: user_id)
 
   @doc """
   Gets a all influencers of a brand.
@@ -125,7 +125,7 @@ defmodule App.Brands do
     Brand.changeset(brand, %{})
   end
 
-  def get_brand_by_hostname(hostname) do
+  def get_brand_id_by_hostname(hostname) do
     query =
       from(
         b in Brand,

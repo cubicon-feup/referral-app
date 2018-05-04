@@ -16,14 +16,9 @@ defmodule App.Auth.Webhook do
     #
     # data = Poison.encode!(conn.body_params)
     #
-    # IO.inspect(conn)
-    # IO.inspect(hash)
-    #
     # hmac =
     #   :crypto.hmac(:sha256, secret_key, data)
     #   |> Base.encode64()
-    #
-    # IO.inspect(hmac)
 
     conn
   end

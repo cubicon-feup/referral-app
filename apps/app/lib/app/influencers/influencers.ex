@@ -102,7 +102,7 @@ defmodule App.Influencers do
     Influencer.changeset(influencer, %{})
   end
 
-  def get_influencer_by_code(code) do
+  def get_influencer_id_by_code(code) do
     query =
       from(
         i in Influencer,
@@ -116,6 +116,5 @@ defmodule App.Influencers do
     end
   end
 
-  def get_influencer_by_user(user_id), do: Repo.get_by(Influencer, user_id: user_id) 
-
+  def get_influencer_by_user(user_id), do: Repo.get_by(Influencer, user_id: user_id)
 end

@@ -102,17 +102,6 @@ defmodule App.Contracts do
     Contract.changeset(contract, %{})
   end
 
-  def get_contract_by_brand_and_influencer(brand, influencer) do
-    query =
-      from(
-        c in Contract,
-        where: c.brand_id == ^brand and c.influencer_id == ^influencer,
-        select: %{contract_id: c.id, act_value: c.points}
-      )
-
-    case Repo.all(query) do
-      [contract | _] -> contract |> Map.put("status", "ok")
-      _ -> %{status: "contract not found"}
-    end
-  end
+  def get_contract_by_brand_and_influencer(brand_id, influencer_id),
+    do: Repo.get_by(Contract, brand_id: brand_id, influencer_id: influencer_id)
 end
