@@ -119,46 +119,69 @@ defmodule App.Vouchers do
     Repo.all(from(voucher in Voucher, where: [contract_id: ^contract_id]))
   end
 
-
   def add_sale(%Voucher{} = voucher, sale_value) do
-    #add_sale
+    # add_sale
     new_counter = voucher.sales_counter + 1
 
-    #calculate points
-    fixed = if (voucher.set_of_sales != 0 and Integer.mod(new_counter, voucher.set_of_sales) == 0) do
-      Decimal.to_float(voucher.points_on_sales)
-    else
-      0
-    end
+    # calculate points
+    fixed =
+      if voucher.set_of_sales != 0 and Integer.mod(new_counter, voucher.set_of_sales) == 0 do
+        Decimal.to_float(voucher.points_on_sales)
+      else
+        0
+      end
+
     percent = Float.floor(Decimal.to_float(voucher.percent_on_sales) * sale_value, 2)
     points = fixed + percent
 
-    #check if not zero
-    if (points != 0) do
+    # check if not zero
+    if points != 0 do
       contract = Contracts.get_contract!(voucher.contract_id)
       Contracts.add_points(contract, points)
     end
-    #update
+
+    # update
     update_voucher(voucher, %{sales_counter: new_counter})
   end
 
   def add_view(%Voucher{} = voucher) do
-    #add_sale
+    # add_sale
     new_counter = voucher.views_counter + 1
 
-    #calculate points
-    points = if (voucher.set_of_views != 0 and Integer.mod(new_counter, voucher.set_of_views) == 0) do
-      Decimal.to_float(voucher.points_on_views)
-    else
-      0
-    end
+    # calculate points
+    points =
+      if voucher.set_of_views != 0 and Integer.mod(new_counter, voucher.set_of_views) == 0 do
+        Decimal.to_float(voucher.points_on_views)
+      else
+        0
+      end
 
-    #check if not zero
-    if (points != 0) do
+    # check if not zero
+    if points != 0 do
       contract = Contracts.get_contract!(voucher.contract_id)
       Contracts.add_points(contract, points)
     end
-    #update
+
+    # update
     update_voucher(voucher, %{views_counter: new_counter})
+  end
+
+  def get_voucher_by_code_and_brand_hostname(code, brand_hostname) do
+    voucher =
+      Repo.one(
+        from(
+          v in Voucher,
+          join: c in assoc(v, :contract),
+          join: b in assoc(c, :brand),
+          preload: [{:contract, :brand}],
+          where: v.code == ^code and b.hostname == ^brand_hostname
+        )
+      )
+
+    #   Repo.get_by(Voucher, code: code)
+    #   |> Repo.preload(:contract)
+    #   |> Repo.preload(contract: :brand)
+    #
+    # IO.inspect(vouchers.contract.brand.hostname, label: "vouchers")
   end
 end
