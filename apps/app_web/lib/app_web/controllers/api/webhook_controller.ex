@@ -41,22 +41,24 @@ defmodule AppWeb.WebhookController do
       |> Enum.filter(&(!is_nil(&1)))
 
     IO.inspect(vouchers, label: "voucher")
-    # for voucher <- vouchers do
-    #   updateContract(voucher, brand, value)
-    # end
+
+    for voucher <- vouchers do
+      updateContract(voucher, value)
+    end
   end
 
-  # def updateContract(voucher, brand, value) do
-  #   contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer_id)
-  #   new_value = contract.points + trunc(value * percentage)
-  #
-  #   {:ok, contract} = Contracts.update_contract(contract, %{points: new_value})
-  #
-  #   {:ok, sale} =
-  #     Sales.create_sale(%{
-  #       date: DateTime.utc_now(),
-  #       value: value,
-  #       contract_id: contract.id
-  #     })
-  # end
+  def updateContract(voucher, value) do
+    contract = voucher.contract
+
+    new_value = contract.points + trunc(value * 0.1)
+
+    {:ok, contract} = Contracts.update_contract(contract, %{points: new_value})
+
+    # {:ok, sale} =
+    #   Sales.create_sale(%{
+    #     date: DateTime.utc_now(),
+    #     value: value,
+    #     voucher: voucher
+    #   })
+  end
 end
