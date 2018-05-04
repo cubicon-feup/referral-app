@@ -8,7 +8,7 @@ defmodule App.ContractsTest do
   describe "contracts" do
     alias App.Contracts.Contract
 
-    @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42, contact: "some contact"}
+    @valid_attrs_influencer %{address: "some address", name: "some name", nib: 42, contact:"some contact"}
     @valid_attrs_brand %{api_key: "some api_key", api_password: "some api_password", hostname: "some hostname", name: "some name"}
 
     @valid_attrs %{minimum_points: 42, payment_period: 42, points: 42}
@@ -17,13 +17,13 @@ defmodule App.ContractsTest do
 
     def influencer_fixture() do
       {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
-  
+
       influencer
     end
 
     def brand_fixture() do
       {:ok, brand} = Brands.create_brand(@valid_attrs_brand)
-  
+
       brand
     end
 
@@ -54,7 +54,7 @@ defmodule App.ContractsTest do
       influencer = influencer_fixture()
       brand = brand_fixture()
 
-      assert {:ok, %Contract{} = contract} = 
+      assert {:ok, %Contract{} = contract} =
         %{influencer_id: influencer.id, brand_id: brand.id}
         |> Enum.into(@valid_attrs)
         |> Contracts.create_contract()

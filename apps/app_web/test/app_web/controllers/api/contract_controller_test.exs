@@ -6,7 +6,7 @@ defmodule AppWeb.Api.ContractControllerTest do
   alias App.Influencers
   alias App.Brands
 
-  @valid_attrs_influencer %{address: "some address", code: "some code", name: "some name", nib: 42, contact: "some contact"}
+  @valid_attrs_influencer %{address: "some address", name: "some name", nib: 42, contact: "some contact"}
   @valid_attrs_brand %{api_key: "some api_key", api_password: "some api_password", hostname: "some hostname", name: "some name"}
 
   @create_attrs %{minimum_points: 42, payment_period: 42, points: 42}

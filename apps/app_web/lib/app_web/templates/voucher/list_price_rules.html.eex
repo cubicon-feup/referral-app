@@ -1,0 +1,15 @@
+<h2>Existing Price Rules</h2>
+<% price_rules =
+  Plug.Conn.get_session(@conn, :brand_id)
+  |> get_price_rules() %>
+  <%= for rule <- price_rules do  %>
+    <p>
+      <%= Map.get(rule, "title")  %>
+       -
+      <%= Map.get(rule, "id")  %> 
+    </p>
+  <%=end%>
+    <tr>
+
+
+    </tr>

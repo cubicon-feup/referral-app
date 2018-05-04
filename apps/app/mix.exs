@@ -14,16 +14,16 @@ defmodule App.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
-      deps: deps(), 
-      test_coverage: [ 
-        tool: ExCoveralls 
-      ], 
-      preferred_cli_env: [ 
-        "coveralls": :test, 
-        "coveralls.detail": :test, 
-        "coveralls.post": :test, 
-        "coveralls.html": :test 
-      ] 
+      deps: deps(),
+      test_coverage: [
+        tool: ExCoveralls
+      ],
+      preferred_cli_env: [
+        "coveralls": :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -66,8 +66,9 @@ defmodule App.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
+      "ecto.seed": ["run priv/repo/seeds.exs"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end

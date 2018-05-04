@@ -14,7 +14,6 @@ defmodule AppWeb.Api.InfluencerView do
     %{id: influencer.id,
       name: influencer.name,
       address: influencer.address,
-      nib: influencer.nib,
-      code: influencer.code}
+      nib: influencer.nib}
   end
 end
