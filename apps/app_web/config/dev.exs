@@ -40,5 +40,3 @@ config :app_web, AppWeb.Endpoint,
       ~r{lib/app_web/templates/.*(eex)$}
     ]
   ]
-
-
