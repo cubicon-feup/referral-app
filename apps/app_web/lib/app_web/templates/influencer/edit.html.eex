@@ -1,5 +1,131 @@
-<h2>Edit Influencer</h2>
 
-<%= render "form.html", Map.put(assigns, :action, influencer_path(@conn, :update, @influencer)) %>
+<div class="my-3 my-md-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="card card-profile">
+                  <div class="card-header" style="background-image: url(demo/photos/eberhard-grossgasteiger-311213-500.jpg);"></div>
+                  <div class="card-body text-center">
+                    <img class="card-profile-img" src="demo/faces/male/16.jpg">
+                    <h3 class="mb-3">Peter Richards</h3>
+                    <p class="mb-4">
+                      Big belly rude boy, million dollar hustler. Unemployed.
+                    </p>
+                    <button class="btn btn-outline-primary btn-sm">
+                      <span class="fa fa-twitter"></span> Follow
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <form class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Name</label>
+                          <input type="text" class="form-control"  placeholder="Company" >
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Birthday Date</label>
+                          <input type="text" class="form-control" placeholder="Username" >
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Default Voucher Name</label>
+                          <input type="email" class="form-control" placeholder="Email">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Adress</label>
+                          <input type="text" class="form-control" placeholder="Company" >
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Email</label>
+                          <input type="text" class="form-control" placeholder="Last Name" >
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Phone Number</label>
+                          <input type="text" class="form-control" placeholder="Home Address" >
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Agency</label>
+                          <input type="text" class="form-control" placeholder="Agency">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Account Manager</label>
+                          <input type="text" class="form-control" placeholder="Agency">
+                        </div>
+                      </div>
+                    <div class="col-md-12">
+                      <label class="custom-control custom-checkbox custom-control-inline">
+                              <input type="checkbox" class="custom-control-input" name="example-inline-checkbox1" value="option1" checked="">
+                              <span class="custom-control-label">i give permission for my agency to manage my account</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h5>Brands</h5>
+                      <h6>lorem,ipsum,teste</h6>
+                    </div>
+                  </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h4>Social Media</h4>
+                      </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">Facebook</label>
+                        <input type="text" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">Instagram</label>
+                        <input type="text" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">LinkedIn</label>
+                        <input type="text" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">Personal Website</label>
+                        <input type="text" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="card-footer text-right">
+                    <div class="row">
+                    <div class="col-md-6 col-6 text-left">
+                      <button type="submit" class="btn btn">Deactivate Account</button>
+                    </div>
+                    <div class="col-md-6 col-6 text-right">
+                      <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                  </div>
+                  </div>
+                </form>
 
+              </div>
+            </div>
+          </div>
+        </div>
 <span><%= link "Back", to: influencer_path(@conn, :index) %></span>
