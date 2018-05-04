@@ -17,11 +17,6 @@
     <%= @influencer.nib %>
   </li>
 
-  <li>
-    <strong>Code:</strong>
-    <%= @influencer.code %>
-  </li>
-
 </ul>
 
 <span><%= link "Edit", to: influencer_path(@conn, :edit, @influencer) %></span>

@@ -3,21 +3,15 @@ defmodule AppWeb.InfluencerControllerTest do
 
   alias App.Influencers
 
-  @create_attrs %{address: "some address", code: "some code", name: "some name", nib: 42}
-  @update_attrs %{address: "some updated address", code: "some updated code", name: "some updated name", nib: 43}
-  @invalid_attrs %{address: nil, code: nil, name: nil, nib: nil}
+  @create_attrs %{address: "some address", name: "some name", nib: 42}
+  @update_attrs %{address: "some updated address", name: "some updated name", nib: 43}
+  @invalid_attrs %{address: nil, name: nil, nib: nil}
 
   def fixture(:influencer) do
     {:ok, influencer} = Influencers.create_influencer(@create_attrs)
     influencer
   end
 
-  describe "index" do
-    test "lists all influencers", %{conn: conn} do
-      conn = get conn, influencer_path(conn, :index)
-      assert html_response(conn, 200) =~ "Listing Influencers"
-    end
-  end
 
   describe "new influencer" do
     test "renders form", %{conn: conn} do

@@ -217,7 +217,6 @@ defmodule AppWeb.UserController do
     case Brands.get_brand_by_user(user.id) do
       nil ->
         conn
-
       brand ->
         conn |> put_session(:brand_id, brand.id)
     end

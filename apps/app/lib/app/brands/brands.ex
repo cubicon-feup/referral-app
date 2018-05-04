@@ -8,7 +8,7 @@ defmodule App.Brands do
 
   alias App.Brands.Brand
   alias App.Influencers.Influencer
-
+  alias App.Contracts.Contract
   @doc """
   Returns the list of brands.
 

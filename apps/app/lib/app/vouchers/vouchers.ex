@@ -5,6 +5,7 @@ defmodule App.Vouchers do
 
   import Ecto.Query, warn: false
   alias App.Repo
+  alias App.Contracts
 
   alias App.Vouchers.Voucher
 
@@ -18,7 +19,7 @@ defmodule App.Vouchers do
 
   """
   def list_vouchers do
-    Repo.all(Voucher)
+    Ecto.assoc(Voucher, :contracts)
   end
 
   @doc """
@@ -35,7 +36,19 @@ defmodule App.Vouchers do
       ** (Ecto.NoResultsError)
 
   """
-  def get_voucher!(id), do: Repo.get!(Voucher, id)
+  def get_voucher!(id) do
+    voucher =
+      Repo.get!(Voucher, id)
+      |> Repo.preload(:contract)
+
+    case voucher do
+      voucher ->
+        {:ok, voucher}
+
+      nil ->
+        {:error, :not_found}
+    end
+  end
 
   @doc """
   Creates a voucher.
@@ -100,5 +113,52 @@ defmodule App.Vouchers do
   """
   def change_voucher(%Voucher{} = voucher) do
     Voucher.changeset(voucher, %{})
+  end
+
+  def get_vouchers_by_contract!(contract_id) do
+    Repo.all(from(voucher in Voucher, where: [contract_id: ^contract_id]))
+  end
+
+
+  def add_sale(%Voucher{} = voucher, sale_value) do
+    #add_sale
+    new_counter = voucher.sales_counter + 1
+
+    #calculate points
+    fixed = if (voucher.set_of_sales != 0 and Integer.mod(new_counter, voucher.set_of_sales) == 0) do
+      Decimal.to_float(voucher.points_on_sales)
+    else
+      0
+    end
+    percent = Float.floor(Decimal.to_float(voucher.percent_on_sales) * sale_value, 2)
+    points = fixed + percent
+
+    #check if not zero
+    if (points != 0) do
+      contract = Contracts.get_contract!(voucher.contract_id)
+      Contracts.add_points(contract, points)
+    end
+    #update
+    update_voucher(voucher, %{sales_counter: new_counter})
+  end
+
+  def add_view(%Voucher{} = voucher) do
+    #add_sale
+    new_counter = voucher.views_counter + 1
+
+    #calculate points
+    points = if (voucher.set_of_views != 0 and Integer.mod(new_counter, voucher.set_of_views) == 0) do
+      Decimal.to_float(voucher.points_on_views)
+    else
+      0
+    end
+
+    #check if not zero
+    if (points != 0) do
+      contract = Contracts.get_contract!(voucher.contract_id)
+      Contracts.add_points(contract, points)
+    end
+    #update
+    update_voucher(voucher, %{views_counter: new_counter})
   end
 end

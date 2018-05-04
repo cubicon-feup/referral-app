@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   </head>
 
   <body data-js-view-name="<%= js_view_name(@conn) %>">
@@ -45,9 +45,7 @@
     <div class="page">
       <div class="page-main">
         <%= if Guardian.Plug.current_resource(@conn) do %>
-          <div class="header py-4">
-            <%= render Elixir.AppWeb.LayoutView, "header.html", assigns %>
-          </div>
+          <%= render Elixir.AppWeb.LayoutView, "header.html", assigns %>
         <% else %>
         <div class="login-header">
           <div class="container">
@@ -149,7 +147,9 @@
                 </div>
               </div>
         </main>
-        <%= render @view_module, @view_template, assigns %>
+        <div class="my-3 my-md-5">
+          <%= render @view_module, @view_template, assigns %>
+        </div>
       </div>
 
       <%= if Guardian.Plug.current_resource(@conn) do %>
@@ -162,5 +162,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   </body>
 </html>
