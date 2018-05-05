@@ -11,13 +11,16 @@ defmodule AppWeb.PaymentController do
   end
 
   def new(conn, _params) do
+    brand_id = Plug.Conn.get_session(conn, :brand_id)
     influencers = Brands.get_brand_influencers(1)
     changeset = Payments.change_payment(%Payment{})
     render(conn, "new.html", changeset: changeset, influencers: influencers)
   end
 
   def create(conn, %{"payment" => payment_params}) do
-    case Payments.create_payment(payment_params) do
+    params = %{"brand_id" => Plug.Conn.get_session(conn, :brand_id)}
+      |> Enum.into(payment_params)
+    case Payments.create_payment(params) do
       {:ok, payment} ->
         conn
         |> put_flash(:info, "Payment created successfully.")

@@ -1,43 +1,78 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<div class="col-lg-12">
+  <%= form_for @changeset, @action, fn f -> %>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Choose Influencer</h3>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <%= label f, :influencer_id, class: "form-label" %>
+          <%= select f, :influencer_id, Enum.map(@influencers, &{&1.name, &1.id}), class: "form-control custom-select", id: "select-influencer" %>
+          <%= error_tag f, :influencer_id %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Status</h3>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <div class="form-label">Payment Status</div>
+          <div class="custom-controls-stacked">
+            <label class="custom-control custom-radio custom-control-inline">
+              <input type="radio" class="custom-control-input" name="example-inline-radios" value="pending" checked="">
+              <span class="custom-control-label">Pending</span>
+            </label>
+            <label class="custom-control custom-radio custom-control-inline">
+              <input type="radio" class="custom-control-input" name="example-inline-radios" value="complete">
+              <span class="custom-control-label">Completed</span>
+            </label>
+            <!--label class="custom-control custom-radio custom-control-inline">
+              <input type="radio" class="custom-control-input" name="example-inline-radios" value="option3">
+              <span class="custom-control-label">Option 3</span>
+            </label-->
+          </div>
+        </div>
+
+        <!--TODO DATE-->
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Status</h3>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <%= label f, :type, class: "control-label" %>
+          <%= select f, :type, [
+              [key: "Cash", value: "money"],
+              [key: "Voucher", value: "voucher"],
+              [key: "In Kind", value: "products"]],
+            class: "form-control" %>
+          <%= error_tag f, :type %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :value, class: "control-label" %>
+          <%= number_input f, :value, step: "any", min: 0, class: "form-control" %>
+          <%= error_tag f, :value %>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="form-group">
+      <%= submit "Create", class: "btn btn-primary" %>
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= label f, :influencer_id, class: "control-label" %>
-    <%= select f, :influencer_id, Enum.map(@influencers, &{&1.name, &1.id}), class: "form-control" %>
-    <%= error_tag f, :influencer_id %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :type, class: "control-label" %>
-    <%= select f, :type, [
-        [key: "Cash", value: "money"],
-        [key: "Voucher", value: "voucher"],
-        [key: "In Kind", value: "products"]],
-      class: "form-control" %>
-    <%= error_tag f, :type %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :status, class: "control-label" %>
-    <%= select f, :status, [
-        [key: "Pending", value: "pending"],
-        [key: "Cancelled", value: "cancelled"],
-        [key: "Complete", value: "complete"]],
-      class: "form-control" %>
-    <%= error_tag f, :status %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :value, class: "control-label" %>
-    <%= number_input f, :value, step: "any", min: 0, class: "form-control" %>
-    <%= error_tag f, :value %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
-<% end %>
+</div>
