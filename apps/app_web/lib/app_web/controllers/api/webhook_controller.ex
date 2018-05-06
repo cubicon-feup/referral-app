@@ -50,7 +50,12 @@ defmodule AppWeb.WebhookController do
   def updateContract(voucher, value) do
     contract = voucher.contract
 
-    new_value = contract.points + trunc(value * 0.1)
+    percent_on_sales =
+      List.to_float(Decimal.to_string(voucher.percent_on_sales) |> String.to_charlist())
+
+    points_value = List.to_float(Decimal.to_string(contract.points) |> String.to_charlist())
+
+    new_value = points_value + trunc(value * percent_on_sales)
 
     {:ok, contract} = Contracts.update_contract(contract, %{points: new_value})
 
