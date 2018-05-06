@@ -49,8 +49,10 @@ defmodule AppWeb.Router do
   end
 
   scope "/api", AppWeb.Api, as: :api do
-     pipe_through [:api, :auth, :ensure_auth]
+    pipe_through [:api, :auth, :ensure_auth]
 
+    post "/shorten/new", LinkController, :create
+    post "/shorten/:id/delete", LinkController, :delete
 
   end
 
