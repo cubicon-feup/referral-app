@@ -18,18 +18,14 @@ defmodule AppWeb.Api.LinkController do
   Either success path will warm the cache with the shortcode on the assumption
   it will be used soon.
   """
-  def create(conn, discount_code) do
-    IO.inspect discount_code, label: "discount:::::::::::"
+  def create(conn, %{"discount_code" => discount_code}) do
     case Plug.Conn.get_session(conn, :brand_id) do
       nil ->
         ()
       brand_id ->
         brand = Brands.get_brand!(brand_id)
-
-        url = brand.hostname <> "/discount/" <> discount_code
-
+        url = "https://" <> brand.hostname <> "/discount/" <> discount_code
         shortened_url = Links.link_from_url(url)
-
         do_create(conn, shortened_url, url)
     end
   end
@@ -40,7 +36,7 @@ defmodule AppWeb.Api.LinkController do
     case Links.create_link(link_params) do
       {:ok, link} ->
         Cache.warm(link.shortcode)
-        json conn, link: link
+        json conn, %{shortcode: link.shortcode}
       {:error, changeset} ->
         json conn, changeset: changeset
     end
@@ -48,7 +44,7 @@ defmodule AppWeb.Api.LinkController do
   # when the url has been shortened before just show the existing record
   defp do_create(conn, link, _link_params) do
     Cache.warm(link.shortcode)
-    json conn, link: link
+    json conn, %{shortcode: link.shortcode}
   end
 
   def delete(conn, %{"id" => id}) do

@@ -106,6 +106,7 @@ defmodule AppWeb.Router do
      resources "/vouchers", VoucherController
      resources "/sales", SaleController
      resources "/clients", ClientController
+     resources "/shorten", LinkController
   end
 
   scope "/webhook", AppWeb do

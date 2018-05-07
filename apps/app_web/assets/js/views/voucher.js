@@ -1,37 +1,46 @@
 import MainView from './main';
 
 export default class View extends MainView {
-  
+
   static get csrf() {
     return $("meta[name=\"csrf\"]").attr("content");
   }
-  
+
   mount() {
     super.mount();
 
-    $('.share-shorten-url').on('click', View.retriveShortUrl);
+    $('.share-shorten-url').on('click', this.shorten);
 
-   
   }
 
-  static retriveShortUrl() {
+  shorten() {
 
-    let fullUrl = 
+    let link = $(this);
+    let discountCode = $(this).attr("discount-code");
+
+    console.log(discountCode);
 
     $.ajax({
       type: 'POST',
-      url: '/api/shorten/new',
-      data: {
-        url: fullUrl
-      },
+      url: '/api/shorten',
       headers: {
-          "X-CSRF-TOKEN": View.csrf
+        "X-CSRF-TOKEN": View.csrf
       },
-      success: function (message) {
-          
+      data: {
+        discount_code: discountCode,
+      },
+      success: (response) => {
+
+        let baseUrl = window.location.protocol + "//" + window.location.host;
+        let shortUrl = baseUrl + "/promo/" + response.shortcode;
+
+        $(this).html(shortUrl);
+        $(this).attr('href', shortUrl);
+        $(this).removeClass('share-shorten-url');
       }
     });
   }
+
   unmount() {
     super.unmount();
   }
