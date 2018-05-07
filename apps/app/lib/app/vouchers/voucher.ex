@@ -22,7 +22,6 @@ defmodule App.Vouchers.Voucher do
     voucher
     |> cast(attrs, [
       :code,
-      :contract_id,
       :sales_counter,
       :set_of_sales,
       :percent_on_sales,
@@ -33,6 +32,6 @@ defmodule App.Vouchers.Voucher do
       :points_per_month
     ])
     |> cast_assoc(:contract)
-    |> validate_required([:code, :contract_id])
+    |> validate_required([:code])
   end
 end

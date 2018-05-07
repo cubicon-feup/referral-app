@@ -59,11 +59,31 @@ defmodule AppWeb.WebhookController do
 
     {:ok, contract} = Contracts.update_contract(contract, %{points: new_value})
 
-    # {:ok, sale} =
-    #   Sales.create_sale(%{
-    #     date: DateTime.utc_now(),
-    #     value: value,
-    #     voucher: voucher
-    #   })
+    voucher_map =
+      struct_to_map(voucher)
+      |> IO.inspect()
+
+    {:ok, sale} =
+      Sales.create_sale(%{
+        date: DateTime.utc_now(),
+        value: value,
+        voucher: voucher_map
+      })
+  end
+
+  def struct_to_map(voucher) do
+    voucher_map = Map.from_struct(voucher)
+    # contract_map = Map.from_struct(voucher.contract)
+    # brand_map = Map.from_struct(voucher.contract.brand)
+    # influencer_map = Map.from_struct(voucher.contract.influencer)
+
+    # contract_map = Map.delete(contract_map, :brand)
+    # contract_map = Map.put(contract_map, :brand, brand_map)
+
+    # contract_map = Map.delete(contract_map, :influencer)
+    # contract_map = Map.put(contract_map, :influencer, influencer_map)
+
+    Map.delete(voucher_map, :contract)
+    # Map.put(voucher_map, :contract, contract_map)
   end
 end

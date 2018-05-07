@@ -173,7 +173,7 @@ defmodule App.Vouchers do
           v in Voucher,
           join: c in assoc(v, :contract),
           join: b in assoc(c, :brand),
-          preload: [{:contract, :brand}],
+          preload: [{:contract, :brand}, {:contract, :influencer}],
           where: v.code == ^code and b.hostname == ^brand_hostname
         )
       )

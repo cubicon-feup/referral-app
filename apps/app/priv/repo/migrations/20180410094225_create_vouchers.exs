@@ -4,7 +4,6 @@ defmodule App.Repo.Migrations.CreateVouchers do
   def change do
     create table(:vouchers) do
       add(:code, :string)
-      add(:contract_id, references(:contracts, on_delete: :nothing))
       add(:percent_on_sales, :decimal, default: 0.1)
       add(:points_on_sales, :decimal, default: 0.0)
       add(:points_on_views, :decimal, default: 0.0)
@@ -16,7 +15,5 @@ defmodule App.Repo.Migrations.CreateVouchers do
 
       timestamps()
     end
-
-    create(index(:vouchers, [:contract_id]))
   end
 end
