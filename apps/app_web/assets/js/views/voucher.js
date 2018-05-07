@@ -18,8 +18,6 @@ export default class View extends MainView {
     let link = $(this);
     let discountCode = $(this).attr("discount-code");
 
-    console.log(discountCode);
-
     $.ajax({
       type: 'POST',
       url: '/api/shorten',

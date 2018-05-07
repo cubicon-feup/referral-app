@@ -16,8 +16,8 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Address</th>
-              <th>Nib</th>
+
+              <th>Short Url</th>
 
               <th></th>
             </tr>
@@ -26,12 +26,13 @@
             <%= for voucher <- @vouchers do %>
                 <tr>
                   <td><%= voucher.code %></td>
-                  <td><%= voucher.contract_id %></td>
-
-                  <td class="text-right">
-                    <span>
+                  <td><span>
                       <a class="btn btn-default btn-xs share-shorten-url" id="voucher-<%=voucher.code%>" discount-code="<%=voucher.code%>">Share</a>
                     </span>
+                  </td>
+
+                  <td class="text-right">
+                    
                     <span><%= link "Delete", to: contract_voucher_path(@conn, :delete, @contract, voucher), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
                   </td>
                 </tr>
