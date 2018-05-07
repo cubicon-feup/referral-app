@@ -5,7 +5,7 @@
     <tr>
       <th>Date</th>
       <th>Value</th>
-      <th>Contract ID</th>
+      <th>Voucher ID</th>
 
       <th></th>
     </tr>
@@ -15,7 +15,7 @@
     <tr>
       <td><%= sale.date %></td>
       <td><%= sale.value %></td>
-      <td><%= sale.contract_id %></td>
+      <td><%= sale.voucher_id %></td>
 
       <td class="text-right">
         <span><%= link "Show", to: sale_path(@conn, :show, sale), class: "btn btn-default btn-xs" %></span>

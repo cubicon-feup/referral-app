@@ -48,42 +48,25 @@ defmodule AppWeb.WebhookController do
   end
 
   def updateContract(voucher, value) do
-    contract = voucher.contract
+    contract = Contracts.get_contract!(voucher.contract.id)
 
     percent_on_sales =
       List.to_float(Decimal.to_string(voucher.percent_on_sales) |> String.to_charlist())
 
     points_value = List.to_float(Decimal.to_string(contract.points) |> String.to_charlist())
 
-    new_value = points_value + trunc(value * percent_on_sales)
+    new_value = points_value + Float.ceil(value * percent_on_sales, 2)
 
-    {:ok, contract} = Contracts.update_contract(contract, %{points: new_value})
-
-    voucher_map =
-      struct_to_map(voucher)
-      |> IO.inspect()
+    case Contracts.update_contract(contract, %{points: new_value}) do
+      {:ok, contract} -> IO.inspect(contract)
+      {:error, error} -> IO.inspect(error)
+    end
 
     {:ok, sale} =
       Sales.create_sale(%{
         date: DateTime.utc_now(),
         value: value,
-        voucher: voucher_map
+        voucher_id: voucher.id
       })
-  end
-
-  def struct_to_map(voucher) do
-    voucher_map = Map.from_struct(voucher)
-    # contract_map = Map.from_struct(voucher.contract)
-    # brand_map = Map.from_struct(voucher.contract.brand)
-    # influencer_map = Map.from_struct(voucher.contract.influencer)
-
-    # contract_map = Map.delete(contract_map, :brand)
-    # contract_map = Map.put(contract_map, :brand, brand_map)
-
-    # contract_map = Map.delete(contract_map, :influencer)
-    # contract_map = Map.put(contract_map, :influencer, influencer_map)
-
-    Map.delete(voucher_map, :contract)
-    # Map.put(voucher_map, :contract, contract_map)
   end
 end

@@ -38,6 +38,7 @@ defmodule App.Contracts do
   def get_contract!(id) do
     contract =
       Repo.get!(Contract, id)
+      |> Repo.preload(:voucher)
   end
 
   @doc """

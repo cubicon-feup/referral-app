@@ -13,8 +13,8 @@
   </li>
 
   <li>
-    <strong>Contract ID:</strong>
-    <%= @sale.contract_id %>
+    <strong>Voucher ID:</strong>
+    <%= @sale.voucher_id %>
   </li>
 
 </ul>
