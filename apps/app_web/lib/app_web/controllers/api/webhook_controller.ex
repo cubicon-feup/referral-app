@@ -40,8 +40,6 @@ defmodule AppWeb.WebhookController do
       end
       |> Enum.filter(&(!is_nil(&1)))
 
-    IO.inspect(vouchers, label: "voucher")
-
     for voucher <- vouchers do
       updateContract(voucher, value)
     end
@@ -57,10 +55,7 @@ defmodule AppWeb.WebhookController do
 
     new_value = points_value + Float.ceil(value * percent_on_sales, 2)
 
-    case Contracts.update_contract(contract, %{points: new_value}) do
-      {:ok, contract} -> IO.inspect(contract)
-      {:error, error} -> IO.inspect(error)
-    end
+    {:ok, contract} = Contracts.update_contract(contract, %{points: new_value})
 
     {:ok, sale} =
       Sales.create_sale(%{
