@@ -12,11 +12,6 @@
     <%= @sale.value %>
   </li>
 
-  <li>
-    <strong>Voucher ID:</strong>
-    <%= @sale.voucher_id %>
-  </li>
-
 </ul>
 
 <span><%= link "Edit", to: sale_path(@conn, :edit, @sale) %></span>
