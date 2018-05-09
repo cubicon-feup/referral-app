@@ -11,7 +11,7 @@ defmodule App.PaymentsTest do
     @update_attrs %{type: "money", value: "456.7", status: "complete"}
     @invalid_attrs %{influencer_id: nil, type: nil, value: nil}
 
-    @valid_attrs_influencer %{address: "some address", name: "some name", nib: 42}
+    @valid_attrs_influencer %{address: "some address", name: "some name", nib: 42, contact: "some contact"}
 
     def influencer_fixture() do
       {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)

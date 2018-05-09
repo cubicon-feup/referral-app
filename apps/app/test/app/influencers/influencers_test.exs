@@ -6,9 +6,9 @@ defmodule App.InfluencersTest do
   describe "influencers" do
     alias App.Influencers.Influencer
 
-    @valid_attrs %{address: "some address", name: "some name", nib: 42}
-    @update_attrs %{address: "some updated address", name: "some updated name", nib: 43}
-    @invalid_attrs %{address: nil, name: nil, nib: nil}
+    @valid_attrs %{address: "some address", name: "some name", nib: 42, contact: "some contact"}
+    @update_attrs %{address: "some updated address", name: "some updated name", nib: 43, contact: "some updated contact"}
+    @invalid_attrs %{address: nil, name: nil, nib: nil, contact: nil}
 
     def influencer_fixture(attrs \\ %{}) do
       {:ok, influencer} =
