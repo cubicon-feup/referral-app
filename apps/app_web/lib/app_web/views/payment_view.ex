@@ -7,4 +7,20 @@ defmodule AppWeb.PaymentView do
     Payments.change_payment(payment)
   end
 
+  def format_date(date) do
+    #date.year <> "/" <> date.month <> "/" <> date.day
+    Enum.join [date.year, date.month, date.day], "/"
+  end
+
+  def format_reward(reward) do
+    case reward do
+      "money" ->
+        "Cash"
+      "voucher" ->
+        "Voucher"
+      "products" ->
+        "In Kind"
+    end
+  end
+
 end

@@ -25,7 +25,7 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <%= label f, :payment_status, "Deadline", class: "control-label" %>
+          <%= label f, :payment_status, "Status", class: "control-label" %>
           <div class="custom-controls-stacked">
             <label class="custom-control custom-radio custom-control-inline">
               <input type="radio" class="custom-control-input" name="payment[payment_status]" value="pending" checked="">
@@ -39,7 +39,6 @@
           <%= error_tag f, :payment_status %>
         </div>
 
-        <!--TODO DATE-->
         <div class="form-group">
           <%= label f, :deadline_date, "Deadline", class: "control-label" %>
           <div class="input-group">
