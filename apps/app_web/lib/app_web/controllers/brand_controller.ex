@@ -4,6 +4,11 @@ defmodule AppWeb.BrandController do
   alias App.Brands
   alias App.Brands.Brand
 
+  alias App.Influencers
+  alias App.Influencers.Influencer
+
+  import AppWeb.Mailer
+
   def index(conn, _params) do
     brands = Brands.list_brands()
     render(conn, "index.html", brands: brands)
@@ -56,5 +61,31 @@ defmodule AppWeb.BrandController do
     conn
     |> put_flash(:info, "Brand deleted successfully.")
     |> redirect(to: brand_path(conn, :index))
+  end
+
+  def new_influencer(conn, %{"id" => id}) do
+    brand = Brands.get_brand!(id)
+    changeset = Influencers.change_influencer(%Influencer{})
+    render(conn, "new_influencer.html", brand: brand, changeset: changeset)
+  end
+
+  def create_influencer(conn, %{"id" => id, "influencer" => influencer_params}) do
+    brand = Brands.get_brand!(id)
+    case Influencers.get_influencer_by_email!(Map.get(influencer_params, "contact")) do
+      nil->
+        case Influencers.create_influencer(influencer_params) do
+          {:ok, influencer} ->
+            send_welcome_email(influencer.contact, influencer.name)
+            conn
+            |> put_flash(:info, "Influencer created successfully.")
+            |> redirect(to: brand_path(conn, :show, id))
+          {:error, %Ecto.Changeset{} = changeset} ->
+            render(conn, "new_influencer.html", brand: brand, changeset: changeset)
+        end
+      influencer->
+        conn
+        |> put_flash(:info, "Influencer already added.")
+        |> redirect(to: brand_path(conn, :show, id))
+    end
   end
 end
