@@ -3,6 +3,7 @@ defmodule App.Influencers.Influencer do
   import Ecto.Changeset
 
   schema "influencers" do
+    field :contact, :string
     field :address, :string
     field :name, :string
     field :nib, :integer
@@ -14,7 +15,7 @@ defmodule App.Influencers.Influencer do
   @doc false
   def changeset(influencer, attrs) do
     influencer
-    |> cast(attrs, [:name, :address, :nib])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :address, :nib, :user_id, :contact])
+    |> validate_required([:name, :contact])
   end
 end
