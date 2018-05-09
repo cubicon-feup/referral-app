@@ -25,24 +25,31 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <div class="form-label">Payment Status</div>
+          <%= label f, :payment_status, "Deadline", class: "control-label" %>
           <div class="custom-controls-stacked">
             <label class="custom-control custom-radio custom-control-inline">
-              <input type="radio" class="custom-control-input" name="example-inline-radios" value="pending" checked="">
+              <input type="radio" class="custom-control-input" name="payment[payment_status]" value="pending" checked="">
               <span class="custom-control-label">Pending</span>
             </label>
             <label class="custom-control custom-radio custom-control-inline">
-              <input type="radio" class="custom-control-input" name="example-inline-radios" value="complete">
+              <input type="radio" class="custom-control-input" name="payment[payment_status]" value="complete">
               <span class="custom-control-label">Completed</span>
             </label>
-            <!--label class="custom-control custom-radio custom-control-inline">
-              <input type="radio" class="custom-control-input" name="example-inline-radios" value="option3">
-              <span class="custom-control-label">Option 3</span>
-            </label-->
           </div>
+          <%= error_tag f, :payment_status %>
         </div>
 
         <!--TODO DATE-->
+        <div class="form-group">
+          <%= label f, :deadline_date, "Deadline", class: "control-label" %>
+          <div class="input-group">
+            <%= text_input f, :deadline_date, id: "deadline", class: "form-control" %>
+            <span class="input-group-append">
+              <span class="input-group-text"><i class="fa fa-calendar"></i>&nbsp;</span>
+            </span>
+          </div>
+          <%= error_tag f, :deadline_date %>
+        </div>
       </div>
     </div>
 
@@ -52,21 +59,37 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <%= label f, :type, class: "control-label" %>
-          <%= select f, :type, [
-              [key: "Cash", value: "money"],
-              [key: "Voucher", value: "voucher"],
-              [key: "In Kind", value: "products"]],
-            class: "form-control" %>
+          <%= label f, :type, "Type", class: "control-label" %>
+          <div class="selectgroup w-100">
+            <label class="selectgroup-item">
+              <input type="radio" name="payment[type]" value="money" class="selectgroup-input" checked="">
+              <span class="selectgroup-button payment-type-money">Cash</span>
+            </label>
+            <label class="selectgroup-item">
+              <input type="radio" name="payment[type]" value="voucher" class="selectgroup-input">
+              <span class="selectgroup-button payment-type-voucher">Voucher</span>
+            </label>
+            <label class="selectgroup-item">
+              <input type="radio" name="payment[type]" value="products" class="selectgroup-input">
+              <span class="selectgroup-button payment-type-products">In Kind</span>
+            </label>
+          </div>
           <%= error_tag f, :type %>
         </div>
 
         <div class="form-group">
-          <%= label f, :value, class: "control-label" %>
-          <%= number_input f, :value, step: "any", min: 0, class: "form-control" %>
+          <%= label f, :value, "Amount", class: "control-label" %>
+          <div class="input-group">
+            <%= number_input f, :value, min: 0, class: "form-control", aria_label: "Amount" %>
+            <span class="input-group-append">
+              <span class="input-group-text">€</span>
+            </span>
+          </div>
           <%= error_tag f, :value %>
         </div>
       </div>
+
+      
     </div>
 
 

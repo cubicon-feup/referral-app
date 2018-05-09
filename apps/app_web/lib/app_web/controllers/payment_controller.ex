@@ -18,7 +18,11 @@ defmodule AppWeb.PaymentController do
   end
 
   def create(conn, %{"payment" => payment_params}) do
-    params = %{"brand_id" => Plug.Conn.get_session(conn, :brand_id)}
+    {:ok, deadline} = NaiveDateTime.from_iso8601(payment_params["deadline_date"] <> "T23:59:59Z")
+      
+    params = %{"brand_id" => Plug.Conn.get_session(conn, :brand_id),
+      "deadline_date" => deadline
+    }
       |> Enum.into(payment_params)
     case Payments.create_payment(params) do
       {:ok, payment} ->
