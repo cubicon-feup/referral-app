@@ -44,7 +44,7 @@ defmodule AppWeb.VoucherController do
         {:ok, %{:price_rule_id => Enum.at(split, 4, nil), :voucher_id => Enum.at(split, 6, nil)}}
 
       {:error, error} ->
-        #IO.inspect(error)
+        # IO.inspect(error)
         error
     end
   end
@@ -65,16 +65,23 @@ defmodule AppWeb.VoucherController do
     price_rule_id = Map.get(voucher_params, "price_rule_id", nil)
     voucher_params = Map.put(voucher_params, "contract_id", contract.id)
     brand_id = Plug.Conn.get_session(conn, :brand_id)
-    post_discount(voucher_params["code"], price_rule_id, brand_id)
 
-    case Vouchers.create_voucher(voucher_params) do
-      {:ok, _voucher} ->
+    case post_discount(voucher_params["code"], price_rule_id, brand_id) do
+      {:ok, body} ->
+        case Vouchers.create_voucher(voucher_params) do
+          {:ok, _voucher} ->
+            conn
+            |> put_flash(:info, "Voucher created successfully.")
+            |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            render(conn, "new.html", changeset: changeset)
+        end
+
+      {:error, error} ->
         conn
-        |> put_flash(:info, "Voucher created successfully.")
-        |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        |> put_flash(:error, error)
+        |> redirect(to: contract_voucher_path(conn, :new, contract.id))
     end
   end
 
@@ -162,23 +169,24 @@ defmodule AppWeb.VoucherController do
 
     url = base_url <> "/admin/price_rules/#{price_rule_id}/discount_codes.json"
 
-    header =
-      "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}"
-      #|> IO.inspect()
+    header = "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}"
+    # |> IO.inspect()
 
     case HTTPoison.post(url, "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}", [
            {"Content-Type", "application/json"}
          ]) do
       {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
-        #IO.inspect(body)
-        body
+        # IO.inspect(body)
+        {:ok, body}
+
       {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
         # code already exists
-        #IO.inspect(body)
-        body
+        # IO.inspect(body)
+        {:error, body}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
-        #IO.inspect(reason, label: "erro:")
-        reason
+        # IO.inspect(reason, label: "erro:")
+        {:error, reason}
     end
   end
 end
