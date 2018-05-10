@@ -16,14 +16,12 @@ defmodule App.Contracts.Contract do
   @doc false
   def changeset(contract, attrs) do
     contract
-    |> cast(attrs, [:influencer_id, :brand_id, :minimum_points, :payment_period, :points])
+    |> cast(attrs, [:brand_id, :minimum_points, :payment_period, :points])
     |> cast_assoc(:brand)
-    |> cast_assoc(:influencer)
-    |> validate_required([:influencer_id, :brand_id])
+    |> validate_required([:brand_id])
     |> unique_constraint(
       :unique_index_brand_influencer,
-      name: :index_brand_influencer,
-      message: "A tua mae"
+      name: :index_brand_influencer
     )
   end
 end

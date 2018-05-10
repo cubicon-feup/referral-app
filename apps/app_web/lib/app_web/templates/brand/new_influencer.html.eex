@@ -25,6 +25,35 @@
                                     <% var = String.upcase(gettext "Add Influencer") %>
                                     <%= submit var, class: "btn btn-primary btn-block" %>
                                 </div>
+                                <div class="form-group">
+                                    <%= label f, :address, class: "form-label" %>
+                                    <%= text_input f, :address, class: "form-control", type: "text", required: true, placeholder: "Enter address"%>
+                                    <%= error_tag f, :address %>
+                                </div>
+                                <div class="form-group">
+                                    <%= label f, :nib, class: "form-label" %>
+                                    <%= text_input f, :nib, class: "form-control", type: "text", required: true, placeholder: "Enter nib"%>
+                                    <%= error_tag f, :nib %>
+                                </div>
+                                
+                                <p></p>
+                                <%= inputs_for f, :contract, fn c -> %>
+                                    <div class="form-group">
+                                        <%= label c, :minimum_points, class: "control-label" %>
+                                        <%= number_input c, :minimum_points, class: "form-control" %>
+                                        <%= error_tag c, :minimum_points %>
+                                    </div>
+                                    <div class="form-group">
+                                        <%= label c, :payment_period, class: "control-label" %>
+                                        <%= number_input c, :payment_period, class: "form-control" %>
+                                        <%= error_tag c, :payment_period %>
+                                    </div>
+                                    <div class="form-group">
+                                        <%= label c, :points, class: "control-label" %>
+                                        <%= number_input c, :points, class: "form-control" %>
+                                        <%= error_tag c, :points %>
+                                    </div>
+                                <% end %>
                             <% end %>
                         </div>
                     </div>

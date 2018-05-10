@@ -7,6 +7,9 @@ defmodule AppWeb.BrandController do
   alias App.Influencers
   alias App.Influencers.Influencer
 
+  alias App.Contracts
+  alias App.Contracts.Contract
+
   import AppWeb.Mailer
 
   def index(conn, _params) do
@@ -65,17 +68,21 @@ defmodule AppWeb.BrandController do
 
   def new_influencer(conn, %{"id" => id}) do
     brand = Brands.get_brand!(id)
-    changeset = Influencers.change_influencer(%Influencer{})
+    changeset = Influencers.change_influencer(%Influencer{contract: %Contract{}})
     render(conn, "new_influencer.html", brand: brand, changeset: changeset)
   end
 
   def create_influencer(conn, %{"id" => id, "influencer" => influencer_params}) do
+    brand_id = Plug.Conn.get_session(conn, :brand_id)
+    contract_params = Map.put(influencer_params["contract"], "brand_id", Integer.to_string(brand_id))
+    influencer_params = Map.replace!(influencer_params, "contract", contract_params)
+    
     brand = Brands.get_brand!(id)
     case Influencers.get_influencer_by_email!(Map.get(influencer_params, "contact")) do
       nil->
         case Influencers.create_influencer(influencer_params) do
           {:ok, influencer} ->
-            send_welcome_email(influencer.contact, influencer.name)
+            #send_welcome_email(influencer.contact, influencer.name)
             conn
             |> put_flash(:info, "Influencer created successfully.")
             |> redirect(to: brand_path(conn, :show, id))
