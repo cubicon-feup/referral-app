@@ -1,0 +1,36 @@
+<div class="page">
+    <div class="page-single">
+        <div class="container">
+            <div class="row">
+                <div class="col col-login mx-auto">
+                    <div class="card-body p-6">
+                        <div class="card-title">Insert Personal Information</div>
+                            <%= form_for @changeset, influencer_path(@conn, :invited_update_influencer, @influencer), fn f -> %>
+                                <%= if @changeset.action do %>
+                                    <div class="alert alert-danger">
+                                        <p>Oops, something went wrong! Please check the errors below.</p>
+                                    </div>
+                                <% end %>
+                                <div class="form-group">
+                                    <%= label f, :address, class: "form-label" %>
+                                    <%= text_input f, :address, class: "form-control", type: "text", required: true, placeholder: "Enter address"%>
+                                    <%= error_tag f, :address %>
+                                </div>
+                                <%= hidden_input f, :user_id, value: @user.id %>
+                                <div class="form-group">
+                                    <%= label f, :nib, class: "form-label" %>
+                                    <%= text_input f, :nib, class: "form-control", type: "text", required: true, placeholder: "Enter nib"%>
+                                    <%= error_tag f, :nib %>
+                                </div>
+                                <div class="sign-up-button">
+                                    <% var = String.upcase(gettext "Submit") %>
+                                    <%= submit var, class: "btn btn-primary btn-block" %>
+                                </div>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

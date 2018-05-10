@@ -1,0 +1,6 @@
+<div class="jumbotron">
+  <h2>Welcome to Inspiro!</h2>
+</div>
+<p><bold>Welcome to Inspiro <%=@name%></bold></p>
+<p>click here to find more!</p>
+<a href="http://phoenix.local:4000/influencers/<%=@email%>/<%=@name%>/invited_new_user">Inspiro</a>
