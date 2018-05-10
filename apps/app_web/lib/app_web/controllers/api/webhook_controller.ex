@@ -48,12 +48,39 @@ defmodule AppWeb.WebhookController do
   def updateContract(voucher, value) do
     contract = Contracts.get_contract!(voucher.contract.id)
 
+    points_value = List.to_float(Decimal.to_string(contract.points) |> String.to_charlist())
+
     percent_on_sales =
       List.to_float(Decimal.to_string(voucher.percent_on_sales) |> String.to_charlist())
 
-    points_value = List.to_float(Decimal.to_string(contract.points) |> String.to_charlist())
+    points_on_sales =
+      List.to_float(Decimal.to_string(voucher.points_on_sales) |> String.to_charlist())
 
-    new_value = points_value + Float.ceil(value * percent_on_sales, 2)
+    new_value =
+      case percent_on_sales == 0.0 do
+        true ->
+          case points_on_sales == 0.0 do
+            true ->
+              points_value
+
+            false ->
+              adiction =
+                Float.ceil(points_on_sales, 2)
+                |> IO.inspect(label: "Adiction: ")
+
+              points_value + adiction
+          end
+
+        false ->
+          adiction =
+            Float.ceil(value * percent_on_sales, 2)
+            |> IO.inspect(label: "Adiction: ")
+
+          points_value + adiction
+      end
+
+    IO.inspect(points_value, label: "Points: ")
+    IO.inspect(new_value, label: "New Points: ")
 
     {:ok, contract} = Contracts.update_contract(contract, %{points: new_value})
 
