@@ -5,7 +5,7 @@
     </div>
   <% end %>
 
- <div class="form-group">
+ <div class="">
     <%= select f, :status, [
         [key: "Pending", value: "pending"],
         [key: "Cancelled", value: "cancelled"],

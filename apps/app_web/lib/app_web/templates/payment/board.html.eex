@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h4 class="board-title">Pending</h4>
+    <%= for payment <- @payments do %>
+      <%= render "board_item.html", Map.merge(assigns, %{
+        payment: payment
+      })%> 
+    <% end %>
+  </div>
+
+  <div class="col-sm-6">
+    <h4 class="board-title">Complete</h4>
+  </div>
+</div>

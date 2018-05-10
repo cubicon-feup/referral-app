@@ -1,0 +1,22 @@
+<div class="table-responsive">
+  <table class="table card-table table-vcenter text-nowrap">
+    <thead>
+      <tr>
+        <th>Influencer</th>
+        <th>Reward</th>
+        <th>Description</th>
+        <%# <th>Owner</th> %>
+        <th>Request</th>
+        <th>Deadline/Confirmed</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for payment <- @payments do %>
+        <%= render "list_item.html", Map.merge(assigns, %{
+          payment: payment
+        })%> 
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -5,12 +5,16 @@
   <%# <td>TODO</td> %>
   <td><%= format_date(@payment.request_date) %></td>
   <td><%= 
-    if(!@payment.payment_date) do
-      format_date(@payment.deadline_date) <> " / -"
-    else
-      "- / " <> format_date(@payment.payment_date) 
+     case @payment.status do
+      "pending" ->
+        format_date(@payment.deadline_date) <> " / -"
+      "complete" ->
+        "- / " <> format_date(@payment.payment_date) 
+      "cancelled" ->
+        "- / -"
     end
-    %></td>
+    %>
+  </td>
   <td>
     <%= render "edit_status.html", Map.merge(assigns, %{
       changeset: get_changeset(@payment),
