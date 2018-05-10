@@ -17,6 +17,7 @@ export default class View extends MainView {
 
     let link = $(this);
     let discountCode = $(this).attr("discount-code");
+    let voucherId = $(this).attr("voucher-id");
 
     $.ajax({
       type: 'POST',
@@ -26,6 +27,7 @@ export default class View extends MainView {
       },
       data: {
         discount_code: discountCode,
+        voucher_id: voucherId
       },
       success: (response) => {
 

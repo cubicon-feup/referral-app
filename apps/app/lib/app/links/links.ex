@@ -114,4 +114,8 @@ defmodule App.Links do
 
   def link_from_url(url), do: Repo.get_by(Link, url: url)
 
+  def link_from_shortcode(shortcode), do: Repo.get_by(Link, shortcode: shortcode)
+
+
+
 end

@@ -16,7 +16,7 @@
           <thead>
             <tr>
               <th>Name</th>
-
+              <th>Views</th>
               <th>Short Url</th>
 
               <th></th>
@@ -26,8 +26,9 @@
             <%= for voucher <- @vouchers do %>
                 <tr>
                   <td><%= voucher.code %></td>
+                  <td><%= voucher.views_counter %></td>
                   <td><span>
-                      <a class="btn btn-default btn-xs share-shorten-url" id="voucher-<%=voucher.code%>" discount-code="<%=voucher.code%>">Share</a>
+                      <a class="btn btn-default btn-xs share-shorten-url" id="voucher-<%=voucher.code%>" voucher-id="<%=voucher.id%>" discount-code="<%=voucher.code%>">Share</a>
                     </span>
                   </td>
 
