@@ -27,7 +27,47 @@ export default class View extends MainView {
       cb(start);
     });
 
-    $('#select-influencer').selectize({
+    $(".status").submit(function (event) {
+      console.log("testing");
+      event.preventDefault();
+      alert("test");
+      $that = this;
+      return false;
+      /*
+      $.ajax({
+        url: $that.getAttribute('action'),
+        type: "PUT",
+        data: $('form').serialize(),
+        success: function (data) {
+          console.log("success");
+        }
+      });*/
+
+      $.ajax({
+        url: $that.getAttribute('action'),
+        type: "PUT",
+        data: $('form').serialize(),
+        success: function (data) {
+          console.log("success");
+        }
+      });
+
+      console.log("mayby");
+    });
+
+    $( "select" ).change(function() {
+      var $form = $(this).parents(".status")[0]
+      $.ajax({
+        url: $form.getAttribute('action'),
+        type: "PUT",
+        data: $(this).parents(".status").serialize(),
+        success: function (data) {
+          console.log("success");
+        }
+      });
+    });
+
+    /*$('#select-influencer').sequelize({
       create: true,
       render: {
         option: function (data) {
@@ -43,7 +83,7 @@ export default class View extends MainView {
             '</div>';
         }
       }
-    });
+    });*/
     console.log('Tramado');
 
   }

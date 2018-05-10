@@ -58,7 +58,6 @@ defmodule AppWeb.PaymentController do
     end
   end
 
-  
   def update_status(conn, %{"id" => id, "payment" => payment_params}) do
     payment = Payments.get_payment!(id)
     case Payments.update_payment(payment, payment_params) do
@@ -71,7 +70,7 @@ defmodule AppWeb.PaymentController do
         render(conn, "edit.html", payment: payment, changeset: changeset, influencers: Brands.get_brand_influencers(1))
     end
   end
-
+  
   def delete(conn, %{"id" => id}) do
     payment = Payments.get_payment!(id)
     {:ok, _payment} = Payments.delete_payment(payment)
