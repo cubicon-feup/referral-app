@@ -38,6 +38,7 @@ defmodule App.Contracts do
   def get_contract!(id) do
     contract =
       Repo.get!(Contract, id)
+      |> Repo.preload(:voucher)
   end
 
   @doc """
@@ -104,4 +105,7 @@ defmodule App.Contracts do
   def change_contract(%Contract{} = contract) do
     Contract.changeset(contract, %{})
   end
+
+  def get_contract_by_brand_and_influencer(brand_id, influencer_id),
+    do: Repo.get_by(Contract, brand_id: brand_id, influencer_id: influencer_id)
 end

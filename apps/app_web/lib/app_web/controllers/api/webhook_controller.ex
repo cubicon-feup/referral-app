@@ -7,10 +7,14 @@ defmodule AppWeb.WebhookController do
   alias App.Influencers.Influencer
   alias App.Contracts
   alias App.Contracts.Contract
+  alias App.Sales
+  alias App.Sales.Sale
+  alias App.Vouchers
+  alias App.Vouchers.Voucher
 
   def handleData(conn, params) do
     discount_codes = conn.body_params["discount_codes"]
-    value = trunc(String.to_float(conn.body_params["total_price"]))
+    value = String.to_float(conn.body_params["total_price"])
 
     case discount_codes do
       nil ->
@@ -28,18 +32,36 @@ defmodule AppWeb.WebhookController do
   end
 
   def assignPromoCodes(store, discount_codes, value) do
-    brand = Brands.get_brand_by_hostname(store)[:brand_id]
-    influencers = []
+    vouchers = []
 
-    influencers =
+    vouchers =
       for discount_code <- discount_codes do
-        Influencers.get_influencer_by_code(discount_code["code"])[:influencer_id]
+        Vouchers.get_voucher_by_code_and_brand_hostname(discount_code["code"], store)
       end
+      |> Enum.filter(&(!is_nil(&1)))
 
-    # for influencer <- influencers do
-    #   contract = Contracts.get_contract_by_brand_and_influencer(brand, influencer)
-    #   new_value = contract[:act_value] + value
-    #   Contracts.update_contract()
-    # end
+    for voucher <- vouchers do
+      updateContract(voucher, value)
+    end
+  end
+
+  def updateContract(voucher, value) do
+    contract = Contracts.get_contract!(voucher.contract.id)
+
+    percent_on_sales =
+      List.to_float(Decimal.to_string(voucher.percent_on_sales) |> String.to_charlist())
+
+    points_value = List.to_float(Decimal.to_string(contract.points) |> String.to_charlist())
+
+    new_value = points_value + Float.ceil(value * percent_on_sales, 2)
+
+    {:ok, contract} = Contracts.update_contract(contract, %{points: new_value})
+
+    {:ok, sale} =
+      Sales.create_sale(%{
+        date: DateTime.utc_now(),
+        value: value,
+        voucher_id: voucher.id
+      })
   end
 end
