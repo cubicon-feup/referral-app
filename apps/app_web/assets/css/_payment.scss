@@ -40,7 +40,7 @@
     }
   }
 
-  .selectgroup-item{
+  .payment-type{
     padding: 0 10px;
   }
 
@@ -49,4 +49,49 @@
 .board-title{
   text-align: center;
   background: #f5f6fa;
+  padding: 10px;
+  border-radius: 7px;
+
+  h4{
+    margin: 0;
+  }
+}
+
+.payment-description {
+  margin: 10px 0;
+}
+
+.deadline_date{
+  color: #ff6262;
+}
+
+.payment_date{
+  color: #376ee7;
+}
+
+select{
+  &.complete, &.complete:focus{
+    background: #376ee7;
+    color: white;
+  }
+
+  &.cancelled, &.cancelled:focus{
+    background: #444444;
+    color: white;
+  }
+
+  &.pending, &.pending:focus{
+    background: #ff6262;
+    color: white;
+  }
+}
+
+.card-header{
+  .form-group{
+    margin-bottom: 0;
+  }
+
+  .selectgroup-item{
+    margin-bottom: 0;
+  }
 }

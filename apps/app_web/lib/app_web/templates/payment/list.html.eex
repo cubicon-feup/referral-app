@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div id="list" class="table-responsive">
   <table class="table card-table table-vcenter text-nowrap">
     <thead>
       <tr>

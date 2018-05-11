@@ -11,7 +11,7 @@
         [key: "Cancelled", value: "cancelled"],
         [key: "Complete", value: "complete"]],
       class: "form-control",
-      onchange: "" 
+      onchange: "changecolor(this)" 
       %>
     <%= error_tag f, :status %>
   </div>

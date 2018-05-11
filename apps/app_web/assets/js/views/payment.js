@@ -27,47 +27,48 @@ export default class View extends MainView {
       cb(start);
     });
 
-    $(".status").submit(function (event) {
-      console.log("testing");
-      event.preventDefault();
-      alert("test");
-      $that = this;
-      return false;
-      /*
-      $.ajax({
-        url: $that.getAttribute('action'),
-        type: "PUT",
-        data: $('form').serialize(),
-        success: function (data) {
-          console.log("success");
-        }
-      });*/
+    $("select").change(function () {
+      var $select = $(this);
+      var c = $select.val();
+      $select.removeClass("pending cancelled complete").addClass(c);
 
-      $.ajax({
-        url: $that.getAttribute('action'),
-        type: "PUT",
-        data: $('form').serialize(),
-        success: function (data) {
-          console.log("success");
-        }
-      });
-
-      console.log("mayby");
-    });
-
-    $( "select" ).change(function() {
-      var $form = $(this).parents(".status")[0]
+      var $form = $select.parents(".status")[0]
       $.ajax({
         url: $form.getAttribute('action'),
         type: "PUT",
-        data: $(this).parents(".status").serialize(),
+        data: $select.parents(".status").serialize(),
         success: function (data) {
           console.log("success");
         }
       });
     });
 
-    /*$('#select-influencer').sequelize({
+
+    $("select").each(function () {
+      var $select = $(this);
+      var c = $select.val();
+      $select.removeClass("pending cancelled complete").addClass(c);
+    });
+
+    $('input[type=radio][name=view]').on('change', function () {
+      switch ($(this).val()) {
+        case 'board':
+          $("#list").hide();
+          $("#board").show();
+          break;
+        case 'list':
+          $("#board").hide();
+          $("#list").show();
+          break;
+      }
+    });
+
+    $("#board").hide();
+    $("#list").show();
+
+    console.log('Tramado3');
+
+    $('#select-influencer').selectize({
       create: true,
       render: {
         option: function (data) {
@@ -83,8 +84,8 @@ export default class View extends MainView {
             '</div>';
         }
       }
-    });*/
-    console.log('Tramado');
+    });
+    console.log('Tramado2');
 
   }
   unmount() {

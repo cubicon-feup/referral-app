@@ -1,14 +1,33 @@
-<div class="row">
+<div id="board" class="row">
   <div class="col-sm-6">
-    <h4 class="board-title">Pending</h4>
+    <div class="board-title">
+      <h4>
+        <span class="deadline_date">&#9679;</span>
+        Pending
+      </h4>
+    </div>
     <%= for payment <- @payments do %>
-      <%= render "board_item.html", Map.merge(assigns, %{
-        payment: payment
-      })%> 
+      <%= if payment.status == "pending" do %>
+        <%= render "board_item.html", Map.merge(assigns, %{
+          payment: payment
+        })%> 
+      <% end %>
     <% end %>
   </div>
 
   <div class="col-sm-6">
-    <h4 class="board-title">Complete</h4>
+    <div class="board-title">
+      <h4>
+        <span class="payment_date">&#9679;</span>
+        Confirmed
+      </h4>
+    </div>
+    <%= for payment <- @payments do %>
+      <%= if payment.status == "complete" do %>
+        <%= render "board_item.html", Map.merge(assigns, %{
+          payment: payment
+        })%> 
+      <% end %>
+    <% end %>
   </div>
 </div>

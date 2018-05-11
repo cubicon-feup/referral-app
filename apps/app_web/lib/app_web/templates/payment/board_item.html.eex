@@ -37,11 +37,11 @@
       </div>
       <%= case @payment.status do %>
         <%= "pending" -> %>
-          <div class="col-sm-6 text-right">
+          <div class="col-sm-6 text-right deadline_date">
             Deadline: <%= format_date(@payment.deadline_date) %>
           </div>
         <%= "complete" -> %>
-          <div class="col-sm-6 text-right">
+          <div class="col-sm-6 text-right payment_date">
             Confirmed: <%= format_date(@payment.payment_date) %>
           </div>
         <%= "cancelled" -> %>
@@ -50,7 +50,7 @@
       <%= end %>
     </div>
     
-    <div class="row">
+    <div class="row payment-description">
       <div class="col-sm-12">
         <%= 
           case {@payment.status, @payment.type} do
@@ -77,7 +77,7 @@
 
     <div class="row">
       <div class="col-sm-9">
-        Requested by <%= @payment.influencer.name%>
+        Requested by <%= link @payment.influencer.name, to: influencer_path(@conn, :show, @payment.influencer) %>
       </div>
       <div class="col-sm-3">
         <%= render "edit_status.html", Map.merge(assigns, %{

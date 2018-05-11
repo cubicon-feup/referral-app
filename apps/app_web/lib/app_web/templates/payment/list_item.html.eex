@@ -1,5 +1,5 @@
 <tr>
-  <td><%= @payment.influencer.name%></td>
+  <td><%= link @payment.influencer.name, to: influencer_path(@conn, :show, @payment.influencer) %></td>
   <td><%= format_reward(@payment.type) %></td>
   <td><%= @payment.value %>€ <%= @payment.description %></td>
   <%# <td>TODO</td> %>
