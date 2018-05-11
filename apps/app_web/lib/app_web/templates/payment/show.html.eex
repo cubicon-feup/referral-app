@@ -1,0 +1,43 @@
+<h2>Show Payment</h2>
+
+<ul>
+
+  <li>
+    <strong>Influencer:</strong>
+    <%= @payment.influencer.name %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @payment.status %>
+  </li>
+
+  <li>
+    <strong>Request date:</strong>
+    <%= @payment.request_date %>
+  </li>
+
+  <li>
+    <strong>Payment date:</strong>
+    <%= @payment.payment_date %>
+  </li>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @payment.type %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @payment.description %>
+  </li>
+
+  <li>
+    <strong>Value:</strong>
+    <%= @payment.value %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: payment_path(@conn, :edit, @payment) %></span>
+<span><%= link "Back", to: payment_path(@conn, :index) %></span>

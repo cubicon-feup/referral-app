@@ -1,0 +1,28 @@
+<h2>Show Client</h2>
+
+<ul>
+
+  <li>
+    <strong>Client:</strong>
+    <%= @client.client_id %>
+  </li>
+
+  <li>
+    <strong>Country:</strong>
+    <%= @client.country %>
+  </li>
+
+  <li>
+    <strong>Gender:</strong>
+    <%= @client.gender %>
+  </li>
+
+  <li>
+    <strong>Age:</strong>
+    <%= @client.age %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: client_path(@conn, :edit, @client) %></span>
+<span><%= link "Back", to: client_path(@conn, :index) %></span>

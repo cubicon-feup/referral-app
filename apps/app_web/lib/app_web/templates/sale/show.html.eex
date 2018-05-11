@@ -1,0 +1,18 @@
+<h2>Show Sale</h2>
+
+<ul>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @sale.date %>
+  </li>
+
+  <li>
+    <strong>Value:</strong>
+    <%= @sale.value %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: sale_path(@conn, :edit, @sale) %></span>
+<span><%= link "Back", to: sale_path(@conn, :index) %></span>

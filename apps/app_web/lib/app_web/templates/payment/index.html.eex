@@ -1,0 +1,49 @@
+
+
+<div class="container">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="col-lg-2 ml-auto text-center">
+          <div class="form-group">
+            <div class="selectgroup w-100">
+              <label class="selectgroup-item">
+                <input type="radio" name="view" value="list" class="selectgroup-input" checked="">
+                <span class="selectgroup-button">Table</span>
+              </label>
+              <label class="selectgroup-item">
+                <input type="radio" name="view" value="board" class="selectgroup-input">
+                <span class="selectgroup-button">Board</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 ml-auto text-center">
+          <div id="reportrange">
+            <span></span>
+            <i class="fa fa-calendar"></i>&nbsp;
+          </div>
+          <i class="fa fa-plus"></i>
+        </div>
+        <div class="col-lg-2 ml-auto text-center">
+          <span><%= link "+ Create Reward", to: payment_path(@conn, :new), class: "btn btn-primary" %></span>
+        </div>
+        <div class="col-lg order-lg-first">
+          <h2>Rewards</h2>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <%= render "list.html", Map.merge(assigns, %{
+          payments: @payments
+        })%> 
+
+        <%= render "board.html", Map.merge(assigns, %{
+          payments: @payments
+        })%> 
+      </div> 
+      
+      
+    </div>
+  </div>
+</div>

@@ -15,7 +15,16 @@ defmodule AppWeb.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(), 
+        test_coverage: [ 
+        tool: ExCoveralls 
+      ], 
+      preferred_cli_env: [ 
+        "coveralls": :test, 
+        "coveralls.detail": :test, 
+        "coveralls.post": :test, 
+        "coveralls.html": :test 
+      ] 
     ]
   end
 
@@ -45,7 +54,9 @@ defmodule AppWeb.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:app, in_umbrella: true},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:mailgun, "~> 0.1.2"},
+      {:poison, "~> 3.1", override: true}
     ]
   end
 

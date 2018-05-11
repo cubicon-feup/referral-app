@@ -1,0 +1,112 @@
+#payment-type{
+  .payment-type-money{
+    background:#e3f1ff;
+    color: #376ee7;
+    border-radius: 5px;
+  }
+  
+  .payment-type-voucher{
+    background: #fff0bb;
+    color: #ffb516;
+    border-radius: 5px;
+  }
+  
+  .payment-type-products{
+    background: #ffdfdf;
+    color: #ff6262; 
+    border-radius: 5px;
+  }
+
+  .selectgroup-button{
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .selectgroup-input:checked{
+    +.payment-type-money{
+      background:#e3f1ff;
+      color: #376ee7;
+      border: solid 1px #376ee7;
+      border-radius: 5px;
+    }
+    +.payment-type-voucher{
+      background: #fff0bb;
+      color: #ffb516;
+      border: solid 1px #ffb516;
+      border-radius: 5px;
+    }
+    +.payment-type-products{
+      background: #ffdfdf;
+      color: #ff6262; 
+      border: solid 1px #ff6262;
+      border-radius: 5px;
+    }
+  }
+
+  .payment-type{
+    padding: 0 10px;
+  }
+
+  &>* {
+    font-weight: bold;
+  }
+
+}
+
+.board-title{
+  text-align: center;
+  background: #f5f6fa;
+  padding: 10px;
+  border-radius: 7px;
+
+  h4{
+    margin: 0;
+  }
+}
+
+.payment-description {
+  margin: 10px 0;
+}
+
+.deadline_date{
+  color: #ff6262;
+}
+
+.payment_date{
+  color: #376ee7;
+}
+
+select{
+  &.complete, &.complete:focus{
+    background: #376ee7;
+    color: white;
+  }
+
+  &.cancelled, &.cancelled:focus{
+    background: #444444;
+    color: white;
+  }
+
+  &.pending, &.pending:focus{
+    background: #ff6262;
+    color: white;
+  }
+
+  & { text-align-last: right; }
+
+  option{
+    background: white;
+    color: black;
+    direction: rtl;
+  }
+}
+
+.card-header{
+  .form-group{
+    margin-bottom: 0;
+  }
+
+  .selectgroup-item{
+    margin-bottom: 0;
+  }
+}

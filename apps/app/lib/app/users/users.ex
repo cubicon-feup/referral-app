@@ -9,15 +9,15 @@ defmodule App.Users do
   alias App.Users.User
 
   @doc """
-  Returns the list of user.
+  Returns the list of users.
 
   ## Examples
 
-      iex> list_user()
+      iex> list_users()
       [%User{}, ...]
 
   """
-  def list_user do
+  def list_users do
     Repo.all(User)
   end
 
@@ -101,4 +101,6 @@ defmodule App.Users do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
+
+  def get_user_by_email!(email), do: Repo.get_by(User, email: email)
 end

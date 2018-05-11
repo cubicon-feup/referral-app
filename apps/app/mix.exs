@@ -14,7 +14,16 @@ defmodule App.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [
+        tool: ExCoveralls
+      ],
+      preferred_cli_env: [
+        "coveralls": :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -40,7 +49,12 @@ defmodule App.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 2.1"},
       {:credo, "~> 0.3", only: [:dev, :test]},
-      {:excoveralls, "~> 0.7", only: [:dev, :test]}
+      {:excoveralls, "~> 0.7", only: [:dev, :test]},
+      {:guardian, "~> 1.0-beta"},
+      {:comeonin, "~> 4.0"},
+      {:httpoison, "~> 1.0"},
+      {:poison, "~> 3.1"},
+      {:bcrypt_elixir, "~> 0.12"}
     ]
   end
 
@@ -52,8 +66,9 @@ defmodule App.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
+      "ecto.seed": ["run priv/repo/seeds.exs"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end

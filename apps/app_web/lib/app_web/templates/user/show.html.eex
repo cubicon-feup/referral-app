@@ -1,0 +1,43 @@
+<h2>Show User</h2>
+
+<ul>
+
+  <li>
+    <strong><%= gettext("Date of birth") %>:</strong>
+    <%= @user.date_of_birth %>
+  </li>
+
+  <li>
+    <strong><%= gettext("Email") %>:</strong>
+    <%= @user.email %>
+  </li>
+
+  <li>
+    <strong><%= gettext("Name") %>:</strong>
+    <%= @user.name %>
+  </li>
+
+  <li>
+    <strong><%= gettext("Password") %>:</strong>
+    <%= @user.password %>
+  </li>
+
+  <li>
+    <strong><%= gettext("Picture path") %>:</strong>
+    <%= @user.picture_path %>
+  </li>
+
+  <li>
+    <strong><%= gettext("Privileges level") %>:</strong>
+    <%= @user.privileges_level %>
+  </li>
+
+  <li>
+    <strong><%= gettext("Deleted") %>:</strong>
+    <%= @user.deleted %>
+  </li>
+
+</ul>
+
+<span><%= link gettext("Edit"), to: user_path(@conn, :edit, @user) %></span>
+<span><%= link gettext("Back"), to: user_path(@conn, :index) %></span>

@@ -1,0 +1,5 @@
+<h2>New Influencer</h2>
+
+<%= render "form.html", Map.put(assigns, :action, influencer_path(@conn, :create)) %>
+
+<span><%= link "Back", to: influencer_path(@conn, :index) %></span>

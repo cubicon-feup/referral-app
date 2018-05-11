@@ -1,0 +1,29 @@
+<h2>Listing Vouchers for <%= @contract.id %> </h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>
+        Contract ID
+</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for voucher <- @vouchers do %>
+    <tr>
+      <td><%= voucher.code %></td>
+      <td><%= voucher.contract_id %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: contract_voucher_path(@conn, :show, @contract, voucher), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: contract_voucher_path(@conn, :edit, @contract, voucher), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: contract_voucher_path(@conn, :delete, @contract, voucher), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Voucher", to: contract_voucher_path(@conn, :new, @contract) %></span>
