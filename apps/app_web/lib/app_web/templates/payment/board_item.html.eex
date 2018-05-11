@@ -1,28 +1,3 @@
-<!--tr>
-  <td><%= @payment.influencer.name%></td>
-  <td><%= format_reward(@payment.type) %></td>
-  <td><%= @payment.value %>€ <%= @payment.description %></td>
-  <%# <td>TODO</td> %>
-  <td><%= format_date(@payment.request_date) %></td>
-  <td><%= 
-     case @payment.status do
-      "pending" ->
-        format_date(@payment.deadline_date) <> " / -"
-      "complete" ->
-        "- / " <> format_date(@payment.payment_date) 
-      "cancelled" ->
-        "- / -"
-    end
-    %>
-  </td>
-  <td>
-    <%= render "edit_status.html", Map.merge(assigns, %{
-      changeset: get_changeset(@payment),
-      action: payment_path(@conn, :update_status, @payment)
-    })%> 
-  </td>
-</tr-->
-
 <div class="card">
   <div class="card-body">
     <div class="row">
@@ -70,16 +45,27 @@
               "Cancelled" 
           end
         %>
-        <%= @payment.value %>€ <%= @payment.description %>
+        <%= 
+          if @payment.type == "products" do
+            @payment.description
+          else
+            @payment.value
+          end
+        %>
+        <%= 
+          if @payment.type != "products" do
+            "€"
+          end
+        %>
         <%=  " to " <> @payment.influencer.name %>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         Requested by <%= link @payment.influencer.name, to: influencer_path(@conn, :show, @payment.influencer) %>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <%= render "edit_status.html", Map.merge(assigns, %{
           changeset: get_changeset(@payment),
           action: payment_path(@conn, :update_status, @payment)

@@ -10,7 +10,7 @@
         [key: "Pending", value: "pending"],
         [key: "Cancelled", value: "cancelled"],
         [key: "Complete", value: "complete"]],
-      class: "form-control status",
+      class: "form-control status text-right",
       onchange: "" 
       %>
     <%= error_tag f, :status %>

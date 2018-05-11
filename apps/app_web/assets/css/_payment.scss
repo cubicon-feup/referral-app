@@ -1,20 +1,20 @@
-.form-group{
-  font-weight: bold;
-
+#payment-type{
   .payment-type-money{
     background:#e3f1ff;
     color: #376ee7;
-   
+    border-radius: 5px;
   }
   
   .payment-type-voucher{
     background: #fff0bb;
     color: #ffb516;
+    border-radius: 5px;
   }
   
   .payment-type-products{
     background: #ffdfdf;
     color: #ff6262; 
+    border-radius: 5px;
   }
 
   .selectgroup-button{
@@ -27,21 +27,28 @@
       background:#e3f1ff;
       color: #376ee7;
       border: solid 1px #376ee7;
+      border-radius: 5px;
     }
     +.payment-type-voucher{
       background: #fff0bb;
       color: #ffb516;
       border: solid 1px #ffb516;
+      border-radius: 5px;
     }
     +.payment-type-products{
       background: #ffdfdf;
       color: #ff6262; 
       border: solid 1px #ff6262;
+      border-radius: 5px;
     }
   }
 
   .payment-type{
     padding: 0 10px;
+  }
+
+  &>* {
+    font-weight: bold;
   }
 
 }
@@ -85,9 +92,12 @@ select{
     color: white;
   }
 
+  & { text-align-last: right; }
+
   option{
     background: white;
     color: black;
+    direction: rtl;
   }
 }
 
