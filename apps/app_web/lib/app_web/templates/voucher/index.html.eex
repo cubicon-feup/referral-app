@@ -1,29 +1,46 @@
-<h2>Listing Vouchers for <%= @contract.id %> </h2>
+<div class="container">
+  <meta name="store-host" content="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="col-lg-6 ml-auto text-right">
+          <i class="fa fa-plus"></i>
+          <span><%= link "Create Voucher", to: contract_voucher_path(@conn, :new, @contract) %></span>
+        </div>
+        <div class="col-lg order-lg-first">
+          <h2>Vouchers</h2>
+        </div>
+      </div> 
+      <div class="table-responsive">
+        <table class="table card-table table-vcenter text-nowrap">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Views</th>
+              <th>Short Url</th>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Code</th>
-      <th>
-        Contract ID
-</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for voucher <- @vouchers do %>
-    <tr>
-      <td><%= voucher.code %></td>
-      <td><%= voucher.contract_id %></td>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for voucher <- @vouchers do %>
+                <tr>
+                  <td><%= voucher.code %></td>
+                  <td><%= voucher.views_counter %></td>
+                  <td><span>
+                      <a class="btn btn-default btn-xs share-shorten-url" id="voucher-<%=voucher.code%>" voucher-id="<%=voucher.id%>" discount-code="<%=voucher.code%>">Share</a>
+                    </span>
+                  </td>
 
-      <td class="text-right">
-        <span><%= link "Show", to: contract_voucher_path(@conn, :show, @contract, voucher), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: contract_voucher_path(@conn, :edit, @contract, voucher), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: contract_voucher_path(@conn, :delete, @contract, voucher), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Voucher", to: contract_voucher_path(@conn, :new, @contract) %></span>
+                  <td class="text-right">
+                    
+                    <span><%= link "Delete", to: contract_voucher_path(@conn, :delete, @contract, voucher), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+                  </td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

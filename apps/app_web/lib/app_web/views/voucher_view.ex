@@ -2,6 +2,7 @@ defmodule AppWeb.VoucherView do
   use AppWeb, :view
   alias App.Brands
   alias App.Price_rules.Price_rule
+  alias App.Links
 
   def get_price_rule(brand, price_rule_id) do
     url = build_url(brand) <> "/admin/price_rules/#{price_rule_id}.json"

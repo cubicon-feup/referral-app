@@ -4,7 +4,8 @@ defmodule AppWeb.LinkController do
   alias App.Links
   alias App.Links.Link
   alias App.Cache
-  
+  alias App.Vouchers
+
   def index(conn, _params) do
     links = Links.list_links()
     render(conn, "index.html", links: links)
@@ -65,7 +66,7 @@ defmodule AppWeb.LinkController do
 
   If the shortcode wasn't in the cache then add it.
 
-  If the shortcode isn't in the database render a 404.  
+  If the shortcode isn't in the database render a 404.
   """
   def unshorten(conn, %{"shortcode" => shortcode}) do
     case App.Cache.get_url(shortcode) do
@@ -76,6 +77,9 @@ defmodule AppWeb.LinkController do
         |> put_status(:not_found)
         |> render(AppWeb.ErrorView, "404.html")
       url ->
+        link = Links.link_from_shortcode(shortcode)
+        {:ok, voucher} = Vouchers.get_voucher!(link.voucher_id)
+        Vouchers.add_view(voucher)
         conn
         |> put_status(:moved_permanently)
         |> redirect(external: url)
