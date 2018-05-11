@@ -13,7 +13,12 @@
       <div class="card-body">
         <div class="form-group">
           <%= label f, :influencer_id, class: "form-label" %>
-          <%= select f, :influencer_id, Enum.map(@influencers, &{&1.name, &1.id}), class: "form-control custom-select", id: "select-influencer" %>
+          <select name="payment[influencer_id]" class="form-control custom-select" id="select-influencer">
+            <%= for influencer <- @influencers do %>
+              <option value="">---Select Influencer---</option>
+              <%= content_tag :option, influencer.name, [data: [payment_period: influencer.payment_period], value: influencer.id] %>
+            <% end %>
+          </select>
           <%= error_tag f, :influencer_id %>
         </div>
       </div>

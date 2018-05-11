@@ -22,5 +22,4 @@ defmodule AppWeb.PaymentView do
         "In Kind"
     end
   end
-
 end

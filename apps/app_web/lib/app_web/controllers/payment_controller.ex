@@ -4,6 +4,7 @@ defmodule AppWeb.PaymentController do
   alias App.Payments
   alias App.Payments.Payment
   alias App.Brands
+  alias App.Contracts
 
   def index(conn, _params) do
     payments = Payments.list_payments()
@@ -13,24 +14,35 @@ defmodule AppWeb.PaymentController do
   def new(conn, _params) do
     brand_id = Plug.Conn.get_session(conn, :brand_id)
     influencers = Brands.get_brand_influencers(1)
+    influencers = Enum.map(influencers, fn influencer -> 
+      contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer.id)
+      influencer
+      |> Map.put(:payment_period, contract.payment_period)
+    end)
     changeset = Payments.change_payment(%Payment{})
     render(conn, "new.html", changeset: changeset, influencers: influencers)
   end
 
   def create(conn, %{"payment" => payment_params}) do
     {:ok, deadline} = NaiveDateTime.from_iso8601(payment_params["deadline_date"] <> "T23:59:59Z")
-      
-    params = %{"brand_id" => Plug.Conn.get_session(conn, :brand_id),
+    brand_id = Plug.Conn.get_session(conn, :brand_id)  
+    params = %{"brand_id" => brand_id,
       "deadline_date" => deadline
     }
-      |> Enum.into(payment_params)
+    |> Enum.into(payment_params)
     case Payments.create_payment(params) do
       {:ok, payment} ->
         conn
         |> put_flash(:info, "Payment created successfully.")
-        |> redirect(to: payment_path(conn, :show, payment))
+        |> redirect(to: payment_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, influencers: Brands.get_brand_influencers(1))
+        influencers = Brands.get_brand_influencers(1)
+        influencers = Enum.map(influencers, fn influencer -> 
+          contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer.id)
+          influencer
+          |> Map.put(:payment_period, contract.payment_period)
+        end)
+        render(conn, "new.html", changeset: changeset, influencers: influencers)
     end
   end
 

@@ -10,8 +10,8 @@
         [key: "Pending", value: "pending"],
         [key: "Cancelled", value: "cancelled"],
         [key: "Complete", value: "complete"]],
-      class: "form-control",
-      onchange: "changecolor(this)" 
+      class: "form-control status",
+      onchange: "" 
       %>
     <%= error_tag f, :status %>
   </div>
