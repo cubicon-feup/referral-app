@@ -57,7 +57,7 @@ defmodule AppWeb.PaymentControllerTest do
       influencer = influencer_fixture()
       brand = brand_fixture()
       attrs = Enum.into(%{brand_id: brand.id, influencer_id: influencer.id}, @create_attrs_website)
-      IO.inspect(attrs)
+      
       conn = post conn, payment_path(conn, :create), payment: attrs
 
       conn = get conn, payment_path(conn, :index)

@@ -28,7 +28,6 @@ defmodule AppWeb.PaymentController do
     params = Enum.into(%{"deadline_date" => deadline}, payment_params)
 
     if !Map.has_key?(payment_params, "brand_id") do
-      IO.inspect("PASSED HERE")
       brand_id = Plug.Conn.get_session(conn, :brand_id)
       params = Enum.into(%{"brand_id" => brand_id}, params)
     end
