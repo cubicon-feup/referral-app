@@ -5,6 +5,7 @@ defmodule AppWeb.Api.PaymentControllerTest do
   alias App.Payments.Payment
 
   alias App.Influencers
+  alias App.Brands
 
   @create_attrs %{type: "voucher", value: "120.5"}
   @update_attrs %{type: "money", value: "456.7", status: "complete"}

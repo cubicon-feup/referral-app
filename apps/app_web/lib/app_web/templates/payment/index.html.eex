@@ -4,6 +4,10 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
+        <div class="col-lg order-lg-first">
+          <h2>Rewards</h2>
+        </div>
+        
         <div class="col-lg-2 ml-auto text-center">
           <div class="form-group">
             <div class="selectgroup w-100">
@@ -28,9 +32,7 @@
         <div class="col-lg-2 ml-auto text-center">
           <span><%= link "+ Create Reward", to: payment_path(@conn, :new), class: "btn btn-primary" %></span>
         </div>
-        <div class="col-lg order-lg-first">
-          <h2>Rewards</h2>
-        </div>
+        
       </div>
 
       <div class="card-body">

@@ -25,11 +25,15 @@ defmodule AppWeb.PaymentController do
 
   def create(conn, %{"payment" => payment_params}) do
     {:ok, deadline} = NaiveDateTime.from_iso8601(payment_params["deadline_date"] <> "T23:59:59Z")
-    brand_id = Plug.Conn.get_session(conn, :brand_id)  
-    params = %{"brand_id" => brand_id,
-      "deadline_date" => deadline
-    }
-    |> Enum.into(payment_params)
+    params = Enum.into(%{"deadline_date" => deadline}, payment_params)
+
+    if !Map.has_key?(payment_params, "brand_id") do
+      IO.inspect("PASSED HERE")
+      brand_id = Plug.Conn.get_session(conn, :brand_id)
+      params = Enum.into(%{"brand_id" => brand_id}, params)
+    end
+
+    
     case Payments.create_payment(params) do
       {:ok, payment} ->
         conn
