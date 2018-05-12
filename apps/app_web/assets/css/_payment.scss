@@ -92,9 +92,9 @@ select{
     color: white;
   }
 
-  & { text-align-last: right; }
+  &.status { text-align-last: right; }
 
-  option{
+  &.status option{
     background: white;
     color: black;
     direction: rtl;

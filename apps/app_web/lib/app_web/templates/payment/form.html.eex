@@ -12,7 +12,7 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <%= label f, :influencer_id, class: "form-label" %>
+          <%= label f, :influencer_id, class: "control-label" %>
           <select name="payment[influencer_id]" class="form-control custom-select" id="select-influencer">
             <%= for influencer <- @influencers do %>
               <option value="">---Select Influencer---</option>
