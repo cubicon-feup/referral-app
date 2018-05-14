@@ -49,8 +49,10 @@ defmodule AppWeb.Router do
   end
 
   scope "/api", AppWeb.Api, as: :api do
-     pipe_through [:api, :auth, :ensure_auth]
+    pipe_through [:api, :auth, :ensure_auth]
 
+    post "/shorten/new", LinkController, :create
+    post "/shorten/:id/delete", LinkController, :delete
 
   end
 
@@ -80,13 +82,18 @@ defmodule AppWeb.Router do
     resources "/rules", RuleController
     resources "/account", UserController, only: [:index, :new, :create]
     get "/", PageController, :index
-    post "/payments/:id" , PaymentController, :update_status
+    put "/payments/:id/status" , PaymentController, :update_status
     get "/terms", UserController, :terms
     post "/user/login", UserController, :login
     resources "/contracts", ContractController do
       resources "/vouchers", VoucherController
     end
     get "/404", PageNotFoundController, :show
+    get "/brands/:id/new_influencer", BrandController, :new_influencer
+    post "/brands/:id/create_influencer", BrandController, :create_influencer
+    get "/influencers/:email/:name/invited_new_user", InfluencerController, :invited_new_user
+    post "/influencers/:email/:name/invited_create_user", InfluencerController, :invited_create_user
+    put "/influencers/:id/invited_update_influencer", InfluencerController, :invited_update_influencer
 
   end
 
@@ -104,6 +111,7 @@ defmodule AppWeb.Router do
      resources "/vouchers", VoucherController
      resources "/sales", SaleController
      resources "/clients", ClientController
+     resources "/shorten", LinkController
   end
 
   scope "/webhook", AppWeb do

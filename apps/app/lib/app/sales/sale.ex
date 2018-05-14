@@ -2,11 +2,10 @@ defmodule App.Sales.Sale do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "sales" do
-    field :date, :naive_datetime
-    field :value, :decimal
-    belongs_to :voucher, App.Vouchers.Voucher
+    field(:date, :naive_datetime)
+    field(:value, :decimal)
+    field(:voucher_id, :id)
 
     timestamps()
   end
@@ -14,8 +13,8 @@ defmodule App.Sales.Sale do
   @doc false
   def changeset(sale, attrs) do
     sale
-    |> cast(attrs, [:date, :value])
-    |> cast_assoc(:voucher)
-    |> validate_required([:date, :value])
+    |> cast(attrs, [:date, :value, :voucher_id])
+    |> foreign_key_constraint(:voucher_id)
+    |> validate_required([:date, :value, :voucher_id])
   end
 end
