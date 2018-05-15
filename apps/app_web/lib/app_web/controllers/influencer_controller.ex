@@ -13,6 +13,8 @@ defmodule AppWeb.InfluencerController do
 
   alias AppWeb.PageNotFoundController
 
+  import AppWeb.Mailer
+
   def index(conn, _params) do
     case Plug.Conn.get_session(conn, :brand_id) do
       nil ->
@@ -79,6 +81,42 @@ defmodule AppWeb.InfluencerController do
     conn
     |> put_flash(:info, "Influencer deleted successfully.")
     |> redirect(to: influencer_path(conn, :index))
+  end
+
+  def invite(conn, %{"id" => id}) do
+    influencer = Influencers.get_influencer!(id)
+    send_welcome_email(influencer.contact, influencer.name)
+
+    conn
+    |> put_flash(:info, gettext("Invite sent successfully"))
+    |> redirect(to: influencer_path(conn, :index))
+  end
+
+  def invited_influencer(conn, %{"email" => email, "name" => name}) do
+    case Guardian.Plug.current_resource(conn) do
+      nil->
+        conn
+        |> put_flash(:info, "You need to be logged in to see this page")
+        |> redirect(to: user_path(conn, :index))
+      user->
+        if user.email == email do
+          case Influencers.get_influencer_by_email!(email) do
+            nil->
+              PageNotFoundController.error(conn, %{})
+            influencer->
+              case Influencers.update_influencer(influencer, %{user_id: user.id}) do
+                {:ok, influencer} ->
+                  conn
+                  |> redirect(to: user_path(conn, :index))
+                {:error, %Ecto.Changeset{} = changeset} ->
+                  conn
+                  |> PageNotFoundController.error(%{})
+              end
+          end
+        else
+          PageNotFoundController.error(conn, %{})
+        end
+    end
   end
 
   def invited_new_user(conn, %{"email" => email, "name" => name}) do

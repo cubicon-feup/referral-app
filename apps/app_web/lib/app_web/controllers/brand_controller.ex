@@ -82,7 +82,6 @@ defmodule AppWeb.BrandController do
       nil->
         case Influencers.create_influencer(influencer_params) do
           {:ok, influencer} ->
-            #send_welcome_email(influencer.contact, influencer.name)
             conn
             |> put_flash(:info, "Influencer created successfully.")
             |> redirect(to: brand_path(conn, :show, id))
