@@ -12,6 +12,10 @@
     <%= @sale.value %>
   </li>
 
+  <li>
+    <strong>Country:</strong>
+    <%= @sale.customer_locale %>
+  </li>
 </ul>
 
 <span><%= link "Edit", to: sale_path(@conn, :edit, @sale) %></span>

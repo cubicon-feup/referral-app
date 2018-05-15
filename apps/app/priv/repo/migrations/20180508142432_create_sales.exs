@@ -6,6 +6,7 @@ defmodule App.Repo.Migrations.CreateSales do
       add(:date, :naive_datetime)
       add(:value, :decimal)
       add(:voucher_id, references(:vouchers, on_delete: :nothing))
+      add(:customer_locale, :string)
 
       timestamps()
     end
