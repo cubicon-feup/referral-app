@@ -7,13 +7,12 @@
 }
 
 .statistics {
-
-	.pending {
+	.rewarded {
 		background: #376ee7;
 		color: white;
 	}
 	
-	.rewarded{
+	.pending{
 		background: #ff6262;
 		color: white;
 	}
@@ -28,6 +27,31 @@
 			margin: 10px;
 		}
 	}
+}
+
+select{
+  &.complete, &.complete:focus{
+    background: #376ee7;
+    color: white;
+  }
+
+  &.cancelled, &.cancelled:focus{
+    background: #444444;
+    color: white;
+  }
+
+  &.pending, &.pending:focus{
+    background: #ff6262;
+    color: white;
+  }
+
+  &.status { text-align-last: right; }
+
+  &.status option{
+    background: white;
+    color: black;
+    direction: rtl;
+  }
 }
 
 

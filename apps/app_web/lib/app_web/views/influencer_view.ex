@@ -4,6 +4,8 @@ defmodule AppWeb.InfluencerView do
   alias App.Influencers
   alias App.Influencers.Influencer
   alias App.Payments
+  alias App.Vouchers
+  alias App.Contracts.Contract
   
   def get_brands(%Influencer{} = influencer) do
     Influencers.get_brands(influencer.id)
@@ -35,6 +37,14 @@ defmodule AppWeb.InfluencerView do
     end)
     |> Float.round(2)
     |> :erlang.float_to_binary([decimals: 2])
+  end
+
+  def get_payments(%Influencer{} = influencer) do
+    Payments.list_payments_influencer(influencer.id)
+  end
+
+  def get_vouchers(%Contract{} = contract) do
+    Vouchers.get_vouchers_by_contract!(contract.id)
   end
 
 

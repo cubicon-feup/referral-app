@@ -141,5 +141,6 @@ defmodule App.Payments do
     |> select([p], p)
 
     Repo.all(query)
+    |> Repo.preload(:influencer)
   end
 end

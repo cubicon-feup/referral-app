@@ -124,8 +124,26 @@
 
         <div class="col-sm-12">
           <div class="card">
+            <div class="card-header">
+              <%= gettext("Rewards") %>
+            </div>
             <div class="card-body">
-              TODO
+              <%= render AppWeb.PaymentView, "board.html", Map.merge(assigns, %{
+                payments: get_payments(@influencer)
+              }) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <%= gettext("Vouchers") %>
+            </div>
+            <div class="card-body">
+               <%= render "vouchers_table.html", Map.merge(assigns, %{
+                vouchers: get_vouchers(@contract)
+              }) %>
             </div>
           </div>
         </div>
