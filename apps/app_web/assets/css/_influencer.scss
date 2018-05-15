@@ -1,3 +1,34 @@
 #reportrange{
-    display: inline-block;
+	display: inline-block;
 }
+
+.info-field {
+	margin-bottom: 20px;
+}
+
+.statistics {
+
+	.pending {
+		background: #376ee7;
+		color: white;
+	}
+	
+	.rewarded{
+		background: #ff6262;
+		color: white;
+	}
+	
+	.pending,.rewarded {
+		font-size: 1.2em;
+		text-align: center;
+		padding: 40px;
+	
+		& div{
+			font-size: 2em;
+			margin: 10px;
+		}
+	}
+}
+
+
+

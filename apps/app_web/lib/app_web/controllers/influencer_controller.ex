@@ -4,6 +4,7 @@ defmodule AppWeb.InfluencerController do
   alias App.Influencers
   alias App.Influencers.Influencer
   alias App.Brands
+  alias App.Contracts
   alias App.Repo
 
   alias App.Users
@@ -50,7 +51,9 @@ defmodule AppWeb.InfluencerController do
 
   def show(conn, %{"id" => id}) do
     influencer = Influencers.get_influencer!(id)
-    render(conn, "show.html", influencer: influencer)
+    brand_id = Plug.Conn.get_session(conn, :brand_id)
+    contract = contract = Contracts.get_contract_by_brand_and_influencer(brand_id, id)
+    render(conn, "show.html", influencer: influencer, contract: contract)
   end
 
   def edit(conn, %{"id" => id}) do

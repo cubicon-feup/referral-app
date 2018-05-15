@@ -2,8 +2,10 @@
   <div class="page-header">
     <h1 class="page-title">
       <%= gettext("Influencers") %>
-      >
-      <%= @influencer.name %>
+      <span style="color:#376ee7;">
+        >
+        <%= @influencer.name %>
+      </span>
     </h1>
   </div>
   <div class="row">
@@ -53,7 +55,7 @@
               <%= gettext("Brands") %>
             </div>
             <div>
-              TODO
+              <%= get_brands(@influencer) %>
             </div>
           </div>
 
@@ -64,7 +66,7 @@
 
       <div class="card">
         <div class="card-header">
-          <%= gettext("Influencer information") %>
+          <%= gettext("Contract information") %>
         </div>
         <div class="card-body">
           <div class="info-field">
@@ -72,7 +74,7 @@
               <%= gettext("Points") %>
             </div>
             <div>
-              TODO
+               <%= @contract.points %>
             </div>
           </div>
 
@@ -90,20 +92,9 @@
               <%= gettext("Creation Date") %>
             </div>
             <div>
-              TODO
+              <%= format_date(@contract.inserted_at) %>
             </div>
-          </div>
-
-           <div class="info-field">
-            <div class="text-muted">
-              <%= gettext("Brands") %>
-            </div>
-            <div>
-              TODO
-            </div>
-          </div>
-
-         
+          </div>         
         </div>
       </div>
     </div>
@@ -111,23 +102,29 @@
     <div class="col-sm-9">
       <div class="row">
         <div class="col-sm-6">
-          <div class="card">
+          <div class="card statistics">
             <div class="card-body pending">
-              TODO
+              <div>
+                <%= get_pending(@influencer) %> €
+              </div>
+              <%= gettext("Rewards pending") %>
             </div>
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="card">
+          <div class="card statistics">
             <div class="card-body rewarded">
-              TODO
+              <div>
+                <%= get_rewarded(@influencer) %> €
+              </div>
+              <%= gettext("Rewarded") %>
             </div>
           </div>
         </div>
 
         <div class="col-sm-12">
           <div class="card">
-            <div class="card-body rewarded">
+            <div class="card-body">
               TODO
             </div>
           </div>

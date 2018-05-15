@@ -8,6 +8,8 @@ defmodule App.Influencers do
   alias App.Repo
 
   alias App.Influencers.Influencer
+  alias App.Brands
+  alias App.Contracts.Contract
 
   @doc """
   Returns the list of influencers.
@@ -119,6 +121,21 @@ defmodule App.Influencers do
     end
   end
 
-  def get_influencer_by_user(user_id), do: Repo.get_by(Influencer, user_id: user_id) 
+  def get_influencer_by_user(user_id), do: Repo.get_by(Influencer, user_id: user_id)
 
+
+  def get_brands(influencer_id) do
+    #query = from b in App.Contracts, where: b.influencer_id == influencer_id
+    #query = from [b] in Ap
+
+    query =
+      from(
+        contract in Contract,
+        where: contract.influencer_id == ^influencer_id
+      )
+    |> join( :inner, [contract], brand in assoc(contract, :brand))
+    |> select([_, brand], brand)
+
+    Repo.all(query)
+  end
 end

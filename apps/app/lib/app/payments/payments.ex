@@ -133,4 +133,13 @@ defmodule App.Payments do
   def change_payment(%Payment{} = payment) do
     Payment.changeset(payment, %{})
   end
+
+
+  def list_payments_influencer(influencer_id) do
+    query = Payment
+    |> where([p], p.influencer_id == ^influencer_id)
+    |> select([p], p)
+
+    Repo.all(query)
+  end
 end
