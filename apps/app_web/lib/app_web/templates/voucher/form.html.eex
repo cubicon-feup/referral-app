@@ -3,22 +3,152 @@
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
-  <% end %>
+    <% end %>
 
-  <div class="form-group">
-    <%= label f, :code, class: "control-label" %>
-    <%= text_input f, :code, class: "form-control" %>
-    <%= error_tag f, :code %>
-  </div>
+      <% price_rules =
+  Plug.Conn.get_session(@conn, :brand_id)
+  |> get_price_rules() %>
 
-  <div class="form-group">
-    <%= label f, :price_rule_id, class: "control-label" %>
-    <%= text_input f, :price_rule_id, class: "form-control" %>
-    <%= error_tag f, :price_rule_id %>
-  </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><%=gettext("Options") %></h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <%= label f, :code, gettext("Discount Code"), class: "control-label" %>
+                <%= text_input f, :code, class: "form-control" %>
+                  <%= error_tag f, :code %>
+            </div>
+          </div>
 
 
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
-<% end %>
+          <div class="form-group">
+            <select name="beast" id="select-beast" class="form-control custom-select selectized" tabindex="-1" style="display: none;"><option value="1" selected="selected">Chuck Testa</option></select>
+            <div class="selectize-control form-control custom-select single">
+              <div class="selectize-input items full has-options has-items">
+                <div class="item" data-value="1">Chuck Testa</div><input type="text" autocomplete="off" tabindex="" id="select-beast-selectized" style="width: 4px;"></div>
+              <div class="selectize-dropdown single form-control custom-select" style="display: none;">
+                <div class="selectize-dropdown-content"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <%= label f, :discount_type, class: "control-label" %>
+              <select>
+        <option value="fixed_amount">Valor Fixo</option>
+        <option value="percentage">Percentagem</option>
+        <option value="free_shipping">Free_Shipping</option>
+      </select>
+
+              <%= error_tag f, :discount_value %>
+                <%= label f, :discount_value, class: "control-label" %>
+                  <%= text_input f, :discount_value, class: "form-control" %>
+                    <%= error_tag f, :discount_value %>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><%=gettext("Minimum Requirements") %></h3>
+          </div>
+
+          <div class="form-group">
+            <%= label f, :minimum_requirements, class: "control-label" %>
+              <div class="custom-controls-stacked">
+                <label class="custom-control custom-radio">
+          <input type="radio" class="custom-control-input" name="example-radios" value="none" checked="" >
+          <div class="custom-control-label"><%=gettext("None") %></div>
+        </label>
+                <label class="custom-control custom-radio">
+          <input type="radio" class="custom-control-input" name="example-radios" value="minimum_purchase">
+          <div class="custom-control-label"><%=gettext("Minimum purchase amount") %></div>
+        </label>
+                <label class="custom-control custom-radio">
+          <input type="radio" class="custom-control-input" name="example-radios" value="minimum_items">
+          <div class="custom-control-label"><%=gettext("Minimum quantity of items")%></div>
+        </label>
+              </div>
+              <%= error_tag f, :minimum_requirements %>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><%=gettext("Usage Limits") %></h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="custom-control custom-checkbox custom-control-inline">
+          <input type="checkbox" class="custom-control-input" name="example-inline-checkbox1" value="option1">
+          <span class="custom-control-label"><%=gettext("Limit number of times this discount can be used in total")%></span>
+        </label>
+              <div class="form-group">
+                <label class="custom-control custom-checkbox custom-control-inline">
+            <input type="checkbox" class="custom-control-input" name="example-inline-checkbox1" value="option1">
+            <span class="custom-control-label"><%=gettext("Limit to one use per customer")%></span>
+          </label>
+              </div>
+              <%= error_tag f, :usage_limit %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><%=gettext("Active Dates") %></h3>
+          </div>
+
+          <div class="form-group">
+            <%= label f, :start_date,gettext("Start date") , class: "control-label" %>
+              <div class="input-group">
+                <%= text_input f, :deadline_date, id: "deadline", class: "form-control" %>
+                  <span class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-calendar"></i>&nbsp;</span>
+                  </span>
+              </div>
+              <div>
+                <label class="form-label">Hour</label>
+                <input type="text" name="field-name" class="form-control" data-mask="00:00" data-mask-clearifnotmatch="true" placeholder="00:00" autocomplete="on" maxlength="5">
+              </div>
+              <%= error_tag f, :deadline_date %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :end_date, gettext("End Date"), class: "control-label" %>
+            <div class="input-group">
+              <%= text_input f, :deadline_date, id: "deadline", class: "form-control" %>
+                <span class="input-group-append">
+        <span class="input-group-text"><i class="fa fa-calendar"></i>&nbsp;</span>
+                </span>
+            </div>
+            <%= error_tag f, :deadline_date %>
+              <div>
+                <label class="form-label">Hour</label>
+                <input type="text" name="field-name" class="form-control" data-mask="00:00" data-mask-clearifnotmatch="true" placeholder="00:00" autocomplete="on" maxlength="5">
+              </div>
+        </div>
+
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><%=gettext("Reward Rules") %></h3>
+          </div>
+
+
+          <div class="form-group">
+            <%= label f, :reward_type, class: "control-label" %>
+              <select>
+        <option value="none"><%=gettext("None") %></option>
+        <option value="sales"><%=gettext("Number of sales") %></option>
+        <option value="comission"><%=gettext("Comission") %></option>
+      </select>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <%= submit "Submit", class: "btn btn-primary" %>
+        </div>
+        <% end %>

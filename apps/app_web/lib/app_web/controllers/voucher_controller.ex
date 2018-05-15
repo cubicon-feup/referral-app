@@ -56,7 +56,8 @@ defmodule AppWeb.VoucherController do
 
   def new(conn, _params) do
     changeset = Vouchers.change_voucher(%Voucher{})
-    render(conn, "new.html", changeset: changeset)
+    brand_id = Plug.Conn.get_session(conn, :brand_id)
+    render(conn, "new.html", changeset: changeset, brand_id: brand_id)
   end
 
   def create(conn, %{"voucher" => voucher_params}) do
