@@ -6,7 +6,8 @@
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
-    "bootstrap": "^4.1.0",
+    "bootstrap": "^4.1.1",
+    "eslint": "^4.19.1",
     "jquery": "^3.2.1",
     "microplugin": "0.0.3",
     "moment": "^2.22.1",

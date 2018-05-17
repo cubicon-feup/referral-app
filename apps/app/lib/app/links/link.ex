@@ -7,12 +7,13 @@ defmodule App.Links.Link do
   schema "links" do
     field :shortcode, :string
     field :url, :string
+    field :voucher_id, :id
     field :user_id, :id
 
     timestamps()
   end
 
-  @required_fields ~w(url user_id)a
+  @required_fields ~w(url user_id voucher_id)a
 
   def new do
     cast(%App.Links.Link{}, %{}, [])
