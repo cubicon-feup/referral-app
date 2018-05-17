@@ -3,10 +3,6 @@
     top: 50px;
 }
 
-.dropdown-menu{
-    top: 10px!important;
-}
-
 .dropdown-item{
     text-align: right!important;
 }
@@ -18,4 +14,16 @@
 .dropdown{
     vertical-align: middle!important;
     display: flex!important;
+}
+
+.login-page{
+    height: 90vh!important;
+}
+
+.header-brand{
+    height: 2rem;
+	line-height: 2rem;
+	vertical-align: bottom;
+	padding-left: 25px;
+	width: auto;
 }
