@@ -21,7 +21,7 @@
                 <div class="form-group">
                   <span class="form-label"> Name</span>
                   <span class="form-control"> <%= @user.name %> </span>
-                </div>1
+                </div>
               </div>
               <div class="col-sm-6 col-md-6">
                 <div class="form-group">
@@ -38,7 +38,7 @@
               <div class="col-sm-6 col-md-6">
                 <div class="form-group">
                   <label class="form-label">Adress</label>
-                  <input type="text" class="form-control" placeholder="Company" >
+                  <input type="text" class="form-control" placeholder="Adress" >
                 </div>
               </div>
               <div class="col-sm-6 col-md-6">
@@ -52,32 +52,12 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="form-label">Phone Number</label>
-                  <input type="text" class="form-control" placeholder="Home Address" >
+                  <input type="text" class="form-control" placeholder="Phone Number" >
                 </div>
               </div>
-              <div class="col-sm-6 col-md-6">
-                <div class="form-group">
-                  <label class="form-label">Agency</label>
-                  <input type="text" class="form-control" placeholder="Agency">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="form-label">Account Manager</label>
-                  <input type="text" class="form-control" placeholder="Agency">
-                </div>
-              </div>
-              <div class="col-md-12">
-                <label class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" class="custom-control-input" name="example-inline-checkbox1" value="option1" checked="">
-                  <span class="custom-control-label">i give permission for my agency to manage my account</span>
-                </label>
-              </div>
-            </div>
-            <div class="row">
               <div class="col-md-12">
                 <h5>Brands</h5>
-                <h6>lorem,ipsum,teste</h6>
+                <h6 class="text-muted">lorem,ipsum,teste</h6>
               </div>
             </div>
             <div class="row">
