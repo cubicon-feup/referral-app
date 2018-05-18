@@ -51,7 +51,7 @@
           <div class="container">
               <div class="d-flex">
                   <a class="header-brand" href="/">
-                      <img src="" class="header-brand-img" alt="inspiro logo">
+                      <img src="<%= static_path(@conn, "/images/logo.png") %>" class="header-brand-img" alt="inspiro logo">
                   </a>
                   <div class="d-flex order-lg-2 ml-auto">
                       <div class="dropdown">
@@ -60,7 +60,7 @@
                               <span class="ml-2 d-none d-lg-block">
                                   <span class="text-default"><%= gettext "English" %></span>
                                   <i class="flag flag-gb"></i>
-                                  <i id="dropdown-icon-language" class="dropdown icon"></i>
+                                  <i id="dropdown-icon-language" class="fa fa-caret-down"></i>
                               </span>
                             </a>
                           <%end%>
@@ -69,7 +69,7 @@
                               <span class="ml-2 d-none d-lg-block">
                                   <span class="text-default"><%= gettext "Portuguese" %></span>
                                   <i class="flag flag-pt"></i>
-                                  <i id="dropdown-icon-language" class="dropdown icon"></i>
+                                  <i id="dropdown-icon-language" class="fa fa-caret-down"></i>
                               </span>
                             </a>
                           <%end%>
