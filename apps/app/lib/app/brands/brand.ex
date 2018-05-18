@@ -8,6 +8,7 @@ defmodule App.Brands.Brand do
     field(:hostname, :string)
     field(:name, :string)
     field(:user_id, :id)
+    field :picture_path, :string  
     has_many(:contracts, App.Contracts.Contract)
 
     timestamps()

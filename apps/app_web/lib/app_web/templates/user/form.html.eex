@@ -20,14 +20,14 @@
     <div class="form-group">
       <%= label f, :password, class: "form-label" %>
       <%= text_input f, :password, class: "form-control", type: "password", required: true, placeholder: gettext("Enter password")%>
-      <div class="card-body p-6">
-      <%= error_tag f, :password %>
+    </div> 
+    <div class="form-group">
+    <% confirmpassword = gettext("Confirm Password") %>
+    <%= label f, confirmpassword, class: "form-label" %>
+    <%= text_input f, :password_confirmation, class: "form-control", type: "password", id: "confirmPassword", required: true, placeholder: gettext("Repeat password") %>
     </div>
-    <div class="ui input">
-      <label for="confirmPassword">
-          <%= gettext ("Confirm Password") %>
-      </label>
-      <%= text_input f, :password_confirmation, class: "form-control", type: "password", id: "confirmPassword", required: true, placeholder: gettext("Repeat password") %>
+     <div class="card-body p-6">
+      <%= error_tag f, :password %>
     </div>
     <div class="form-group">
     <label class="custom-control custom-checkbox">
@@ -41,7 +41,6 @@
       <% var = String.upcase(gettext "Create new account") %>
       <%= submit var, class: "btn btn-primary btn-block" %>
     </div>
-  </div>
 <% end %>
 <div class="text-center text-muted">
   <div class="go-sign-in"> <%= gettext("Already account? Sign in")%><%= link gettext(" here"), to: user_path(@conn, :index) %></div>

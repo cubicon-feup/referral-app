@@ -1,41 +1,44 @@
-<div class="page-single">
-  <div class="boxedcontainer">
-<div class="row">
-  <h2 class= "col-6 col-sm-4">Brands</h2>
-  <div class="col-6 col-sm-4 text-right">Placeholderforcalendar</div> 
-</div>
+<div class="container">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="col-lg-6 ml-auto text-right">
+          <div id="reportrange">
+            <span></span>
+            <i class="fa fa-calendar"></i>&nbsp;
+          </div>  
+        </div>
+        <div class="col-lg order-lg-first">
+          <h2>Brands</h2>
+        </div>
+      </div> 
+      <div class="table-responsive">
+        <table class="table card-table table-vcenter text-nowrap">
+          <thead>
+            <tr>
+              <th>Pos. </th>
+              <th>Brands </th>
+              <th>Brand Names </th>
+              <th>Sales(#)</th>      
+              <th>Revenue(€)</th>
+              <th>Visitors</th>
+              <th>To receive</th>
+              <th>Received</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for brand <-@brands do %>
+                <tr>
+                  <td><%= "1"%></td>
+                  <td><img src="<%= static_path(@conn, "/images/brands/sarasampaio.png") %>" class="" alt="inspiro logo"</td>
+                  <td><%= brand.name %></td>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Pos. <i class="fa fa-angle-down"></i> </th>
-      <th>Brands<i class="fa fa-angle-down"></i> </th>
-      <th>Brand Names<i class="fa fa-angle-down"></i> </th>
-      <th>Sales(#)<i class="fa fa-angle-down"></i> </th>      
-      <th>Revenue(€)<i class="fa fa-angle-down"></i> </th>
-      <th>Visitors<i class="fa fa-angle-down"></i> </th>
-      <th>To receive<i class="fa fa-angle-down"></i> </th>
-      <th>Received<i class="fa fa-angle-down"></i> </th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for brand <- @brands do %>
-    <tr>
-      <td><%= brand.name %></td>
-      <td><%= brand.hostname %></td>
-      <td><%= brand.api_key %></td>
-      <td><%= brand.api_password %></td>
 
-      <td class="text-right">
-        <span><%= link "Show", to: brand_path(@conn, :show, brand), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: brand_path(@conn, :edit, brand), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: brand_path(@conn, :delete, brand), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Brand", to: brand_path(@conn, :new) %></span>
-</div>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

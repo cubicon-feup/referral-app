@@ -8,6 +8,7 @@ defmodule App.Repo.Migrations.CreateBrands do
       add :api_key, :string
       add :api_password, :string
       add :user_id, references(:users, on_delete: :nothing)
+      add :picture_path, :string
 
       timestamps()
     end
