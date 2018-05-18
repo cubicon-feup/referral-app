@@ -34,24 +34,21 @@
                                 <br>
                                 <div class="card-title-right"><big>Contract Information</big></div>
                                 <br>
-                                <%= inputs_for f, :contract, fn c -> %>
-                                    <div class="form-group">
-                                        <%= label c, :minimum_points, class: "control-label" %>
-                                        <%= number_input c, :minimum_points, class: "form-control" %>
-                                        <%= error_tag c, :minimum_points %>
-                                    </div>
-                                    <div class="form-group">
-                                        <%= label c, :payment_period, class: "control-label" %>
-                                        <%= number_input c, :payment_period, class: "form-control" %>
-                                        <%= error_tag c, :payment_period %>
-                                    </div>
-                                    <div class="form-group">
-                                        <%= label c, :points, class: "control-label" %>
-                                        <%= number_input c, :points, class: "form-control" %>
-                                        <%= error_tag c, :points %>
-                                    </div>
-                                <% end %>
-
+                                <div class="form-group">
+                                    <%= label f, :minimum_points, class: "control-label" %>
+                                    <%= number_input f, :minimum_points, class: "form-control" %>
+                                    <%= error_tag f, :minimum_points %>
+                                </div>
+                                <div class="form-group">
+                                    <%= label f, :payment_period, class: "control-label" %>
+                                    <%= number_input f, :payment_period, class: "form-control" %>
+                                    <%= error_tag f, :payment_period %>
+                                </div>
+                                <div class="form-group">
+                                    <%= label f, :points, class: "control-label" %>
+                                    <%= number_input f, :points, class: "form-control" %>
+                                    <%= error_tag f, :points %>
+                                </div>
                                 <div class="sign-up-button">
                                     <% var = String.upcase(gettext "Add Influencer") %>
                                     <%= submit var, class: "btn btn-primary btn-block" %>

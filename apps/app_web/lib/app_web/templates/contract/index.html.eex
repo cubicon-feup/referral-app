@@ -1,34 +1,50 @@
-<h2>Listing Contracts</h2>
+<div class="container">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="col-lg-6 ml-auto text-right">
+          <div id="reportrange">
+            <span></span>
+            <i class="fa fa-calendar"></i>&nbsp;
+          </div>
+          <i class="fa fa-plus"></i>
+          <span><%= link "Invite Influencer", to: contract_path(@conn, :new) %></span>
+        </div>
+        <div class="col-lg order-lg-first">
+          <h2>Contracts</h2>
+        </div>
+      </div> 
+      <div class="table-responsive">
+        <table class="table card-table table-vcenter text-nowrap">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Nib</th>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Influencer</th>
-      <th>Brand</th>
-      <th>Minimum points</th>
-      <th>Payment period</th>
-      <th>Points</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for contract <- @contracts do %>
+                <tr>
+                  <td><%= contract.name %></td>
+                  <td><%= contract.address %></td>
+                  <td><%= contract.nib %></td>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for contract <- @contracts do %>
-    <tr>
-      <td><%= contract.influencer_id %></td>
-      <td><%= contract.brand_id %></td>
-      <td><%= contract.minimum_points %></td>
-      <td><%= contract.payment_period %></td>
-      <td><%= contract.points %></td>
-
-      <td class="text-right">
-        <span><%= link "Show", to: contract_path(@conn, :show, contract), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: contract_path(@conn, :edit, contract), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: contract_path(@conn, :delete, contract), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Contract", to: contract_path(@conn, :new) %></span>
+                  <td class="text-right">
+                    <span><%= link "Show", to: contract_path(@conn, :show, contract), class: "btn btn-default btn-xs" %></span>
+                    <%= if contract.user_id == nil do %>
+                      <span><%= link "Send Invite", to: contract_path(@conn, :invite, contract), class: "btn btn-default btn-xs" %></span>
+                    <%= end %>
+                    <span><%= link "Edit", to: contract_path(@conn, :edit, contract), class: "btn btn-default btn-xs" %></span>
+                    <span><%= link "Delete", to: contract_path(@conn, :delete, contract), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+                  </td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

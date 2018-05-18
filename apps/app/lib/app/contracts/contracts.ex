@@ -106,6 +106,10 @@ defmodule App.Contracts do
     Contract.changeset(contract, %{})
   end
 
-  def get_contract_by_brand_and_influencer(brand_id, influencer_id),
-    do: Repo.get_by(Contract, brand_id: brand_id, influencer_id: influencer_id)
+  def get_contract_by_email!(email) do 
+    Repo.get_by(Contract, contact: email)
+  end
+
+  def get_contract_by_brand(brand_id),
+    do: Repo.get_by(Contract, brand_id: brand_id)
 end

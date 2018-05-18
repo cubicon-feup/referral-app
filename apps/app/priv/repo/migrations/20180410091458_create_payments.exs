@@ -13,12 +13,12 @@ defmodule App.Repo.Migrations.CreatePayments do
       add :value, :decimal
       add :description, :string
       add :brand_id, references(:brands, on_delete: :nothing)
-      add :influencer_id, references(:influencers, on_delete: :nothing)
+      add :contract_id, references(:contracts, on_delete: :nothing)
 
       timestamps()
     end
 
     create index(:payments, [:brand_id])
-    create index(:payments, [:influencer_id])
+    create index(:payments, [:contract_id])
   end
 end

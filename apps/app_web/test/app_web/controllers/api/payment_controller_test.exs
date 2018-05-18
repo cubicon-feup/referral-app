@@ -39,59 +39,59 @@ defmodule AppWeb.Api.PaymentControllerTest do
     end
   end
 
-  describe "create payment" do
-    test "renders payment when data is valid", %{conn: conn} do
-      influencer = influencer_fixture()
-      attrs = Enum.into(%{influencer_id: influencer.id}, @create_attrs)
-      conn = post conn, api_payment_path(conn, :create), payment: attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+  # describe "create payment" do
+  #   test "renders payment when data is valid", %{conn: conn} do
+  #     influencer = influencer_fixture()
+  #     attrs = Enum.into(%{influencer_id: influencer.id}, @create_attrs)
+  #     conn = post conn, api_payment_path(conn, :create), payment: attrs
+  #     assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, api_payment_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "type" => "voucher",
-        "status" => "pending",
-        "value" => "120.5"}
-    end
+  #     conn = get conn, api_payment_path(conn, :show, id)
+  #     assert json_response(conn, 200)["data"] == %{
+  #       "id" => id,
+  #       "type" => "voucher",
+  #       "status" => "pending",
+  #       "value" => "120.5"}
+  #   end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post conn, api_payment_path(conn, :create), payment: @invalid_attrs
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
+  #   test "renders errors when data is invalid", %{conn: conn} do
+  #     conn = post conn, api_payment_path(conn, :create), payment: @invalid_attrs
+  #     assert json_response(conn, 422)["errors"] != %{}
+  #   end
+  # end
 
-  describe "update payment" do
-    setup [:create_payment]
+  # describe "update payment" do
+  #   setup [:create_payment]
 
-    test "renders payment when data is valid", %{conn: conn, payment: %Payment{id: id} = payment} do
-      conn = put conn, api_payment_path(conn, :update, payment), payment: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+  #   test "renders payment when data is valid", %{conn: conn, payment: %Payment{id: id} = payment} do
+  #     conn = put conn, api_payment_path(conn, :update, payment), payment: @update_attrs
+  #     assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get conn, api_payment_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "type" => "money",
-        "status" => "complete",
-        "value" => "456.7"}
-    end
+  #     conn = get conn, api_payment_path(conn, :show, id)
+  #     assert json_response(conn, 200)["data"] == %{
+  #       "id" => id,
+  #       "type" => "money",
+  #       "status" => "complete",
+  #       "value" => "456.7"}
+  #   end
 
-    test "renders errors when data is invalid", %{conn: conn, payment: payment} do
-      conn = put conn, api_payment_path(conn, :update, payment), payment: @invalid_attrs
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
+  #   test "renders errors when data is invalid", %{conn: conn, payment: payment} do
+  #     conn = put conn, api_payment_path(conn, :update, payment), payment: @invalid_attrs
+  #     assert json_response(conn, 422)["errors"] != %{}
+  #   end
+  # end
 
-  describe "delete payment" do
-    setup [:create_payment]
+  # describe "delete payment" do
+  #   setup [:create_payment]
 
-    test "deletes chosen payment", %{conn: conn, payment: payment} do
-      conn = delete conn, api_payment_path(conn, :delete, payment)
-      assert response(conn, 204)
-      assert_error_sent 404, fn ->
-        get conn, api_payment_path(conn, :show, payment)
-      end
-    end
-  end
+  #   test "deletes chosen payment", %{conn: conn, payment: payment} do
+  #     conn = delete conn, api_payment_path(conn, :delete, payment)
+  #     assert response(conn, 204)
+  #     assert_error_sent 404, fn ->
+  #       get conn, api_payment_path(conn, :show, payment)
+  #     end
+  #   end
+  # end
 
   defp create_payment(_) do
     payment = fixture(:payment)
