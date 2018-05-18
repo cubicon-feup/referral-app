@@ -42,15 +42,17 @@ defmodule AppWeb.Router do
 
     get "/user/logout", UserController, :logout # temporary route for testing purposes
     post "/user/logout", UserController, :logout
-    resources "/user", UserController, only: [:show, :edit, :delete]
+    resources "/user", UserController, only: [:show, :edit, :delete,:update]
     resources "/shorten", LinkController
 
 
   end
 
   scope "/api", AppWeb.Api, as: :api do
-     pipe_through [:api, :auth, :ensure_auth]
+    pipe_through [:api, :auth, :ensure_auth]
 
+    post "/shorten/new", LinkController, :create
+    post "/shorten/:id/delete", LinkController, :delete
 
   end
 
@@ -80,7 +82,7 @@ defmodule AppWeb.Router do
     resources "/rules", RuleController
     resources "/account", UserController, only: [:index, :new, :create]
     get "/", PageController, :index
-    post "/payments/:id" , PaymentController, :update_status
+    put "/payments/:id/status" , PaymentController, :update_status
     get "/terms", UserController, :terms
     post "/user/login", UserController, :login
     resources "/contracts", ContractController do
@@ -109,6 +111,7 @@ defmodule AppWeb.Router do
      resources "/vouchers", VoucherController
      resources "/sales", SaleController
      resources "/clients", ClientController
+     resources "/shorten", LinkController
   end
 
   scope "/webhook", AppWeb do

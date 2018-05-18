@@ -9,6 +9,8 @@ defmodule App.Influencers.Influencer do
     field :nib, :integer
     field :user_id, :id
 
+    field :payment_period, :integer, virtual: true
+
     timestamps()
   end
 

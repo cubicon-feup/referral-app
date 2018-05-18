@@ -6,10 +6,11 @@ defmodule App.Payments.Payment do
     field :status, :string, default: "pending"
     field :request_date, :naive_datetime
     field :payment_date, :naive_datetime
+    field :deadline_date, :naive_datetime
     field :type, :string
     field :description, :string
     field :value, :decimal
-    field :brand_id, :id
+    belongs_to :brand, App.Brands.Brand
     belongs_to :influencer, App.Influencers.Influencer
 
     timestamps()
@@ -18,9 +19,10 @@ defmodule App.Payments.Payment do
   @doc false
   def changeset(payment, attrs) do
     payment
-    |> cast(attrs, [:request_date, :payment_date, :type, :status, :value, :description, :influencer_id])
+    |> cast(attrs, [:request_date, :payment_date, :deadline_date, :type, :status, :value, :description, :brand_id, :influencer_id])
     |> cast_assoc(:influencer)
-    |> validate_required([:influencer_id, :type, :value])
+    |> cast_assoc(:brand)
+    |> validate_required([:brand_id, :influencer_id, :type, :value])
     |> validate_inclusion(:status, ["pending", "complete", "cancelled"])
     |> validate_inclusion(:type, ["money", "voucher", "products"])
     |> check_payment_date(:status)
