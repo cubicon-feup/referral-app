@@ -13,6 +13,7 @@
 import "phoenix_html"
 import "jquery"
 import "moment"
+import "selectize"
 import loadView from './views/loader';
 // Import local files
 //
