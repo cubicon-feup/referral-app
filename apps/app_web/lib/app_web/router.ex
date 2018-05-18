@@ -42,7 +42,7 @@ defmodule AppWeb.Router do
 
     get "/user/logout", UserController, :logout # temporary route for testing purposes
     post "/user/logout", UserController, :logout
-    resources "/user", UserController, only: [:show, :edit, :delete]
+    resources "/user", UserController, only: [:show, :edit, :delete,:update]
     resources "/shorten", LinkController
 
 
