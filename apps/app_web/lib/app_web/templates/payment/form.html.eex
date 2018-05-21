@@ -67,15 +67,24 @@
           <div class="selectgroup w-100">
             <label class="selectgroup-item payment-type">
               <input type="radio" name="payment[type]" value="money" class="selectgroup-input" checked="">
-              <span class="selectgroup-button payment-type-money">Cash</span>
+              <span class="selectgroup-button payment-type-money">
+                <img src="<%= static_path(@conn, "/images/cash.svg") %>">
+                Cash
+              </span>
             </label>
             <label class="selectgroup-item payment-type">
               <input type="radio" name="payment[type]" value="voucher" class="selectgroup-input">
-              <span class="selectgroup-button payment-type-voucher">Voucher</span>
+              <span class="selectgroup-button payment-type-voucher">
+                <img src="<%= static_path(@conn, "/images/voucher.svg") %>">
+                Voucher
+              </span>
             </label>
             <label class="selectgroup-item payment-type">
               <input type="radio" name="payment[type]" value="products" class="selectgroup-input">
-              <span class="selectgroup-button payment-type-products">In Kind</span>
+              <span class="selectgroup-button payment-type-products">
+                <img src="<%= static_path(@conn, "/images/in-kind.svg") %>">
+                In Kind
+              </span>
             </label>
           </div>
           <%= error_tag f, :type %>
