@@ -2,4 +2,6 @@ use Mix.Config
 
 config :app, ecto_repos: [App.Repo]
 
-import_config "#{Mix.env}.exs"
+config :app, App.Scheduler, jobs: []
+
+import_config "#{Mix.env()}.exs"

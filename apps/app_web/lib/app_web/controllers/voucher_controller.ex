@@ -6,6 +6,7 @@ defmodule AppWeb.VoucherController do
   alias App.Contracts
   alias App.Repo
   alias App.Brands
+  alias App.Scheduler
 
   def build_url(contract_id) do
     contract = Contracts.get_contract!(contract_id)
@@ -44,7 +45,7 @@ defmodule AppWeb.VoucherController do
         {:ok, %{:price_rule_id => Enum.at(split, 4, nil), :voucher_id => Enum.at(split, 6, nil)}}
 
       {:error, error} ->
-        #IO.inspect(error)
+        # IO.inspect(error)
         error
     end
   end
@@ -68,7 +69,25 @@ defmodule AppWeb.VoucherController do
     post_discount(voucher_params["code"], price_rule_id, brand_id)
 
     case Vouchers.create_voucher(voucher_params) do
-      {:ok, _voucher} ->
+      {:ok, voucher} ->
+        case Decimal.equal?(voucher.points_per_month, Decimal.new(0.0)) do
+          true ->
+            schedule = "18 10 18 * * * "
+
+            job =
+              Quantum.Job.new(
+                task: fn ->
+                  contract = Vouchers.get_contract!(voucher.id).contract
+                  Contracts.add_points(contract, Decimal.to_float(voucher.points_per_month))
+                end
+              )
+              |> Quantum.Job.set_schedule(Crontab.CronExpression.Parser.parse!(schedule))
+              |> Quantum.Job.set_run_strategy(%Quantum.RunStrategy.All{nodes: [:one, :two]})
+
+          false ->
+            nil
+        end
+
         conn
         |> put_flash(:info, "Voucher created successfully.")
         |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
@@ -162,22 +181,23 @@ defmodule AppWeb.VoucherController do
 
     url = base_url <> "/admin/price_rules/#{price_rule_id}/discount_codes.json"
 
-    header =
-      "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}"
-      #|> IO.inspect()
+    header = "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}"
+    # |> IO.inspect()
 
     case HTTPoison.post(url, "{\"discount_code\": {\"code\": \"#{voucher_code}\" }}", [
            {"Content-Type", "application/json"}
          ]) do
       {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
-        #IO.inspect(body)
+        # IO.inspect(body)
         body
+
       {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
         # code already exists
-        #IO.inspect(body)
+        # IO.inspect(body)
         body
+
       {:error, %HTTPoison.Error{reason: reason}} ->
-        #IO.inspect(reason, label: "erro:")
+        # IO.inspect(reason, label: "erro:")
         reason
     end
   end

@@ -11,15 +11,15 @@ defmodule App.Mixfile do
       lockfile: "../../mix.lock",
       elixir: "~> 1.4",
       test_coverage: [tool: ExCoveralls],
-      elixirc_paths: elixirc_paths(Mix.env),
-      start_permanent: Mix.env == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
       test_coverage: [
         tool: ExCoveralls
       ],
       preferred_cli_env: [
-        "coveralls": :test,
+        coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test
@@ -39,7 +39,7 @@ defmodule App.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -54,7 +54,9 @@ defmodule App.Mixfile do
       {:comeonin, "~> 4.0"},
       {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
-      {:bcrypt_elixir, "~> 0.12"}
+      {:bcrypt_elixir, "~> 0.12"},
+      {:quantum, "~> 2.2"},
+      {:timex, "~> 3.0"}
     ]
   end
 
@@ -69,7 +71,7 @@ defmodule App.Mixfile do
       "ecto.setup": ["ecto.create", "ecto.migrate"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "ecto.seed": ["run priv/repo/seeds.exs"],
-      "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end
