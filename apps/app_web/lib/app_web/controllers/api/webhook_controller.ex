@@ -69,10 +69,6 @@ defmodule AppWeb.WebhookController do
   def updateContract(voucher, value, customer_locale, total_discounts, customer_id, date) do
     Vouchers.add_sale(voucher, value)
 
-    IO.inspect(total_discounts, label: "discounts")
-    IO.inspect(customer_id, label: "id")
-    IO.inspect(NaiveDateTime.from_iso8601!(date), label: "date")
-
     {:ok, sale} =
       Sales.create_sale(%{
         date: DateTime.utc_now(),
