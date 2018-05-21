@@ -1,4 +1,16 @@
 #payment-type{
+  
+  & span{
+    padding: 15px;
+  }
+
+  img {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   .payment-type-money{
     background:#e3f1ff;
     color: #376ee7;
