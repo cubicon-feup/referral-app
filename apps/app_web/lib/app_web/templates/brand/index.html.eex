@@ -4,10 +4,10 @@
       <div class="card">
         <div class="card-body p-3 text-center">
           <div class="text-right text-green">
-            6%
+            -%
             <i class="fa fa-chevron-up"></i>
           </div>
-          <div class="h1 m-0"><%= @revenue %></div>
+          <div class="h1 m-0"><%= @revenue %>€</div>
           <div class="text-muted mb-4"><%= gettext("Revenue") %></div>
         </div>
       </div>            
@@ -17,11 +17,11 @@
       <div class="card">
         <div class="card-body p-3 text-center">
           <div class="text-right text-green">
-            6%
+            -%
             <i class="fa fa-chevron-up"></i>
           </div>
-          <div class="h1 m-0">203k</div>
-          <div class="text-muted mb-4"><%= gettext("Sales") %></div>
+          <div class="h1 m-0"><%= @sales_count %></div>
+          <div class="text-muted mb-4"><%= gettext("Sales Count") %></div>
         </div>
       </div>            
     </div>
@@ -30,10 +30,10 @@
       <div class="card">
         <div class="card-body p-3 text-center">
           <div class="text-right text-green">
-            6%
+            -%
             <i class="fa fa-chevron-up"></i>
           </div>
-          <div class="h1 m-0">145k</div>
+          <div class="h1 m-0">-</div>
           <div class="text-muted mb-4"><%= gettext("Sessions") %></div>
         </div>
       </div>            
@@ -43,10 +43,10 @@
       <div class="card">
         <div class="card-body p-3 text-center">
           <div class="text-right text-green">
-            6%
+            -%
             <i class="fa fa-chevron-up"></i>
           </div>
-          <div class="h1 m-0">126k</div>
+          <div class="h1 m-0">-</div>
           <div class="text-muted mb-4"><%= gettext("Visitors") %></div>
         </div>
       </div>            
@@ -56,10 +56,10 @@
       <div class="card">
         <div class="card-body p-3 text-center">
           <div class="text-right text-green">
-            6%
+            -%
             <i class="fa fa-chevron-up"></i>
           </div>
-          <div class="h1 m-0">234k</div>
+          <div class="h1 m-0">-</div>
           <div class="text-muted mb-4"><%= gettext("Customers") %></div>
         </div>
       </div>            

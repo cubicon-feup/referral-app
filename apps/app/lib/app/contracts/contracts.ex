@@ -132,5 +132,19 @@ defmodule App.Contracts do
   def get_value([]) do
     Decimal.new(0)
   end
+
+
+  def get_number_of_sales(contract_id) do
+    contract = get_contract!(contract_id)
+    get_vouchers_sales(contract.voucher)
+  end
+
+  def get_vouchers_sales([voucher|vouchers]) do
+    Vouchers.get_number_of_sales(voucher.id) + get_vouchers_sales(vouchers)
+  end
+
+  def get_vouchers_sales([]) do
+    0
+  end
   
 end

@@ -209,4 +209,10 @@ defmodule App.Vouchers do
     Decimal.new(0)
   end
 
+  def get_number_of_sales(voucher_id) do
+    {:ok, voucher} = get_voucher!(voucher_id)
+
+    Enum.count(voucher.sales)
+  end
+
 end

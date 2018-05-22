@@ -146,6 +146,17 @@ defmodule App.Brands do
   def get_value([]) do
     Decimal.new(0)
   end
-  
 
+  def get_number_of_sales(brand_id) do
+    brand = get_brand!(brand_id)
+    get_contracts_sales(brand.contracts)
+  end
+
+  def get_contracts_sales([contract|contracts]) do
+    Contracts.get_number_of_sales(contract.id) + get_contracts_sales(contracts)
+  end
+
+  def get_contracts_sales([]) do
+    0
+  end
 end
