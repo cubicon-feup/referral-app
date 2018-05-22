@@ -13,14 +13,10 @@ defmodule AppWeb.PaymentController do
 
   def new(conn, _params) do
     brand_id = Plug.Conn.get_session(conn, :brand_id)
-    influencers = Brands.get_brand_influencers(1)
-    influencers = Enum.map(influencers, fn influencer -> 
-      contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer.id)
-      influencer
-      |> Map.put(:payment_period, contract.payment_period)
-    end)
+    contracts = Brands.get_brand_contracts(brand_id)
+
     changeset = Payments.change_payment(%Payment{})
-    render(conn, "new.html", changeset: changeset, influencers: influencers)
+    render(conn, "new.html", changeset: changeset, contracts: contracts)
   end
 
   def create(conn, %{"payment" => payment_params}) do

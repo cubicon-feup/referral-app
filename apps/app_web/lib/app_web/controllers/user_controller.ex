@@ -252,7 +252,6 @@ end
   defp login_reply({:ok, user}, conn) do
     put_flash(conn, :success, "Welcome back!")
     |> Guardian.Plug.sign_in(user)
-    |> is_influencer(user)
     |> has_brand(user)
     |> redirect(to: "/")
     |> halt()
@@ -266,6 +265,7 @@ end
          conn |> put_session(:influencer_id, influencer.id)
     end
   end
+
 
   def has_brand(conn, user) do
     case Brands.get_brand_by_user(user.id) do
