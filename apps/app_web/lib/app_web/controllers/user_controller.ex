@@ -139,14 +139,17 @@ defmodule AppWeb.UserController do
       user ->
         case Users.update_user(user, user_params) do
           {:ok, user} ->
+
+
             if upload = user_params["photo"] do
               File.exists?(upload.path)
               extension = Path.extname(upload.filename)
-              File.cp(upload.path, "./  apps/app_web/assets/static/images/media/#{user.id}-profile#{extension}")
+              File.cp(upload.path, "./apps/app_web/assets/static/images/media/#{user.id}-profile#{extension}")
             end
 
             updated_params = Map.put(user_params, "picture_path", "/images/media/#{user.id}-profile#{extension}")
             update(conn, %{"id" => Guardian.Plug.current_resource(conn).id, "user" => updated_params})
+
 
           {:error, %Ecto.Changeset{} = changeset} ->
             render(
