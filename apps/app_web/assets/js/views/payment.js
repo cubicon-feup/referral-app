@@ -86,7 +86,7 @@ export default class View extends MainView {
 
 
 
-    /* $('#select-influencer').selectize({
+    $('#select-influencer').selectize({
        create: true,
        render: {
          option: function (data) {
@@ -102,7 +102,7 @@ export default class View extends MainView {
              '</div>';
          }
        }
-     });+/*/
+    });
     console.log('Tramado3');
 
   }
