@@ -69,23 +69,29 @@ defmodule AppWeb.VoucherController do
     post_discount(voucher_params["code"], price_rule_id, brand_id)
 
     case Vouchers.create_voucher(voucher_params) do
-      {:ok, voucher} ->
-        case Decimal.equal?(voucher.points_per_month, Decimal.new(0.0)) do
+      {:ok, v} ->
+        case Decimal.equal?(v.points_per_month, Decimal.new(0.0)) do
           true ->
-            schedule = "18 10 18 * * * "
+            nil
+
+          false ->
+            schedule = "* * * * * *"
+            {:ok, voucher} = Vouchers.get_voucher!(v.id)
+            contract = Contracts.get_contract!(voucher.contract.id)
+            name = voucher.code <> contract.brand.name
 
             job =
               Quantum.Job.new(
-                task: fn ->
-                  contract = Vouchers.get_contract!(voucher.id).contract
-                  Contracts.add_points(contract, Decimal.to_float(voucher.points_per_month))
-                end
+                name: name,
+                overlap: true,
+                task:
+                  {Contracts, :add_points, [contract, Decimal.to_float(voucher.points_per_month)]},
+                run_strategy: {Quantum.RunStrategy.Random, :cluster},
+                schedule: Crontab.CronExpression.Parser.parse!(schedule),
+                timezone: "Europe/Lisbon"
               )
-              |> Quantum.Job.set_schedule(Crontab.CronExpression.Parser.parse!(schedule))
-              |> Quantum.Job.set_run_strategy(%Quantum.RunStrategy.All{nodes: [:one, :two]})
 
-          false ->
-            nil
+            IO.inspect(job)
         end
 
         conn

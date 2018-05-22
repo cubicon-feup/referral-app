@@ -39,6 +39,7 @@ defmodule App.Contracts do
     contract =
       Repo.get!(Contract, id)
       |> Repo.preload(:voucher)
+      |> Repo.preload(:brand)
   end
 
   @doc """
