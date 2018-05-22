@@ -10,8 +10,7 @@ defmodule App.Payments.Payment do
     field :type, :string
     field :description, :string
     field :value, :decimal
-    belongs_to :brand, App.Brands.Brand
-    belongs_to :influencer, App.Influencers.Influencer
+    belongs_to :contract, App.Contracts.Contract
 
     timestamps()
   end
@@ -19,10 +18,9 @@ defmodule App.Payments.Payment do
   @doc false
   def changeset(payment, attrs) do
     payment
-    |> cast(attrs, [:request_date, :payment_date, :deadline_date, :type, :status, :value, :description, :brand_id, :influencer_id])
-    |> cast_assoc(:influencer)
-    |> cast_assoc(:brand)
-    |> validate_required([:brand_id, :influencer_id, :type, :value])
+    |> cast(attrs, [:request_date, :payment_date, :deadline_date, :type, :status, :value, :description, :contract_id])
+    |> cast_assoc(:contract)
+    |> validate_required([:contract_id, :type, :value])
     |> validate_inclusion(:status, ["pending", "complete", "cancelled"])
     |> validate_inclusion(:type, ["money", "voucher", "products"])
   end

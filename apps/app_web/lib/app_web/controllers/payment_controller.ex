@@ -13,14 +13,10 @@ defmodule AppWeb.PaymentController do
 
   def new(conn, _params) do
     brand_id = Plug.Conn.get_session(conn, :brand_id)
-    influencers = Brands.get_brand_influencers(1)
-    influencers = Enum.map(influencers, fn influencer -> 
-      contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer.id)
-      influencer
-      |> Map.put(:payment_period, contract.payment_period)
-    end)
+    contracts = Brands.get_brand_contracts(brand_id)
+
     changeset = Payments.change_payment(%Payment{})
-    render(conn, "new.html", changeset: changeset, influencers: influencers)
+    render(conn, "new.html", changeset: changeset, contracts: contracts)
   end
 
   def create(conn, %{"payment" => payment_params}) do
@@ -39,24 +35,15 @@ defmodule AppWeb.PaymentController do
         |> put_flash(:info, "Payment created successfully.")
         |> redirect(to: payment_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
-        influencers = Brands.get_brand_influencers(1)
-        influencers = Enum.map(influencers, fn influencer -> 
-          contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer.id)
-          influencer
-          |> Map.put(:payment_period, contract.payment_period)
-        end)
-        render(conn, "new.html", changeset: changeset, influencers: influencers)
+        brand_id = Plug.Conn.get_session(conn, :brand_id)
+        contracts = Brands.get_brand_contracts(brand_id)
+        render(conn, "new.html", changeset: changeset, contracts: contracts)
       {:error_no_points, %Ecto.Changeset{} = changeset} ->
-        influencers = Brands.get_brand_influencers(1)
-        influencers = Enum.map(influencers, fn influencer -> 
-          contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer.id)
-          influencer
-          |> Map.put(:payment_period, contract.payment_period)
-        end)
+        brand_id = Plug.Conn.get_session(conn, :brand_id)
+        contracts = Brands.get_brand_contracts(brand_id)
         conn
         |> put_flash(:error, "No Points")
-        |> render("new.html", changeset: changeset, influencers: influencers)
+        |> render("new.html", changeset: changeset, contracts: contracts)
 
     end
   end
@@ -67,10 +54,10 @@ defmodule AppWeb.PaymentController do
   end
 
   def edit(conn, %{"id" => id}) do
-    influencers = Brands.get_brand_influencers(1)
+    contracts = Brands.get_brand_contracts(1)
     payment = Payments.get_payment!(id)
     changeset = Payments.change_payment(payment)
-    render(conn, "edit.html", payment: payment, changeset: changeset, influencers: influencers)
+    render(conn, "edit.html", payment: payment, changeset: changeset, contracts: contracts)
   end
 
   def update(conn, %{"id" => id, "payment" => payment_params}) do
@@ -81,7 +68,7 @@ defmodule AppWeb.PaymentController do
         |> put_flash(:info, "Payment updated successfully.")
         |> redirect(to: payment_path(conn, :show, payment))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", payment: payment, changeset: changeset, influencers: Brands.get_brand_influencers(1))
+        render(conn, "edit.html", payment: payment, changeset: changeset, contracts: Brands.get_brand_contracts(1))
     end
   end
 
@@ -102,7 +89,7 @@ defmodule AppWeb.PaymentController do
         |> halt
         |> send_resp(201, "")
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", payment: payment, changeset: changeset, influencers: Brands.get_brand_influencers(1))
+        render(conn, "edit.html", payment: payment, changeset: changeset, contracts: Brands.get_brand_contracts(1))
     end
   end
   

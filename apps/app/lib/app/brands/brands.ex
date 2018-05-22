@@ -57,8 +57,11 @@ defmodule App.Brands do
       ** (Ecto.NoResultsError)
 
   """
-  def get_brand_influencers(id) do
-    Repo.all(Influencer)
+  def get_brand_contracts(id) do
+    query = Contract
+    |> where([c], c.brand_id == ^id)
+
+    Repo.all(query)
   end
 
   @doc """

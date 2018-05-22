@@ -57,13 +57,13 @@
             "€"
           end
         %>
-        <%=  " to " <> @payment.influencer.name %>
+        <%=  " to " <> @payment.contract.name %>
       </div>
     </div>
 
     <div class="row">
       <div class="col-sm-8">
-        Requested by <%= link @payment.influencer.name, to: influencer_path(@conn, :show, @payment.influencer) %>
+        Requested by <%= link @payment.contract.name, to: contract_path(@conn, :show, @payment.contract) %>
       </div>
       <div class="col-sm-4">
         <%= render "edit_status.html", Map.merge(assigns, %{

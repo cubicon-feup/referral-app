@@ -73,7 +73,6 @@ defmodule AppWeb.Router do
     pipe_through [:browser, :auth]
 
     resources "/brands", BrandController
-    resources "/influencers", InfluencerController
     resources "/agencies", AgencyController
     resources "/plans", PlanController
     resources "/payments", PaymentController
@@ -89,11 +88,10 @@ defmodule AppWeb.Router do
       resources "/vouchers", VoucherController
     end
     get "/404", PageNotFoundController, :show
-    get "/brands/:id/new_influencer", BrandController, :new_influencer
-    post "/brands/:id/create_influencer", BrandController, :create_influencer
-    get "/influencers/:email/:name/invited_new_user", InfluencerController, :invited_new_user
-    post "/influencers/:email/:name/invited_create_user", InfluencerController, :invited_create_user
-    put "/influencers/:id/invited_update_influencer", InfluencerController, :invited_update_influencer
+    get "/brand/:id/new_contract", BrandController, :new_contract
+    post "/brand/:id/create_contract", BrandController, :create_contract
+    get "/contracts/:email/:name/invited_contract", ContractController, :invited_contract
+    get "/contracts/:id/invite", ContractController, :invite
 
   end
 
@@ -102,7 +100,6 @@ defmodule AppWeb.Router do
 
      resources "/brands", BrandController
      resources "/users", UserController
-     resources "/influencers", InfluencerController
      resources "/agencies", AgencyController
      resources "/plans", PlanController
      resources "/payments", PaymentController

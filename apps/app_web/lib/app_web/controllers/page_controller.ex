@@ -23,14 +23,8 @@ defmodule AppWeb.PageController do
       user ->
         case get_session(conn, :brand_id) do
           nil ->
-            case get_session(conn, :influencer_id) do
-              nil -> 
-                conn 
-                |> redirect(to: user_path(conn, :index))
-              influencer_id ->
-                conn 
-                |> redirect(to: influencer_path(conn, :show, influencer_id))
-            end
+            conn 
+            |> redirect(to: user_path(conn, :show, user.id))
           brand_id ->
             conn 
             |> redirect(to: brand_path(conn, :show, brand_id))

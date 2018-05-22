@@ -7,7 +7,7 @@ defmodule App.Payments do
   alias App.Repo
 
   alias App.Payments.Payment
-  alias App.Influencers.Influencer
+  alias App.Contracts.Contract
 
   @doc """
   Returns the list of payments.
@@ -20,7 +20,7 @@ defmodule App.Payments do
   """
   def list_payments do
     Repo.all(Payment)
-    |> Repo.preload(:influencer)
+    |> Repo.preload(:contract)
   end
 
   @doc """
@@ -34,7 +34,7 @@ defmodule App.Payments do
   """
   def list_payments_brand(brand_id) do
     query = from p in Payment,
-      join: i in Influencer, on: [id: p.influencer_id],
+      join: c in Contract, on: [id: p.contract_id],
       select: %{
         status: p.status,
         request_date: p.request_date,
@@ -42,9 +42,8 @@ defmodule App.Payments do
         type: p.type,
         description: p.description,
         value: p.value,
-        brand_id: p.brand_id,
-        influencer_id: i.id,
-        influencer_name: i.name
+        contract_id: c.id,
+        contract_name: c.name
       }
     Repo.all(query)
   end
@@ -66,7 +65,7 @@ defmodule App.Payments do
   """
   def get_payment!(id) do
     Repo.get!(Payment, id)
-    |> Repo.preload(:influencer)
+    |> Repo.preload(:contract)
   end
 
   @doc """
@@ -86,7 +85,7 @@ defmodule App.Payments do
     if !check_fields(attrs) do
       {:error, Payment.changeset( %Payment{}, attrs)}
     else
-      contract = App.Contracts.get_contract_by_brand_and_influencer(attrs["brand_id"], attrs["influencer_id"])
+      contract = App.Contracts.get_contract!(attrs["contract_id"])
       {value, _} = Float.parse(attrs["value"]) 
       temp_attrs = Enum.into(%{"status" => "pending"}, attrs)
 
@@ -113,7 +112,7 @@ defmodule App.Payments do
   end
 
   defp check_points(contract, value) do
-    Decimal.to_float(contract.points) >= value && Decimal.to_float(contract.points) >= Decimal.to_float(contract.minimum_points)
+    Decimal.to_float(contract.points) >= value && Decimal.to_float(contract.points) >= contract.minimum_points
   end
 
   @doc """
@@ -173,7 +172,7 @@ defmodule App.Payments do
   end
 
   def cancel_payment(%Payment{} = payment) do
-    contract = App.Contracts.get_contract_by_brand_and_influencer(payment.brand_id, payment.influencer_id)
+    contract = App.Contracts.get_contract!(payment.contract_id)
     
     if(payment.status == "pending") do
       App.Contracts.add_points(contract, Decimal.to_float(payment.value))
