@@ -106,6 +106,12 @@ defmodule App.Contracts do
     Contract.changeset(contract, %{})
   end
 
+  def get_contract_by_email!(email) do 
+    Repo.get_by(Contract, email: email)
+  end
+
+  def get_contract_by_brand(brand_id),
+    do: Repo.get_by(Contract, brand_id: brand_id)
   def add_points(%Contract{} = contract, add) do
     # add_sale
     new_points = Decimal.to_float(contract.points) + add
