@@ -7,7 +7,7 @@ defmodule App.Payments do
   alias App.Repo
 
   alias App.Payments.Payment
-  alias App.Influencers.Influencer
+  alias App.Contracts.Contract
 
   @doc """
   Returns the list of payments.
@@ -20,7 +20,7 @@ defmodule App.Payments do
   """
   def list_payments do
     Repo.all(Payment)
-    |> Repo.preload(:influencer)
+    |> Repo.preload(:contract)
   end
 
   @doc """
@@ -34,7 +34,7 @@ defmodule App.Payments do
   """
   def list_payments_brand(brand_id) do
     query = from p in Payment,
-      join: i in Influencer, on: [id: p.influencer_id],
+      join: c in Contract, on: [id: p.contract_id],
       select: %{
         status: p.status,
         request_date: p.request_date,
@@ -42,9 +42,8 @@ defmodule App.Payments do
         type: p.type,
         description: p.description,
         value: p.value,
-        brand_id: p.brand_id,
-        influencer_id: i.id,
-        influencer_name: i.name
+        contract_id: c.id,
+        contract_name: c.name
       }
     Repo.all(query)
   end
@@ -66,7 +65,7 @@ defmodule App.Payments do
   """
   def get_payment!(id) do
     Repo.get!(Payment, id)
-    |> Repo.preload(:influencer)
+    |> Repo.preload(:contract)
   end
 
   @doc """

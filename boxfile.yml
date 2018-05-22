@@ -20,8 +20,10 @@ deploy.config:
   # let's migrate the database
   before_live:
     web.site:
-      - mix ecto.create --quiet
+      - mix ecto.drop
+      - mix ecto.create
       - mix ecto.migrate
+      - mix ecto.seed
 
 data.db:
   image: nanobox/postgresql:9.5

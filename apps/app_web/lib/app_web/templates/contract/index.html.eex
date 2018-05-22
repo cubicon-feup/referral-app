@@ -8,37 +8,37 @@
             <i class="fa fa-calendar"></i>&nbsp;
           </div>
           <i class="fa fa-plus"></i>
-          <span><%= link "Create Contract", to: contract_path(@conn, :new) %></span>
+          <span><%= link "Create Influencer", to: brand_path(@conn, :new_contract, @brand) %></span>
         </div>
         <div class="col-lg order-lg-first">
-          <h2>Contracts</h2>
+          <h2>Influencers</h2>
         </div>
       </div> 
       <div class="table-responsive">
         <table class="table card-table table-vcenter text-nowrap">
           <thead>
             <tr>
-              <th>Influencer</th>
-              <th>Brand</th>
-              <th>Minimum points</th>
-              <th>Payment period</th>
-              <th>Points</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Nib</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <%= for contract <- @contracts do %>
                 <tr>
-                  <td><%= contract.influencer_id %></td>
-                  <td><%= contract.brand_id %></td>
-                  <td><%= contract.minimum_points %></td>
-                  <td><%= contract.payment_period %></td>
-                  <td><%= contract.points %></td>
+                  <td><%= contract.name %></td>
+                  <td><%= contract.address %></td>
+                  <td><%= contract.nib %></td>
 
-                <td class="text-right">
-                  <span><%= link "Show", to: contract_path(@conn, :show, contract), class: "btn btn-default btn-xs" %></span>
-                  <span><%= link "Edit", to: contract_path(@conn, :edit, contract), class: "btn btn-default btn-xs" %></span>
-                  <span><%= link "Delete", to: contract_path(@conn, :delete, contract), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-                </td>
+                  <td class="text-right">
+                    <span><%= link "Show", to: contract_path(@conn, :show, contract), class: "btn btn-default btn-xs" %></span>
+                    <%= if contract.user_id == nil do %>
+                      <span><%= link "Send Invite", to: contract_path(@conn, :invite, contract), class: "btn btn-default btn-xs" %></span>
+                    <%= end %>
+                    <span><%= link "Edit", to: contract_path(@conn, :edit, contract), class: "btn btn-default btn-xs" %></span>
+                    <span><%= link "Delete", to: contract_path(@conn, :delete, contract), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+                  </td>
                 </tr>
             <% end %>
           </tbody>
