@@ -1,8 +1,7 @@
 <tr>
-  <td><%= link @payment.influencer.name, to: influencer_path(@conn, :show, @payment.influencer) %></td>
+  <td><%= link @payment.contract.name, to: contract_path(@conn, :show, @payment.contract) %></td>
   <td><%= format_reward(@payment.type) %></td>
   <td><%= @payment.value %>€ <%= @payment.description %></td>
-  <%# <td>TODO</td> %>
   <td><%= format_date(@payment.request_date) %></td>
   <td><%= 
      case @payment.status do
