@@ -1,42 +1,51 @@
-<h2>Listing Payments</h2>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Influencer</th>
-      <th>Reward</th>
-      <th>Description</th>
-      <%# <th>Owner</th> %>
-      <th>Request</th>
-      <th>Deadline/Confirmed</th>
-      <th>Status</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for payment <- @payments do %>
-    <tr>
-      <td><%= payment.influencer.name%></td>
-      <td><%= payment.type %></td>
-      <td><%= payment.value %>€ <%= payment.description %></td>
-      <%# <td>TODO</td> %>
-      <td><%= payment.request_date %></td>
-      <td><%= payment.payment_date %></td>
-      <td><%= render "edit_status.html", Map.merge(assigns, %{
-        action: payment_path(@conn, :update_status, payment),
-        changeset: get_changeset(payment)
-      })%> 
-      </td>
+<div class="container">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="col-lg order-lg-first">
+          <h2>Rewards</h2>
+        </div>
+        
+        <div class="col-lg-2 ml-auto text-center">
+          <div class="form-group">
+            <div class="selectgroup w-100">
+              <label class="selectgroup-item">
+                <input type="radio" name="view" value="list" class="selectgroup-input" checked="">
+                <span class="selectgroup-button">Table</span>
+              </label>
+              <label class="selectgroup-item">
+                <input type="radio" name="view" value="board" class="selectgroup-input">
+                <span class="selectgroup-button">Board</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 ml-auto text-center">
+          <div id="reportrange">
+            <span></span>
+            <i class="fa fa-calendar"></i>&nbsp;
+          </div>
+          <i class="fa fa-plus"></i>
+        </div>
+        <div class="col-lg-2 ml-auto text-center">
+          <span><%= link "+ Create Reward", to: payment_path(@conn, :new), class: "btn btn-primary" %></span>
+        </div>
+        
+      </div>
 
-      <td class="text-right">
-        <span><%= link "Show", to: payment_path(@conn, :show, payment), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: payment_path(@conn, :edit, payment), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: payment_path(@conn, :delete, payment), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+      <div class="card-body">
+        <%= render "list.html", Map.merge(assigns, %{
+          payments: @payments
+        })%> 
 
-<span><%= link "New Payment", to: payment_path(@conn, :new) %></span>
+        <%= render "board.html", Map.merge(assigns, %{
+          payments: @payments
+        })%> 
+      </div> 
+      
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,124 @@
+
+<%= form_for @changeset, @action, [multipart: true], fn f -> %>
+<%= if @changeset.action do %>
+<div class="alert alert-danger">
+  <p>Oops, something went wrong! Please check the errors below.</p>
+</div>
+<% end %>
+<div class="my-3 my-md-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card card-profile">
+          <div class="card-header" style="background-image: url(demo/photos/eberhard-grossgasteiger-311213-500.jpg);"></div>
+          <div class="card-body text-center">
+            <img class="card-profile-img" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png">
+            <h3 class="mb-3"><%= @user.name %></h3>
+          </div>
+
+          <button class="btn btn-primary">
+            Upload Photo
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <form class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <% name = gettext("Name") %>
+                  <%= label f, name, class: "form-label" %>
+                  <%= text_input f, :name, class: "form-control", required: true, placeholder: gettext("Enter name")%>
+                  <%= error_tag f, :name %>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                  <!-- #TODO adicionar tradução de date no gettext-->
+                  <% date_of_birth= gettext("Date") %>
+                  <%= label f, date_of_birth, class: "form-label" %>
+                  <%= date_input f, :date_of_birth, class: "form-control", required: true, placeholder: gettext("Enter date")%>
+                  <%= error_tag f, :date_of_birth %>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Default Voucher Name</label>
+                  <input type="email" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Adress</label>
+                  <input type="text" class="form-control" placeholder="Adress" >
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                  <div class="form-group">
+                    <%= label f, :email, class: "form-label" %>
+                    <%= text_input f, :email, class: "form-control", type: "email", required: true, placeholder: gettext("Enter email")%>
+                    <%= error_tag f, :email %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input type="text" class="form-control" placeholder="Phone Number" >
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h5>Brands</h5>
+                <h6 class="text-muted">lorem,ipsum,teste</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Social Media</h4>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Facebook</label>
+                  <input type="text" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Instagram</label>
+                  <input type="text" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">LinkedIn</label>
+                  <input type="text" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Personal Website</label>
+                  <input type="text" class="form-control" placeholder="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-right">
+            <div class="row">
+              <div class="col-md-6 col-6 text-left">
+                <span><%= link "Deactivate Account", to: user_path(@conn, :delete, @user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+              </div>
+              <div class="col-md-6 col-6 text-right">
+                <%= submit "Update Account", class: "btn " %>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

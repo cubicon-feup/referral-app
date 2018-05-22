@@ -5,12 +5,15 @@ defmodule AppWeb.Api.PaymentControllerTest do
   alias App.Payments.Payment
 
   alias App.Influencers
+  alias App.Brands
 
   @create_attrs %{type: "voucher", value: "120.5"}
   @update_attrs %{type: "money", value: "456.7", status: "complete"}
   @invalid_attrs %{type: nil, value: nil}
 
   @valid_attrs_influencer %{address: "some address", name: "some name", nib: 42, contact: "some contact"}
+  @valid_attrs_brand %{api_key: "some api_key", api_password: "some api_password", hostname: "some hostname", name: "some name"}
+
 
   def influencer_fixture() do
     {:ok, influencer} = Influencers.create_influencer(@valid_attrs_influencer)
@@ -18,11 +21,18 @@ defmodule AppWeb.Api.PaymentControllerTest do
     influencer
   end
 
+  def brand_fixture() do
+    {:ok, brand} = Brands.create_brand(@valid_attrs_brand)
+
+    brand
+  end
+
   def fixture(:payment) do
     influencer = influencer_fixture()
+    brand = brand_fixture()
 
     {:ok, payment} =
-      Enum.into(%{influencer_id: influencer.id}, @create_attrs)
+      Enum.into(%{brand_id: brand.id, influencer_id: influencer.id}, @create_attrs)
       |> Payments.create_payment()
 
     Payments.get_payment!(payment.id)

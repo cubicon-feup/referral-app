@@ -8,6 +8,7 @@ defmodule App.Repo.Migrations.CreatePayments do
     create table(:payments) do
       add :request_date, :naive_datetime, default: fragment("now()") 
       add :payment_date, :naive_datetime
+      add :deadline_date, :naive_datetime
       add :status, :payment_status, default: "pending", null: false
       add :type, :payment_type, null: false
       add :value, :decimal

@@ -12,12 +12,12 @@ exports.config = {
       // }
       //
       // To change the order of concatenation of files, explicitly mention here
-      // order: {
-      //   before: [
-      //     "vendor/js/jquery-2.1.1.js",
-      //     "vendor/js/bootstrap.min.js"
-      //   ]
-      // }
+      order: {
+        before: [
+          "assets/js/vendors/jquery-3.2.1.js",
+          "assets/js/vendors/selectize.min.js",
+        ]
+      }
     },
     stylesheets: {
       joinTo: "css/app.css",

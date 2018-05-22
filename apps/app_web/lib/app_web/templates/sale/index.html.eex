@@ -5,6 +5,7 @@
     <tr>
       <th>Date</th>
       <th>Value</th>
+      <th>Country</th>
 
       <th></th>
     </tr>
@@ -14,6 +15,7 @@
     <tr>
       <td><%= sale.date %></td>
       <td><%= sale.value %></td>
+      <td><%= sale.customer_locale %></td>
 
       <td class="text-right">
         <span><%= link "Show", to: sale_path(@conn, :show, sale), class: "btn btn-default btn-xs" %></span>
