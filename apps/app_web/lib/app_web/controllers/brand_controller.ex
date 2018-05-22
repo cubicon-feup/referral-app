@@ -12,11 +12,9 @@ defmodule AppWeb.BrandController do
   def index(conn, _params) do
     brands = Brands.list_brands()
 
-#    revenue = Sales.get_total_revenue(Plug.Conn.get_session(conn, :brand_id))
+    revenue = Brands.get_total_brand_revenue(get_session(conn, :brand_id))
 
- #   IO.inspect(revenue, label: "revenue::::")
-
-    render(conn, "index.html", brands: brands)
+    render(conn, "index.html", brands: brands, revenue: revenue)
   end
 
   def new(conn, _params) do

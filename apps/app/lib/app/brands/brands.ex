@@ -8,7 +8,7 @@ defmodule App.Brands do
 
   alias App.Brands.Brand
   alias App.Influencers.Influencer
-  alias App.Contracts.Contract
+  alias App.Contracts
 
   @doc """
   Returns the list of brands.
@@ -37,7 +37,9 @@ defmodule App.Brands do
       ** (Ecto.NoResultsError)
 
   """
-  def get_brand!(id), do: Repo.get!(Brand, id)
+  def get_brand!(id) do
+    brand = Repo.get!(Brand, id) |> Repo.preload(:contracts)
+  end
 
   def get_brand(id), do: Repo.get(Brand, id)
 
@@ -127,5 +129,23 @@ defmodule App.Brands do
   end
 
   def get_brand_id_by_hostname(hostname), do: Repo.get_by(Brand, hostname: hostname)
+
+  def get_total_brand_revenue(brand_id) do
+    brand = get_brand!(brand_id)
+    contracts = brand.contracts
+    revenue = get_value(contracts)
+    Decimal.to_string(revenue)
+  end
+
+  def get_value([contract|contracts]) do
+    a = Decimal.new(Contracts.get_total_contract_revenue(contract.id))
+    b = Decimal.new(get_value(contracts))
+    Decimal.add(a,b)
+  end
+
+  def get_value([]) do
+    Decimal.new(0)
+  end
+  
 
 end
