@@ -7,6 +7,7 @@ defmodule App.Contracts do
   alias App.Repo
 
   alias App.Contracts.Contract
+  alias App.Vouchers
 
   @doc """
   Returns the list of contracts.
@@ -115,4 +116,21 @@ defmodule App.Contracts do
 
   def get_contract_by_brand_and_influencer(brand_id, influencer_id),
     do: Repo.get_by(Contract, brand_id: brand_id, influencer_id: influencer_id)
+
+  def get_total_contract_revenue(contract_id) do
+    contract = get_contract!(contract_id)
+    vouchers = contract.voucher
+    get_value(vouchers)
+  end
+
+  def get_value([voucher|vouchers]) do
+    a = Decimal.new(Vouchers.get_total_voucher_revenue(voucher.id))
+    b = Decimal.new(get_value(vouchers))
+    Decimal.add(a,b)
+  end
+
+  def get_value([]) do
+    Decimal.new(0)
+  end
+  
 end

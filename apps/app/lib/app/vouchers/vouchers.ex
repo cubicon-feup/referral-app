@@ -6,6 +6,8 @@ defmodule App.Vouchers do
   import Ecto.Query, warn: false
   alias App.Repo
   alias App.Contracts
+  alias App.Sales
+
 
   alias App.Vouchers.Voucher
 
@@ -40,6 +42,7 @@ defmodule App.Vouchers do
     voucher =
       Repo.get!(Voucher, id)
       |> Repo.preload(:contract)
+      |> Repo.preload(:sales)
 
     case voucher do
       voucher ->
@@ -184,4 +187,26 @@ defmodule App.Vouchers do
     #
     # IO.inspect(vouchers.contract.brand.hostname, label: "vouchers")
   end
+
+
+  def get_total_voucher_revenue(voucher_id) do
+    case get_voucher!(voucher_id) do
+      {:ok, voucher} ->
+        sales = voucher.sales
+        get_value(sales)
+      {:error, _} ->
+        ()
+    end
+  end
+
+  def get_value([sale|sales]) do
+    a = Decimal.new(sale.value)
+    b = Decimal.new(get_value(sales))
+    Decimal.add(a,b)
+  end
+
+  def get_value([]) do
+    Decimal.new(0)
+  end
+
 end

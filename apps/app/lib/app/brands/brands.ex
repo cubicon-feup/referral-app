@@ -127,4 +127,5 @@ defmodule App.Brands do
   end
 
   def get_brand_id_by_hostname(hostname), do: Repo.get_by(Brand, hostname: hostname)
+
 end
