@@ -62,7 +62,6 @@ defmodule AppWeb.UserController do
   def show(conn, %{"id" => id}) do
 
     user = Users.get_user!(id)
-    IO.inspect user
     case user.deleted do
       true ->
         put_flash(conn, :warning, "User deleted account.")
@@ -115,7 +114,6 @@ defmodule AppWeb.UserController do
         case Users.update_user(user, user_params) do
           {:ok, user} ->
             Logger.info "update"
-            IO.inspect user_params
             conn
             |> put_flash(:info, "User updated successfully.")
             |> redirect(to: user_path(conn, :show, user))
