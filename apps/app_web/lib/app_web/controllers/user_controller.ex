@@ -7,9 +7,10 @@ defmodule AppWeb.UserController do
   alias App.Influencers
   alias App.Auth
   alias App.Auth.Guardian
+  require Logger
 
   def index(conn, _params) do
-    case Guardian.Plug.current_resource(conn) do 
+    case Guardian.Plug.current_resource(conn) do
       nil ->
         changeset = Auth.change_user(%User{})
         maybe_user = Guardian.Plug.current_resource(conn)
@@ -25,7 +26,7 @@ defmodule AppWeb.UserController do
         conn
         |> redirect(to: user_path(conn, :show, user))
     end
-    
+
   end
 
   def new(conn, _params) do
@@ -59,8 +60,9 @@ defmodule AppWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
 
+    user = Users.get_user!(id)
+    IO.inspect user
     case user.deleted do
       true ->
         put_flash(conn, :warning, "User deleted account.")
@@ -112,9 +114,11 @@ defmodule AppWeb.UserController do
       user ->
         case Users.update_user(user, user_params) do
           {:ok, user} ->
+            Logger.info "update"
+            IO.inspect user_params
             conn
             |> put_flash(:info, "User updated successfully.")
-            |> redirect(to: user_path(conn, :edit, user))
+            |> redirect(to: user_path(conn, :show, user))
 
           {:error, %Ecto.Changeset{} = changeset} ->
             render(
@@ -127,6 +131,35 @@ defmodule AppWeb.UserController do
         end
     end
   end
+  def update_picture(conn,%{"user" => user_params }) do
+    case Guardian.Plug.current_resource(conn) do
+      nil ->
+        conn
+        |> redirect( to: user_path(conn,:index))
+      user ->
+        case Users.update_user(user, user_params) do
+          {:ok, user} ->
+            if upload = user_params["photo"] do
+              File.exists?(upload.path)
+              extension = Path.extname(upload.filename)
+              File.cp(upload.path, "./  apps/app_web/assets/static/images/media/#{user.id}-profile#{extension}")
+            end
+
+            updated_params = Map.put(user_params, "picture_path", "/images/media/#{user.id}-profile#{extension}")
+            update(conn, %{"id" => Guardian.Plug.current_resource(conn).id, "user" => updated_params})
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            render(
+              conn,
+              "edit.html",
+              user: user,
+              changeset: changeset,
+              page_title: "Edit Profile"
+            )
+      end
+    end
+end
+
 
   def update_password(conn, %{"user" => user_params}) do
     case Auth.authenticate_user(
@@ -227,7 +260,7 @@ defmodule AppWeb.UserController do
       nil ->
         conn
       influencer ->
-         conn |> put_session(:influencer_id, influencer.id) 
+         conn |> put_session(:influencer_id, influencer.id)
     end
   end
 
@@ -244,5 +277,6 @@ defmodule AppWeb.UserController do
     conn
     |> Guardian.Plug.sign_out()
     |> redirect(to: user_path(conn, :index))
-  end
+
+ end
 end
