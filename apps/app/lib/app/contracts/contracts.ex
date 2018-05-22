@@ -107,7 +107,7 @@ defmodule App.Contracts do
   end
 
   def get_contract_by_email!(email) do 
-    Repo.get_by(Contract, contact: email)
+    Repo.get_by(Contract, email: email)
   end
 
   def get_contract_by_brand(brand_id),

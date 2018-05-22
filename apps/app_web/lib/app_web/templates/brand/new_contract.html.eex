@@ -5,7 +5,7 @@
                 <div class="col col-login mx-auto">
                     <div class="card-body p-6">
                         <div class="card-title">Add Influencer</div>
-                            <%= form_for @changeset, brand_path(@conn, :create_influencer, @brand), fn f -> %>
+                            <%= form_for @changeset, brand_path(@conn, :create_contract, @brand), fn f -> %>
                                 <%= if @changeset.action do %>
                                     <div class="alert alert-danger">
                                         <p>Oops, something went wrong! Please check the errors below.</p>
@@ -18,8 +18,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="influencer_contact">Email</label>
-                                    <%= text_input f, :contact, class: "form-control", type: "email", required: true, placeholder: "Enter email"%>
-                                    <%= error_tag f, :contact %>
+                                    <%= text_input f, :email, class: "form-control", type: "email", required: true, placeholder: "Enter email"%>
+                                    <%= error_tag f, :email %>
                                 </div>
                                 <div class="form-group">
                                     <%= label f, :address, class: "form-label" %>

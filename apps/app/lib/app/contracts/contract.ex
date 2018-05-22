@@ -23,6 +23,6 @@ defmodule App.Contracts.Contract do
     |> cast(attrs, [:brand_id, :minimum_points, :payment_period, :points, :email, :address, :name, :nib, :user_id])
     |> cast_assoc(:brand)
     |> cast_assoc(:user)
-    |> validate_required([:brand_id, :user_id])
+    |> validate_required([:brand_id])
   end
 end

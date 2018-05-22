@@ -65,7 +65,7 @@ defmodule AppWeb.BrandController do
 
   def new_contract(conn, %{"id" => id}) do
     brand = Brands.get_brand!(id)
-    changeset = Contracts.change_influencer(%Contract{})
+    changeset = Contracts.change_contract(%Contract{brand_id: id})
     render(conn, "new_contract.html", brand: brand, changeset: changeset)
   end
 
@@ -73,6 +73,8 @@ defmodule AppWeb.BrandController do
     brand_id = Plug.Conn.get_session(conn, :brand_id)
     brand = Brands.get_brand!(brand_id)
     
+    contract_params = Map.put(contract_params, "brand_id", brand_id)
+
     case Contracts.get_contract_by_email!(Map.get(contract_params, "email")) do
       nil->
         case Contracts.create_contract(contract_params) do

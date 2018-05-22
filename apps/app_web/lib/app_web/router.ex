@@ -86,9 +86,9 @@ defmodule AppWeb.Router do
       resources "/vouchers", VoucherController
     end
     get "/404", PageNotFoundController, :show
-    get "/brands/:id/new_influencer", BrandController, :new_influencer
-    post "/brands/:id/create_influencer", BrandController, :create_influencer
-    get "/contracts/:email/:name/invited_contract", Contracts, :invited_influencer
+    get "/brand/:id/new_contract", BrandController, :new_contract
+    post "/brand/:id/create_contract", BrandController, :create_contract
+    get "/contracts/:email/:name/invited_contract", ContractController, :invited_contract
     get "/contracts/:id/invite", ContractController, :invite
 
   end

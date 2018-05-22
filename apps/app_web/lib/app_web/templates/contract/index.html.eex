@@ -8,10 +8,10 @@
             <i class="fa fa-calendar"></i>&nbsp;
           </div>
           <i class="fa fa-plus"></i>
-          <span><%= link "Invite Influencer", to: contract_path(@conn, :new) %></span>
+          <span><%= link "Create Influencer", to: brand_path(@conn, :new_contract, @brand) %></span>
         </div>
         <div class="col-lg order-lg-first">
-          <h2>Contracts</h2>
+          <h2>Influencers</h2>
         </div>
       </div> 
       <div class="table-responsive">
@@ -21,7 +21,6 @@
               <th>Name</th>
               <th>Address</th>
               <th>Nib</th>
-
               <th></th>
             </tr>
           </thead>
