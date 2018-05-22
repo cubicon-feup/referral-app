@@ -112,13 +112,9 @@ defmodule App.Contracts do
 
   def get_contract_by_brand(brand_id),
     do: Repo.get_by(Contract, brand_id: brand_id)
-  def add_points(%Contract{} = contract, add) do
-    # add_sale
-    new_points = Decimal.to_float(contract.points) + add
 
+  def add_points(%Contract{} = contract, add) do
+    new_points = Decimal.to_float(contract.points) + add
     update_contract(contract, %{points: new_points})
   end
-
-  def get_contract_by_brand_and_influencer(brand_id, influencer_id),
-    do: Repo.get_by(Contract, brand_id: brand_id, influencer_id: influencer_id)
 end
