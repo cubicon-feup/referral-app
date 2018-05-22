@@ -109,7 +109,6 @@ defmodule App.Contracts do
   def add_points(%Contract{} = contract, add) do
     # add_sale
     new_points = Decimal.to_float(contract.points) + add
-
     update_contract(contract, %{points: new_points})
   end
 

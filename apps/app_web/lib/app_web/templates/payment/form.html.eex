@@ -30,18 +30,18 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <%= label f, :payment_status, "Status", class: "control-label" %>
+          <%= label f, :status, "Status", class: "control-label" %>
           <div class="custom-controls-stacked">
             <label class="custom-control custom-radio custom-control-inline">
-              <input type="radio" class="custom-control-input" name="payment[payment_status]" value="pending" checked="">
+              <input type="radio" class="custom-control-input" name="payment[status]" value="pending" checked="">
               <span class="custom-control-label">Pending</span>
             </label>
             <label class="custom-control custom-radio custom-control-inline">
-              <input type="radio" class="custom-control-input" name="payment[payment_status]" value="complete">
+              <input type="radio" class="custom-control-input" name="payment[status]" value="complete">
               <span class="custom-control-label">Completed</span>
             </label>
           </div>
-          <%= error_tag f, :payment_status %>
+          <%= error_tag f, :status %>
         </div>
 
         <div class="form-group">

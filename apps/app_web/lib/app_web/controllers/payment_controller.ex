@@ -39,6 +39,7 @@ defmodule AppWeb.PaymentController do
         |> put_flash(:info, "Payment created successfully.")
         |> redirect(to: payment_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset)
         influencers = Brands.get_brand_influencers(1)
         influencers = Enum.map(influencers, fn influencer -> 
           contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer.id)
@@ -46,6 +47,17 @@ defmodule AppWeb.PaymentController do
           |> Map.put(:payment_period, contract.payment_period)
         end)
         render(conn, "new.html", changeset: changeset, influencers: influencers)
+      {:error_no_points, %Ecto.Changeset{} = changeset} ->
+        influencers = Brands.get_brand_influencers(1)
+        influencers = Enum.map(influencers, fn influencer -> 
+          contract = Contracts.get_contract_by_brand_and_influencer(brand_id, influencer.id)
+          influencer
+          |> Map.put(:payment_period, contract.payment_period)
+        end)
+        conn
+        |> put_flash(:error, "No Points")
+        |> render("new.html", changeset: changeset, influencers: influencers)
+
     end
   end
 
@@ -75,7 +87,15 @@ defmodule AppWeb.PaymentController do
 
   def update_status(conn, %{"id" => id, "payment" => payment_params}) do
     payment = Payments.get_payment!(id)
-    case Payments.update_payment(payment, payment_params) do
+    
+    case payment_params["status"] do
+      "complete" ->
+        action = Payments.complete_payment(payment)
+      "cancelled" ->
+        action = Payments.cancel_payment(payment)
+    end
+
+    case action do
       {:ok, payment} ->
         conn
         |> put_flash(:info, "Payment updated successfully.")
