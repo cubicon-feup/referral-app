@@ -181,14 +181,4 @@ defmodule App.Payments do
       {:ok, payment}
     end
   end
-
-
-  def list_payments_influencer(influencer_id) do
-    query = Payment
-    |> where([p], p.influencer_id == ^influencer_id)
-    |> select([p], p)
-
-    Repo.all(query)
-    |> Repo.preload(:influencer)
-  end
 end

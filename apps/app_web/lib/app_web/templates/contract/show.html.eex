@@ -1,49 +1,155 @@
-<h2>Show Contract</h2>
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">
+      <%= gettext("Influencers") %>
+      <span style="color:#376ee7;">
+        >
+        <%= @contract.name %>
+      </span>
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <img src="" style="display: block;">
+          <%= @contract.name %>
 
-<ul>
+        </div>
+      </div>
 
-  <li>
-    <strong>Brand:</strong>
-    <%= @contract.brand_id %>
-  </li>
+      <div class="card">
+        <div class="card-header">
+          <%= gettext("Influencer information") %>
+        </div>
+        <div class="card-body">
+          <div class="info-field">
+            <div class="text-muted">
+              <%= gettext("Name") %>
+            </div>
+            <div>
+              <%= @contract.name %>
+            </div>
+          </div>
 
-  <li>
-    <strong>Minimum points:</strong>
-    <%= @contract.minimum_points %>
-  </li>
+          <div class="info-field">
+            <div class="text-muted">
+              <%= gettext("Address") %>
+            </div>
+            <div>
+              <%= @contract.address %>
+            </div>
+          </div>
 
-  <li>
-    <strong>Payment period:</strong>
-    <%= @contract.payment_period %>
-  </li>
+          <div class="info-field">
+            <div class="text-muted">
+              <%= gettext("Contact") %>
+            </div>
+            <div>
+              <%= @contract.email %>
+            </div>
+          </div>
 
-  <li>
-    <strong>Points:</strong>
-    <%= @contract.points %>
-  </li>
+           <div class="info-field">
+            <div class="text-muted">
+              <%= gettext("Brands") %>
+            </div>
+            <div>
+              <%= get_brands(@contract) %>
+            </div>
+          </div>
 
-  <li>
-    <strong>Email:</strong>
-    <%= @contract.email %>
-  </li>
+         
+        </div>
+      </div>
+    
 
-  <li>
-    <strong>Address:</strong>
-    <%= @contract.address %>
-  </li>
+      <div class="card">
+        <div class="card-header">
+          <%= gettext("Contract information") %>
+        </div>
+        <div class="card-body">
+          <div class="info-field">
+            <div class="text-muted">
+              <%= gettext("Points") %>
+            </div>
+            <div>
+               <%= @contract.points %>
+            </div>
+          </div>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @contract.name %>
-  </li>
+          <div class="info-field">
+            <div class="text-muted">
+              <%= gettext("Format") %>
+            </div>
+            <div>
+              TODO
+            </div>
+          </div>
 
-  <li>
-    <strong>NIB:</strong>
-    <%= @contract.nib %>
-  </li>
+          <div class="info-field">
+            <div class="text-muted">
+              <%= gettext("Creation Date") %>
+            </div>
+            <div>
+              <%= format_date(@contract.inserted_at) %>
+            </div>
+          </div>         
+        </div>
+      </div>
+    </div>
 
-</ul>
+    <div class="col-sm-9">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card statistics">
+            <div class="card-body pending">
+              <div>
+                <%= get_pending(@contract) %> €
+              </div>
+              <%= gettext("Rewards pending") %>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card statistics">
+            <div class="card-body rewarded">
+              <div>
+                <%= get_rewarded(@contract) %> €
+              </div>
+              <%= gettext("Rewarded") %>
+            </div>
+          </div>
+        </div>
 
-<span><%= link "Voucher", to: contract_voucher_path(@conn, :index, @contract) %></span> 
-<span><%= link "Edit", to: contract_path(@conn, :edit, @contract) %></span>
-<span><%= link "Back", to: contract_path(@conn, :index) %></span>
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <%= gettext("Rewards") %>
+            </div>
+            <div class="card-body">
+              <%= render AppWeb.PaymentView, "board.html", Map.merge(assigns, %{
+                payments: get_payments(@contract)
+              }) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <%= gettext("Vouchers") %>
+            </div>
+            <div class="card-body">
+               <%= render "vouchers_table.html", Map.merge(assigns, %{
+                vouchers: get_vouchers(@contract)
+              }) %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+</div>

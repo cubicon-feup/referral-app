@@ -117,4 +117,22 @@ defmodule App.Contracts do
     new_points = Decimal.to_float(contract.points) + add
     update_contract(contract, %{points: new_points})
   end
+
+  def get_brands(%Contract{} = contract) do
+    query = Contract
+    |> where([c], c.user_id == ^contract.user_id) 
+    |> join( :inner, [c], brand in assoc(c, :brand))
+    |> distinct(true)
+    |> select([_, brand], brand)
+
+    Repo.all(query)
+  end
+
+  def get_payments(%Contract{} = contract) do
+    query = App.Payments.Payment
+    |> where([p], p.contract_id == ^contract.id)
+    |> select([p], p)
+
+    Repo.all(query)
+  end
 end
