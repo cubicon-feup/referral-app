@@ -113,6 +113,11 @@ defmodule App.Contracts do
     update_contract(contract, %{points: new_points})
   end
 
+  def add_points_2(contract_id, add) do
+    contract = get_contract!(contract_id)
+    add_points(contract, add)
+  end
+
   def get_contract_by_brand_and_influencer(brand_id, influencer_id),
     do: Repo.get_by(Contract, brand_id: brand_id, influencer_id: influencer_id)
 end
