@@ -46,7 +46,7 @@
             -%
             <i class="fa fa-chevron-up"></i>
           </div>
-          <div class="h1 m-0"><%= @aov %></div>
+          <div class="h1 m-0"><%= @aov %>€</div>
           <div class="text-muted mb-4"><%= gettext("AOV") %></div>
         </div>
       </div>            
@@ -72,7 +72,7 @@
             -%
             <i class="fa fa-chevron-up"></i>
           </div>
-          <div class="h1 m-0"><%= @pending_payments %></div>
+          <div class="h1 m-0"><%= @pending_payments %>€</div>
           <div class="text-muted mb-4"><%= gettext("Pending Payments") %></div>
         </div>
       </div>            
@@ -131,8 +131,30 @@
         <h3 class="card-title">Top 3 Countries</h3>
       </div>
       <div class="card-body">
-        <div id="chart-donut" style="height: 12rem;" country1-amount="<%= @country1_amount %>" country1-name="<%= @country1_amount %>" country2-amount="<%= @country2_amount %>" country2-name="<%= @country2_amount %>" country3-amount="<%= @country3_amount %>" country3-name="<%= @country3_amount %>"></div>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <div id="chart-donut" style="height: 12rem;" country1-amount="<%= @country1_amount %>" country1-name="<%= @country1_name %>" country2-amount="<%= @country2_amount %>" country2-name="<%= @country2_name %>" country3-amount="<%= @country3_amount %>" country3-name="<%= @country3_name %>"></div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <table class="table card-table">
+              <tbody>
+                <tr>
+                  <td><%= @country1_name %></td>
+                  <td class="text-right"><span class="text-muted"><%= @country1_amount %></span></td>
+                </tr>
+                <tr>
+                  <td><%= @country2_name %></td>
+                  <td class="text-right"><span class="text-muted"><%= @country2_amount %></span></td>
+                </tr>
+                <tr>
+                  <td><%= @country3_name %></td>
+                  <td class="text-right"><span class="text-muted"><%= @country3_amount %></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
+    </div>                
   </div>
 </div>
