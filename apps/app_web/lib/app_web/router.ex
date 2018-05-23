@@ -44,7 +44,7 @@ defmodule AppWeb.Router do
     post "/user/logout", UserController, :logout
     resources "/user", UserController, only: [:show, :edit, :delete,:update]
     resources "/shorten", LinkController
-
+    put "/user/:id/edit", UserController, :update_picture
 
   end
 

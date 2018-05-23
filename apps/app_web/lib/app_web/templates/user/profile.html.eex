@@ -12,15 +12,24 @@
         <div class="card card-profile">
           <div class="card-header" style="background-image: url(demo/photos/eberhard-grossgasteiger-311213-500.jpg);"></div>
           <div class="card-body text-center">
-            <img class="card-profile-img" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png">
+            <%= if @user.picture_path != nil do %>
+                 <img class="ui circular small centered image" src="<%=@user.picture_path%>">
+             <% else %>
+                 <img src="<%= static_path(@conn, "/images/default-user.png") %>" class="card-profile-img" alt="logo">
+             <% end %>
             <h3 class="mb-3"><%= @user.name %></h3>
+        </div>
+        <div class=" btn btn-primary">
+          <div class="custom-file">
+            <%=pic =  gettext("Upload Profile Picture") %>
+            <%= label f ,pic, class: "custom-file-label" %>
+            <%= file_input f, :photo, class: "custom-file-input" %>
+            <%= error_tag f , :photo %>
           </div>
-
-          <button class="btn btn-primary">
-            Upload Photo
-          </button>
         </div>
       </div>
+    </div>
+
       <div class="col-lg-8">
         <form class="card">
           <div class="card-body">
@@ -69,7 +78,6 @@
                   <input type="text" class="form-control" placeholder="Phone Number" >
                 </div>
               </div>
-            <div class="row">
               <div class="col-md-12">
                 <h5>Brands</h5>
                 <h6 class="text-muted">lorem,ipsum,teste</h6>

@@ -23,11 +23,10 @@ defmodule App.Payments.Payment do
     |> validate_required([:contract_id, :type, :value])
     |> validate_inclusion(:status, ["pending", "complete", "cancelled"])
     |> validate_inclusion(:type, ["money", "voucher", "products"])
-    |> check_payment_date(:status)
   end
 
-   @doc false
-   defp check_payment_date(payment, status) do
+  @doc false
+  defp check_payment_date(payment, status) do
     if Map.has_key?(payment.changes, :status) and payment.changes.status == "complete" do
       change(payment, payment_date: Ecto.DateTime.utc(:usec))
     else
