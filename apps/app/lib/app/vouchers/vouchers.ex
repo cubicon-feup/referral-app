@@ -229,4 +229,19 @@ defmodule App.Vouchers do
     []
   end
 
+  def get_sales_countries(voucher_id) do
+    {:ok, voucher} = get_voucher!(voucher_id)
+    customers = get_countries_from_sale(voucher.sales)
+  end
+
+  def get_countries_from_sale([sale|sales]) do
+    case sale.customer_locale do
+      nil -> get_countries_from_sale(sales)
+      locale -> [locale] ++ get_countries_from_sale(sales)
+    end
+  end
+
+  def get_countries_from_sale([]) do
+    []
+  end
 end

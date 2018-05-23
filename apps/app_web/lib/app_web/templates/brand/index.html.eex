@@ -125,5 +125,14 @@
         </div>
       </div>            
     </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Top 3 Countries</h3>
+      </div>
+      <div class="card-body">
+        <div id="chart-donut" style="height: 12rem;" country1-amount="<%= @country1_amount %>" country1-name="<%= @country1_amount %>" country2-amount="<%= @country2_amount %>" country2-name="<%= @country2_amount %>" country3-amount="<%= @country3_amount %>" country3-name="<%= @country3_amount %>"></div>
+      </div>
+    </div>
   </div>
 </div>

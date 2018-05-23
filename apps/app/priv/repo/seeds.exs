@@ -31,14 +31,19 @@ voucher_create_attrs = %{contract_id: contract.id, code: "DISCOUNT20"}
 
 case NaiveDateTime.new(~D[2010-01-13], ~T[23:00:07.005]) do
 {:ok, date} ->
-sale1 = Ecto.build_assoc(voucher, :sales, date: date, value: 10, customer_id: 12345)
-
-sale2 = Ecto.build_assoc(voucher, :sales, date: date, value: 20, customer_id: 12346)
-
-sale3 = Ecto.build_assoc(voucher, :sales, date: date, value: 30, customer_id: 12345)
+sale1 = Ecto.build_assoc(voucher, :sales, date: date, value: 10, customer_id: 12345, customer_locale: "Portugal")
+sale2 = Ecto.build_assoc(voucher, :sales, date: date, value: 20, customer_id: 12346, customer_locale: "Spain")
+sale3 = Ecto.build_assoc(voucher, :sales, date: date, value: 30, customer_id: 12445, customer_locale: "USA")
+sale4 = Ecto.build_assoc(voucher, :sales, date: date, value: 10, customer_id: 12345, customer_locale: "Portugal")
+sale5 = Ecto.build_assoc(voucher, :sales, date: date, value: 20, customer_id: 12646, customer_locale: "Portugal")
+sale6 = Ecto.build_assoc(voucher, :sales, date: date, value: 30, customer_id: 12145, customer_locale: "USA")
 App.Repo.insert!(sale1)
 App.Repo.insert!(sale2)
 App.Repo.insert!(sale3)
+App.Repo.insert!(sale4)
+App.Repo.insert!(sale5)
+App.Repo.insert!(sale6)
+
 
 end
 # sales_create_attrs = %{voucher: voucher, date: "2018-05-22 09:14:39.027866Z", value: 10}

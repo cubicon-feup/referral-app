@@ -198,4 +198,16 @@ defmodule App.Contracts do
     0
   end
 
+  def get_sales_countries(contract_id) do
+    contract = get_contract!(contract_id)
+    get_sales_countries_from_vouchers(contract.voucher)
+  end
+
+  def get_sales_countries_from_vouchers([voucher|vouchers]) do
+    Vouchers.get_sales_countries(voucher.id) ++ get_sales_countries_from_vouchers(vouchers)
+  end
+
+  def get_sales_countries_from_vouchers([]) do
+    []
+  end
 end

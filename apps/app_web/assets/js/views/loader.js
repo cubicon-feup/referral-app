@@ -4,6 +4,7 @@ import PageView from './page';
 import InfluencerView from './influencer';
 import PaymentView from './payment';
 import VoucherView from './voucher';
+import BrandView from './brand';
 
 // Collection of specific view modules
 const views = {
@@ -11,7 +12,8 @@ const views = {
     PageView,
     InfluencerView,
     PaymentView,
-    VoucherView
+    VoucherView,
+    BrandView
 }
 
 export default function loadView(viewName) {

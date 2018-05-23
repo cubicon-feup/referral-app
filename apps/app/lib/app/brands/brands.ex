@@ -202,4 +202,17 @@ defmodule App.Brands do
   def get_contract_pending_payments([]) do
     0
   end
+
+  def get_sales_countries(brand_id) do
+    brand = get_brand!(brand_id)
+    get_sales_countries_from_contracts(brand.contracts)
+  end
+
+  def get_sales_countries_from_contracts([contract|contracts]) do
+    countries = Contracts.get_sales_countries(contract.id) ++ get_sales_countries_from_contracts(contracts)
+  end
+
+  def get_sales_countries_from_contracts([]) do
+    []
+  end
 end
