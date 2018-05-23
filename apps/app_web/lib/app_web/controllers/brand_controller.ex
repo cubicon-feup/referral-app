@@ -1,6 +1,8 @@
 defmodule AppWeb.BrandController do
   use AppWeb, :controller
 
+  alias App.Repo
+
   alias App.Brands
   alias App.Brands.Brand
 
@@ -10,14 +12,27 @@ defmodule AppWeb.BrandController do
   import AppWeb.Mailer
 
   def index(conn, _params) do
-    brands = Brands.list_brands()
 
     brand_id = get_session(conn, :brand_id)
+    brand = Brands.get_brand!(brand_id)
 
     revenue = Brands.get_total_brand_revenue(brand_id)
     sales_count = Brands.get_number_of_sales(brand_id)
+    total_vouchers_views = Brands.get_brand_total_views(brand_id)
 
-    render(conn, "index.html", brands: brands, revenue: revenue, sales_count: sales_count)
+    costumers = []
+    for contract <- brand.contracts do
+      loaded_contract = contract |> Repo.preload(:voucher)
+      for voucher <- loaded_contract.voucher do
+        loaded_voucher = voucher |> Repo.preload(:sales)
+        for sale <- loaded_voucher.sales do
+          costumers ++ [sale.customer_id]
+        end
+      end
+    end
+    IO.inspect(costumers, label: ":::::::::::::")
+
+    render(conn, "index.html", revenue: revenue, sales_count: sales_count, total_vouchers_views: total_vouchers_views)
   end
 
   def new(conn, _params) do

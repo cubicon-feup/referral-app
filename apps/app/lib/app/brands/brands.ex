@@ -162,4 +162,17 @@ defmodule App.Brands do
   def get_contracts_sales([]) do
     0
   end
+
+  def get_brand_total_views(brand_id) do
+    brand = get_brand!(brand_id)
+    get_contracts_views(brand.contracts)
+  end
+
+  def get_contracts_views([contract|contracts]) do
+    Contracts.get_total_contract_views(contract.id) + get_contracts_views(contracts)
+  end
+
+  def get_contracts_views([]) do
+    0
+  end
 end

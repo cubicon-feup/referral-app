@@ -214,5 +214,4 @@ defmodule App.Vouchers do
 
     Enum.count(voucher.sales)
   end
-
 end

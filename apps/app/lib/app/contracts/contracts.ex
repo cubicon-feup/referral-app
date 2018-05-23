@@ -152,5 +152,19 @@ defmodule App.Contracts do
   def get_vouchers_sales([]) do
     0
   end
-  
+
+
+  def get_total_contract_views(contract_id) do
+    contract = get_contract!(contract_id)
+    get_vouchers_views(contract.voucher)
+  end
+
+  def get_vouchers_views([voucher|vouchers]) do
+    voucher.views_counter + get_vouchers_views(vouchers)
+  end
+
+  def get_vouchers_views([]) do
+    0
+  end
+
 end
