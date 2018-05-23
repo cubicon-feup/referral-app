@@ -4,8 +4,8 @@ defmodule AppWeb.BrandController do
   alias App.Brands
   alias App.Brands.Brand
 
-  alias App.Influencers
-  alias App.Influencers.Influencer
+  alias App.Contracts
+  alias App.Contracts.Contract
 
   import AppWeb.Mailer
 
@@ -63,28 +63,31 @@ defmodule AppWeb.BrandController do
     |> redirect(to: brand_path(conn, :index))
   end
 
-  def new_influencer(conn, %{"id" => id}) do
+  def new_contract(conn, %{"id" => id}) do
     brand = Brands.get_brand!(id)
-    changeset = Influencers.change_influencer(%Influencer{})
-    render(conn, "new_influencer.html", brand: brand, changeset: changeset)
+    changeset = Contracts.change_contract(%Contract{brand_id: id})
+    render(conn, "new_contract.html", brand: brand, changeset: changeset)
   end
 
-  def create_influencer(conn, %{"id" => id, "influencer" => influencer_params}) do
-    brand = Brands.get_brand!(id)
-    case Influencers.get_influencer_by_email!(Map.get(influencer_params, "contact")) do
+  def create_contract(conn, %{"id" => id, "contract" => contract_params}) do
+    brand_id = Plug.Conn.get_session(conn, :brand_id)
+    brand = Brands.get_brand!(brand_id)
+    
+    contract_params = Map.put(contract_params, "brand_id", brand_id)
+
+    case Contracts.get_contract_by_email!(Map.get(contract_params, "email")) do
       nil->
-        case Influencers.create_influencer(influencer_params) do
-          {:ok, influencer} ->
-            send_welcome_email(influencer.contact, influencer.name)
+        case Contracts.create_contract(contract_params) do
+          {:ok, contract} ->
             conn
-            |> put_flash(:info, "Influencer created successfully.")
+            |> put_flash(:info, "Contract created successfully.")
             |> redirect(to: brand_path(conn, :show, id))
           {:error, %Ecto.Changeset{} = changeset} ->
-            render(conn, "new_influencer.html", brand: brand, changeset: changeset)
+            render(conn, "new_contract.html", brand: brand, changeset: changeset)
         end
-      influencer->
+      contract->
         conn
-        |> put_flash(:info, "Influencer already added.")
+        |> put_flash(:info, "Contract already added.")
         |> redirect(to: brand_path(conn, :show, id))
     end
   end
