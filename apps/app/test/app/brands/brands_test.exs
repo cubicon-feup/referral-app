@@ -15,9 +15,8 @@ defmodule App.BrandsTest do
         attrs
         |> Enum.into(@valid_attrs)
         |> Brands.create_brand()
-        |> App.Repo.preload(:contracts)
 
-      brand
+      brand |> App.Repo.preload(:contracts)
     end
 
     # test "list_brands/0 returns all brands" do
