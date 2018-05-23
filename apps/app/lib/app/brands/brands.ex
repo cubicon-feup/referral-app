@@ -188,4 +188,18 @@ defmodule App.Brands do
   def get_customers_from_contracts([]) do
     []
   end
+
+
+  def get_brand_pending_payments(brand_id) do
+    brand = get_brand!(brand_id)
+    total = get_contract_pending_payments(brand.contracts)
+  end
+
+  def get_contract_pending_payments([contract|contracts]) do
+    Contracts.get_contract_pending_payments(contract.id) + get_contract_pending_payments(contracts)
+  end
+
+  def get_contract_pending_payments([]) do
+    0
+  end
 end

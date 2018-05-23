@@ -20,14 +20,10 @@ defmodule AppWeb.BrandController do
     total_vouchers_views = Brands.get_brand_total_views(brand_id)
     customers = Brands.get_brand_customers(brand_id)
     number_of_customers = Enum.count(Enum.uniq(customers))
-
-    IO.inspect(revenue, label: "reveneu:::::::::")
-    IO.inspect(sales_count, label: "sales:::::::::::")
-
+    pending_payments = Brands.get_brand_pending_payments(brand_id)
     aov = div(revenue, sales_count)
 
-
-    render(conn, "index.html", revenue: revenue, sales_count: sales_count, total_vouchers_views: total_vouchers_views, number_of_customers: number_of_customers, aov: aov)
+    render(conn, "index.html", revenue: revenue, sales_count: sales_count, total_vouchers_views: total_vouchers_views, number_of_customers: number_of_customers, aov: aov, pending_payments: pending_payments)
   end
 
   def new(conn, _params) do

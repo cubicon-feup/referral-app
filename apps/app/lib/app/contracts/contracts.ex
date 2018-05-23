@@ -180,4 +180,22 @@ defmodule App.Contracts do
     []
   end
 
+  def get_contract_pending_payments(contract_id) do
+    contract = get_contract!(contract_id) |> Repo.preload(:payments)
+    total = get_pending_payments(contract.payments)
+  end
+
+  def get_pending_payments([payment|payments]) do
+    case payment.status do
+    "pending" ->
+      payment.value + get_pending_payments(payments)
+    _ -> 
+      get_pending_payments(payments)
+    end
+  end
+
+  def get_pending_payments([]) do
+    0
+  end
+
 end
