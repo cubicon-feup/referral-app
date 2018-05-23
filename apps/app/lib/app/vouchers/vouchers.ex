@@ -214,4 +214,19 @@ defmodule App.Vouchers do
 
     Enum.count(voucher.sales)
   end
+
+
+  def get_voucher_customers(voucher_id) do
+    {:ok, voucher} = get_voucher!(voucher_id)
+    customers = get_customers_from_sale(voucher.sales)
+  end
+
+  def get_customers_from_sale([sale|sales]) do
+    custumers = [sale.customer_id] ++ get_customers_from_sale(sales)
+  end
+
+  def get_customers_from_sale([]) do
+    []
+  end
+
 end

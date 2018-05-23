@@ -167,4 +167,17 @@ defmodule App.Contracts do
     0
   end
 
+  def get_contract_customers(contract_id) do
+    contract = get_contract!(contract_id)
+    customers = get_customers_from_voucher(contract.voucher)
+  end
+
+  def get_customers_from_voucher([voucher|vouchers]) do
+    custumers = Vouchers.get_voucher_customers(voucher.id) ++ get_customers_from_voucher(vouchers)
+  end
+
+  def get_customers_from_voucher([]) do
+    []
+  end
+
 end

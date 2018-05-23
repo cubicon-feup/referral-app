@@ -14,25 +14,15 @@ defmodule AppWeb.BrandController do
   def index(conn, _params) do
 
     brand_id = get_session(conn, :brand_id)
-    brand = Brands.get_brand!(brand_id)
 
     revenue = Brands.get_total_brand_revenue(brand_id)
     sales_count = Brands.get_number_of_sales(brand_id)
     total_vouchers_views = Brands.get_brand_total_views(brand_id)
+    customers = Brands.get_brand_customers(brand_id)
+    number_of_customers = Enum.count(Enum.uniq(customers))
 
-    costumers = []
-    for contract <- brand.contracts do
-      loaded_contract = contract |> Repo.preload(:voucher)
-      for voucher <- loaded_contract.voucher do
-        loaded_voucher = voucher |> Repo.preload(:sales)
-        for sale <- loaded_voucher.sales do
-          costumers ++ [sale.customer_id]
-        end
-      end
-    end
-    IO.inspect(costumers, label: ":::::::::::::")
 
-    render(conn, "index.html", revenue: revenue, sales_count: sales_count, total_vouchers_views: total_vouchers_views)
+    render(conn, "index.html", revenue: revenue, sales_count: sales_count, total_vouchers_views: total_vouchers_views, number_of_customers: number_of_customers)
   end
 
   def new(conn, _params) do

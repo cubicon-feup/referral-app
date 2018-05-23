@@ -175,4 +175,17 @@ defmodule App.Brands do
   def get_contracts_views([]) do
     0
   end
+
+  def get_brand_customers(brand_id) do
+    brand = get_brand!(brand_id)
+    customers = get_customers_from_contracts(brand.contracts)
+  end
+
+  def get_customers_from_contracts([contract|contracts]) do
+    custumers = Contracts.get_contract_customers(contract.id) ++ get_customers_from_contracts(contracts)
+  end
+
+  def get_customers_from_contracts([]) do
+    []
+  end
 end
