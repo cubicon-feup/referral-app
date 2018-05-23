@@ -15,6 +15,7 @@ defmodule App.BrandsTest do
         attrs
         |> Enum.into(@valid_attrs)
         |> Brands.create_brand()
+        |> App.Repo.preload(:contracts)
 
       brand
     end
