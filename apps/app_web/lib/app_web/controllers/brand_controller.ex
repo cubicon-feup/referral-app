@@ -21,8 +21,13 @@ defmodule AppWeb.BrandController do
     customers = Brands.get_brand_customers(brand_id)
     number_of_customers = Enum.count(Enum.uniq(customers))
 
+    IO.inspect(revenue, label: "reveneu:::::::::")
+    IO.inspect(sales_count, label: "sales:::::::::::")
 
-    render(conn, "index.html", revenue: revenue, sales_count: sales_count, total_vouchers_views: total_vouchers_views, number_of_customers: number_of_customers)
+    aov = div(revenue, sales_count)
+
+
+    render(conn, "index.html", revenue: revenue, sales_count: sales_count, total_vouchers_views: total_vouchers_views, number_of_customers: number_of_customers, aov: aov)
   end
 
   def new(conn, _params) do

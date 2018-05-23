@@ -137,7 +137,7 @@ defmodule App.Brands do
     brand = get_brand!(brand_id)
     contracts = brand.contracts
     revenue = get_value(contracts)
-    Decimal.to_string(revenue)
+    Decimal.to_integer(revenue)
   end
 
   def get_value([contract|contracts]) do
