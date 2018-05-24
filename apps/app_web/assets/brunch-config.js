@@ -15,6 +15,8 @@ exports.config = {
       order: {
         before: [
           "assets/js/vendors/jquery-3.2.1.js",
+          "assets/js/vendors/selectize.min.js"
+
         ]
       }
     },

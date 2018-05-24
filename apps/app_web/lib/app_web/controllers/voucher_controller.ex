@@ -1,6 +1,7 @@
 defmodule AppWeb.VoucherController do
   use AppWeb, :controller
   plug(:assign_contract)
+  plug(:scrub_params, "voucher" when action in [:create])
   alias App.Vouchers
   alias App.Vouchers.Voucher
   alias App.Contracts
@@ -62,27 +63,30 @@ defmodule AppWeb.VoucherController do
 
   def create(conn, %{"voucher" => voucher_params}) do
     contract = conn.assigns.contract
-
-    price_rule_id = Map.get(voucher_params, "price_rule_id", nil)
+    price_rule_id = Map.get(voucher_params, "price_rule", nil)
     voucher_params = Map.put(voucher_params, "contract_id", contract.id)
     brand_id = Plug.Conn.get_session(conn, :brand_id)
+    IO.inspect(price_rule_id)
 
-    case post_discount(voucher_params["code"], price_rule_id, brand_id) do
-      {:ok, body} ->
-        case Vouchers.create_voucher(voucher_params) do
-          {:ok, _voucher} ->
+    case voucher_params["add_price_rule"] do
+      "true" ->
+        case post_discount(voucher_params["code"], price_rule_id, brand_id) do
+          {:ok, body} ->
+            case Vouchers.create_voucher(voucher_params) do
+              {:ok, _voucher} ->
+                conn
+                |> put_flash(:info, "Voucher created successfully.")
+                |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
+
+              {:error, %Ecto.Changeset{} = changeset} ->
+                render(conn, "new.html", changeset: changeset)
+            end
+
+          {:error, error} ->
             conn
-            |> put_flash(:info, "Voucher created successfully.")
-            |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
-
-          {:error, %Ecto.Changeset{} = changeset} ->
-            render(conn, "new.html", changeset: changeset)
+            |> put_flash(:error, error)
+            |> redirect(to: contract_voucher_path(conn, :new, contract.id))
         end
-
-      {:error, error} ->
-        conn
-        |> put_flash(:error, error)
-        |> redirect(to: contract_voucher_path(conn, :new, contract.id))
     end
   end
 
