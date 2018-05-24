@@ -73,7 +73,7 @@ defmodule AppWeb.WebhookController do
       Sales.create_sale(%{
         date: DateTime.utc_now(),
         value: value,
-        voucher_id: voucher.id,
+        voucher: voucher,
         customer_locale: customer_locale,
         total_discounts: Decimal.new(total_discounts),
         customer_id: customer_id,

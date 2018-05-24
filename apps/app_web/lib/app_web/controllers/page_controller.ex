@@ -27,7 +27,7 @@ defmodule AppWeb.PageController do
             |> redirect(to: user_path(conn, :show, user.id))
           brand_id ->
             conn 
-            |> redirect(to: brand_path(conn, :show, brand_id))
+            |> redirect(to: brand_path(conn, :index))
         end
     end
   end
