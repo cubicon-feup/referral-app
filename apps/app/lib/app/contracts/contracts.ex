@@ -107,7 +107,7 @@ defmodule App.Contracts do
     Contract.changeset(contract, %{})
   end
 
-  def get_contract_by_email!(email) do 
+  def get_contract_by_email!(email) do
     Repo.get_by(Contract, email: email)
   end
 
@@ -119,6 +119,11 @@ defmodule App.Contracts do
     update_contract(contract, %{points: new_points})
   end
 
+  def add_points_2(contract_id, add) do
+    contract = get_contract!(contract_id)
+    add_points(contract, add)
+  end
+
   def get_contract_by_brand_and_influencer(brand_id, influencer_id),
     do: Repo.get_by(Contract, brand_id: brand_id, influencer_id: influencer_id)
 
@@ -128,23 +133,22 @@ defmodule App.Contracts do
     get_value(vouchers)
   end
 
-  def get_value([voucher|vouchers]) do
+  def get_value([voucher | vouchers]) do
     a = Decimal.new(Vouchers.get_total_voucher_revenue(voucher.id))
     b = Decimal.new(get_value(vouchers))
-    Decimal.add(a,b)
+    Decimal.add(a, b)
   end
 
   def get_value([]) do
     Decimal.new(0)
   end
 
-
   def get_number_of_sales(contract_id) do
     contract = get_contract!(contract_id)
     get_vouchers_sales(contract.voucher)
   end
 
-  def get_vouchers_sales([voucher|vouchers]) do
+  def get_vouchers_sales([voucher | vouchers]) do
     Vouchers.get_number_of_sales(voucher.id) + get_vouchers_sales(vouchers)
   end
 
@@ -152,13 +156,12 @@ defmodule App.Contracts do
     0
   end
 
-
   def get_total_contract_views(contract_id) do
     contract = get_contract!(contract_id)
     get_vouchers_views(contract.voucher)
   end
 
-  def get_vouchers_views([voucher|vouchers]) do
+  def get_vouchers_views([voucher | vouchers]) do
     voucher.views_counter + get_vouchers_views(vouchers)
   end
 
@@ -171,7 +174,7 @@ defmodule App.Contracts do
     customers = get_customers_from_voucher(contract.voucher)
   end
 
-  def get_customers_from_voucher([voucher|vouchers]) do
+  def get_customers_from_voucher([voucher | vouchers]) do
     custumers = Vouchers.get_voucher_customers(voucher.id) ++ get_customers_from_voucher(vouchers)
   end
 
@@ -184,12 +187,13 @@ defmodule App.Contracts do
     total = get_pending_payments(contract.payments)
   end
 
-  def get_pending_payments([payment|payments]) do
+  def get_pending_payments([payment | payments]) do
     case payment.status do
-    "pending" ->
-      payment.value + get_pending_payments(payments)
-    _ -> 
-      get_pending_payments(payments)
+      "pending" ->
+        payment.value + get_pending_payments(payments)
+
+      _ ->
+        get_pending_payments(payments)
     end
   end
 
@@ -202,7 +206,7 @@ defmodule App.Contracts do
     get_sales_countries_from_vouchers(contract.voucher)
   end
 
-  def get_sales_countries_from_vouchers([voucher|vouchers]) do
+  def get_sales_countries_from_vouchers([voucher | vouchers]) do
     Vouchers.get_sales_countries(voucher.id) ++ get_sales_countries_from_vouchers(vouchers)
   end
 

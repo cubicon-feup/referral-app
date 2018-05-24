@@ -69,15 +69,18 @@ defmodule AppWeb.WebhookController do
   def updateContract(voucher, value, customer_locale, total_discounts, customer_id, date) do
     Vouchers.add_sale(voucher, value)
 
-    {:ok, sale} =
-      Sales.create_sale(%{
+    sale =
+      Ecto.build_assoc(
+        voucher,
+        :sales,
         date: DateTime.utc_now(),
         value: value,
-        voucher: voucher,
         customer_locale: customer_locale,
         total_discounts: Decimal.new(total_discounts),
         customer_id: customer_id,
         date_sale: NaiveDateTime.from_iso8601!(date)
-      })
+      )
+
+    App.Repo.insert!(sale)
   end
 end
