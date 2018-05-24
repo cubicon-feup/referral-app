@@ -15,20 +15,42 @@ defmodule AppWeb.BrandController do
 
     brand_id = get_session(conn, :brand_id)
 
-    revenue = Brands.get_total_brand_revenue(brand_id)
-    sales_count = Brands.get_number_of_sales(brand_id)
+    revenue = 
+      case Brands.get_total_brand_revenue(brand_id) do
+        nil -> 0
+        revenue -> revenue
+      end
+
+    sales_count = 
+      case Brands.get_number_of_sales(brand_id) do
+        nil -> 0
+        sales_count -> sales_count
+      end
+
     total_vouchers_views = Brands.get_brand_total_views(brand_id)
     customers = Brands.get_brand_customers(brand_id)
     number_of_customers = Enum.count(Enum.uniq(customers))
     pending_payments = Brands.get_brand_pending_payments(brand_id)
-    aov = div(revenue, sales_count)
+    aov = 
+      case sales_count do
+        0 -> 0
+        sales_count -> div(revenue, sales_count)
+      end
 
     countries = 
       Brands.get_sales_countries(brand_id) |> Enum.reduce(%{}, fn x, acc -> Map.update(acc, x, 1, &(&1 + 1)) end)|> Enum.sort_by(&(elem(&1, 1)), &>=/2)
 
-    {country1_name, country1_amount} = Enum.at(countries,0)
-    {country2_name, country2_amount} = Enum.at(countries,1)
-    {country3_name, country3_amount} = Enum.at(countries,2)
+    case countries do
+      [] ->
+        {country1_name, country1_amount} = {"",0}
+        {country2_name, country2_amount} = {"",0}
+        {country3_name, country3_amount} = {"",0}
+      _ ->
+        {country1_name, country1_amount} = Enum.at(countries,0)
+        {country2_name, country2_amount} = Enum.at(countries,1)
+        {country3_name, country3_amount} = Enum.at(countries,2)
+    end
+    
 
 
     render(conn, "index.html", 
