@@ -76,7 +76,7 @@ defmodule AppWeb.VoucherController do
             nil
 
           false ->
-            Johanna.every({720, :hr}, fn ->
+            Johanna.every({732, :hr}, fn ->
               Contracts.add_points_2(
                 voucher_contract.contract.id,
                 Decimal.to_float(voucher_contract.points_per_month)
