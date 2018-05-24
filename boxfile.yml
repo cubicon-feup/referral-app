@@ -23,7 +23,7 @@ deploy.config:
       - mix ecto.migrate
 
 data.db:
-  image: nanobox/postgresql
+  image: nanobox/postgresql:9.5
 
 web.site:
   start: node-start mix phx.server
