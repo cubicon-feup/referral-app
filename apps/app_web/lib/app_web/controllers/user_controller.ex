@@ -277,6 +277,7 @@ end
   def logout(conn, _) do
     conn
     |> Guardian.Plug.sign_out()
+    |> delete_session(:brand_id)
     |> redirect(to: user_path(conn, :index))
 
  end
