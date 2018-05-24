@@ -3,9 +3,9 @@ defmodule App.Sales.Sale do
   import Ecto.Changeset
 
   schema "sales" do
+    belongs_to(:voucher, App.Vouchers.Voucher)
     field(:date, :naive_datetime)
     field(:value, :decimal)
-    belongs_to(:voucher, App.Vouchers.Voucher)
     field(:customer_locale, :string)
     field(:total_discounts, :decimal)
     field(:customer_id, :integer)
