@@ -66,7 +66,7 @@ defmodule AppWeb.VoucherController do
     price_rule_id = Map.get(voucher_params, "price_rule", nil)
     voucher_params = Map.put(voucher_params, "contract_id", contract.id)
     brand_id = Plug.Conn.get_session(conn, :brand_id)
-    IO.inspect(price_rule_id)
+    IO.inspect(voucher_params)
 
     case voucher_params["add_price_rule"] do
       "true" ->
@@ -86,6 +86,14 @@ defmodule AppWeb.VoucherController do
             conn
             |> put_flash(:error, error)
             |> redirect(to: contract_voucher_path(conn, :new, contract.id))
+        end
+
+      "false" ->
+        case create_price_rule(voucher_params, brand_id) do
+          {:ok, _} ->
+            conn
+            |> put_flash(:info, "Voucher created successfully.")
+            |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
         end
     end
   end
@@ -192,6 +200,72 @@ defmodule AppWeb.VoucherController do
       {:error, %HTTPoison.Error{reason: reason}} ->
         # IO.inspect(reason, label: "erro:")
         {:error, reason}
+    end
+  end
+
+  def create_price_rule(voucher_params, brand_id) do
+    brand = Brands.get_brand!(brand_id)
+
+    base_url = "https://" <> brand.api_key <> ":" <> brand.api_password <> "@" <> brand.hostname
+
+    url = base_url <> "/admin/price_rules.json"
+
+    request = %{"title" => Map.get(voucher_params, "code", nil)}
+
+    case Map.get(voucher_params, "discount_type", nil) do
+      "free_shipping" ->
+        nil
+
+      "percentage" ->
+        nil
+
+      "fixed_amount" ->
+        request = Map.put(request, "value_type", "fixed_amount")
+
+        request =
+          Map.put(
+            request,
+            "value",
+            String.to_integer(Map.get(voucher_params, "discount_value", nil)) * -1
+          )
+
+        request = Map.put(request, "allocation_method", "across")
+        request = Map.put(request, "target_type", "line_item")
+        request
+    end
+
+    request =
+      Map.put(
+        request,
+        "customer_selection",
+        "all"
+      )
+
+    request =
+      Map.put(
+        request,
+        "target_selection",
+        "all"
+      )
+
+    request =
+      Map.put(
+        request,
+        "customer_selection",
+        "all"
+      )
+
+    request = Map.put(request, "starts_at", "2017-01-19T17:59:10Z")
+
+    price_role = %{"price_rule" => request}
+
+    case HTTPoison.post(url, Poison.encode!(price_role), [{"Content-Type", "application/json"}]) do
+      {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
+        parse =
+          Poison.Parser.parse!(body)
+          |> get_in(["price_rule"])
+
+        post_discount(Map.get(voucher_params, "code", nil), parse["id"], brand_id)
     end
   end
 end
