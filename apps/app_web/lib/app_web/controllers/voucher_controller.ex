@@ -21,8 +21,6 @@ defmodule AppWeb.VoucherController do
     url =
       build_url(voucher.contract.id) <> "/admin/discount_codes/lookup.json?code=" <> voucher.code
 
-    IO.inspect(url)
-
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:error, "200"}
@@ -73,31 +71,7 @@ defmodule AppWeb.VoucherController do
       "true" ->
         case post_discount(voucher_params["code"], price_rule_id, brand_id) do
           {:ok, body} ->
-            case Vouchers.create_voucher(voucher_params) do
-              {:ok, voucher} ->
-                case Decimal.equal?(voucher.points_per_month, "0.0") do
-                  true ->
-                    nil
-
-                  false ->
-                    Johanna.every({732, :hr}, fn ->
-                      Contracts.add_points_2(
-                        voucher.contract.id,
-                        Decimal.to_float(voucher.points_per_month)
-                      )
-                    end)
-                end
-
-                conn
-                |> put_flash(:info, "Voucher created successfully.")
-                |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
-
-              {:error, %Ecto.Changeset{} = changeset} ->
-                conn
-                |> put_flash(:info, "Voucher error.")
-
-                render(conn, "new.html", changeset: changeset)
-            end
+            insert_voucher(conn, voucher_params)
 
           {:error, error} ->
             conn
@@ -108,6 +82,8 @@ defmodule AppWeb.VoucherController do
       "false" ->
         case create_price_rule(voucher_params, brand_id) do
           {:ok, _} ->
+            insert_voucher(conn, voucher_params)
+
             conn
             |> put_flash(:info, "Voucher created successfully.")
             |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
@@ -302,6 +278,34 @@ defmodule AppWeb.VoucherController do
           |> get_in(["price_rule"])
 
         post_discount(Map.get(voucher_params, "code", nil), parse["id"], brand_id)
+    end
+  end
+
+  defp insert_voucher(conn, voucher_params) do
+    case Vouchers.create_voucher(voucher_params) do
+      {:ok, voucher} ->
+        case Decimal.equal?(voucher.points_per_month, "0.0") do
+          true ->
+            nil
+
+          false ->
+            Johanna.every({732, :hr}, fn ->
+              Contracts.add_points_2(
+                voucher.contract.id,
+                Decimal.to_float(voucher.points_per_month)
+              )
+            end)
+        end
+
+        conn
+        |> put_flash(:info, "Voucher created successfully.")
+        |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:info, "Voucher error.")
+
+        render(conn, "new.html", changeset: changeset)
     end
   end
 end

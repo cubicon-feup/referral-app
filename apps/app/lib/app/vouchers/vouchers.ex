@@ -65,9 +65,12 @@ defmodule App.Vouchers do
 
   """
   def create_voucher(attrs \\ %{}) do
-    %Voucher{}
-    |> Voucher.changeset(attrs)
-    |> Repo.insert()
+    voucher =
+      %Voucher{}
+      |> Voucher.changeset(attrs)
+      |> Repo.insert()
+
+    IO.inspect(voucher, label: "voucher:::::::::::::..")
   end
 
   @doc """
