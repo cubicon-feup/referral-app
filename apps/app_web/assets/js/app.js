@@ -7,13 +7,15 @@
 // in vendor, which are never wrapped in imports and
 // therefore are always executed.
 // Import dependencies
-//
+//  
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 import "jquery"
 import "moment"
 import "selectize"
+import "c3"
+
 import loadView from './views/loader';
 // Import local files
 //

@@ -6,24 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-
+    <link rel="icon" type="image/png" href="<%= static_path(@conn, "/images/favicon/favicon-32x32.png") %>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<%= static_path(@conn, "/images/favicon/favicon-96x96.png") %>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= static_path(@conn, "/images/favicon/favicon-16x16.png") %>">
+    <link rel="apple-touch-icon" sizes="57x57" href="<%= static_path(@conn, "/images/favicon/apple-icon-57x57.png") %>">
+    <link rel="apple-touch-icon" sizes="60x60" href="<%= static_path(@conn, "/images/favicon/apple-icon-60x60.png") %>">
+    <link rel="apple-touch-icon" sizes="72x72" href="<%= static_path(@conn, "/images/favicon/apple-icon-72x72.png") %>">
+    <link rel="apple-touch-icon" sizes="76x76" href="<%= static_path(@conn, "/images/favicon/apple-icon-76x76.png") %>">
     <%= if title = @conn.assigns[:page_title] do  %>
     <title> <%= title %> </title>
     <% else %>
@@ -51,7 +40,7 @@
           <div class="container">
               <div class="d-flex">
                   <a class="header-brand" href="/">
-                      <img src="" class="header-brand-img" alt="inspiro logo">
+                      <img src="<%= static_path(@conn, "/images/logo.png") %>" class="header-brand-img" alt="inspiro logo">
                   </a>
                   <div class="d-flex order-lg-2 ml-auto">
                       <div class="dropdown">
@@ -60,7 +49,7 @@
                               <span class="ml-2 d-none d-lg-block">
                                   <span class="text-default"><%= gettext "English" %></span>
                                   <i class="flag flag-gb"></i>
-                                  <i id="dropdown-icon-language" class="dropdown icon"></i>
+                                  <i id="dropdown-icon-language" class="fa fa-caret-down"></i>
                               </span>
                             </a>
                           <%end%>
@@ -69,7 +58,7 @@
                               <span class="ml-2 d-none d-lg-block">
                                   <span class="text-default"><%= gettext "Portuguese" %></span>
                                   <i class="flag flag-pt"></i>
-                                  <i id="dropdown-icon-language" class="dropdown icon"></i>
+                                  <i id="dropdown-icon-language" class="fa fa-caret-down"></i>
                               </span>
                             </a>
                           <%end%>
@@ -162,6 +151,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   </body>

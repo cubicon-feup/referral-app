@@ -6,6 +6,8 @@ defmodule App.Vouchers do
   import Ecto.Query, warn: false
   alias App.Repo
   alias App.Contracts
+  alias App.Sales
+
 
   alias App.Vouchers.Voucher
 
@@ -40,6 +42,7 @@ defmodule App.Vouchers do
     voucher =
       Repo.get!(Voucher, id)
       |> Repo.preload(:contract)
+      |> Repo.preload(:sales)
 
     case voucher do
       voucher ->
@@ -173,7 +176,7 @@ defmodule App.Vouchers do
           v in Voucher,
           join: c in assoc(v, :contract),
           join: b in assoc(c, :brand),
-          preload: [{:contract, :brand}, {:contract, :influencer}],
+          preload: [{:contract, :brand}],
           where: v.code == ^code and b.hostname == ^brand_hostname
         )
       )
@@ -183,5 +186,62 @@ defmodule App.Vouchers do
     #   |> Repo.preload(contract: :brand)
     #
     # IO.inspect(vouchers.contract.brand.hostname, label: "vouchers")
+  end
+
+
+  def get_total_voucher_revenue(voucher_id) do
+    case get_voucher!(voucher_id) do
+      {:ok, voucher} ->
+        sales = voucher.sales
+        get_value(sales)
+      {:error, _} ->
+        ()
+    end
+  end
+
+  def get_value([sale|sales]) do
+    a = Decimal.new(sale.value)
+    b = Decimal.new(get_value(sales))
+    Decimal.add(a,b)
+  end
+
+  def get_value([]) do
+    Decimal.new(0)
+  end
+
+  def get_number_of_sales(voucher_id) do
+    {:ok, voucher} = get_voucher!(voucher_id)
+
+    Enum.count(voucher.sales)
+  end
+
+
+  def get_voucher_customers(voucher_id) do
+    {:ok, voucher} = get_voucher!(voucher_id)
+    customers = get_customers_from_sale(voucher.sales)
+  end
+
+  def get_customers_from_sale([sale|sales]) do
+    custumers = [sale.customer_id] ++ get_customers_from_sale(sales)
+  end
+
+  def get_customers_from_sale([]) do
+    []
+  end
+
+  def get_sales_countries(voucher_id) do
+    {:ok, voucher} = get_voucher!(voucher_id)
+    customers = get_countries_from_sale(voucher.sales)
+  end
+
+  def get_countries_from_sale([sale|sales]) do
+    case sale.customer_locale do
+      nil -> get_countries_from_sale(sales)
+      locale -> [locale] ++ get_countries_from_sale(sales)
+    end
+  end
+
+  def get_countries_from_sale([]) do
+    []
   end
 end

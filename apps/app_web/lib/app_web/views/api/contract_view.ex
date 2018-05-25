@@ -12,7 +12,6 @@ defmodule AppWeb.Api.ContractView do
 
   def render("contract.json", %{contract: contract}) do
     %{id: contract.id,
-      influencer_id: contract.influencer_id,
       brand_id: contract.brand_id,
       minimum_points: contract.minimum_points,
       payment_period: contract.payment_period,

@@ -1,32 +1,169 @@
-<h2>Listing Brands</h2>
+<div class="container">
+  <div class="row row-cards">
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="text-right text-green">
+            -%
+            <i class="fa fa-chevron-up"></i>
+          </div>
+          <div class="h1 m-0"><%= @revenue %>€</div>
+          <div class="text-muted mb-4"><%= gettext("Revenue") %></div>
+        </div>
+      </div>            
+    </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Hostname</th>
-      <th>Api key</th>
-      <th>Api password</th>
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="text-right text-green">
+            -%
+            <i class="fa fa-chevron-up"></i>
+          </div>
+          <div class="h1 m-0"><%= @sales_count %></div>
+          <div class="text-muted mb-4"><%= gettext("Sales Count") %></div>
+        </div>
+      </div>            
+    </div>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for brand <- @brands do %>
-    <tr>
-      <td><%= brand.name %></td>
-      <td><%= brand.hostname %></td>
-      <td><%= brand.api_key %></td>
-      <td><%= brand.api_password %></td>
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="text-right text-green">
+            -%
+            <i class="fa fa-chevron-up"></i>
+          </div>
+          <div class="h1 m-0"><%= @total_vouchers_views %></div>
+          <div class="text-muted mb-4"><%= gettext("Referral Views") %></div>
+        </div>
+      </div>            
+    </div>
 
-      <td class="text-right">
-        <span><%= link "Show", to: brand_path(@conn, :show, brand), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: brand_path(@conn, :edit, brand), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: brand_path(@conn, :delete, brand), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="text-right text-green">
+            -%
+            <i class="fa fa-chevron-up"></i>
+          </div>
+          <div class="h1 m-0"><%= @aov %>€</div>
+          <div class="text-muted mb-4"><%= gettext("AOV") %></div>
+        </div>
+      </div>            
+    </div>
 
-<span><%= link "New Brand", to: brand_path(@conn, :new) %></span>
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="text-right text-green">
+            -%
+            <i class="fa fa-chevron-up"></i>
+          </div>
+          <div class="h1 m-0"><%= @number_of_customers %></div>
+          <div class="text-muted mb-4"><%= gettext("Number of Customers") %></div>
+        </div>
+      </div>            
+    </div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="text-right text-green">
+            -%
+            <i class="fa fa-chevron-up"></i>
+          </div>
+          <div class="h1 m-0"><%= @pending_payments %>€</div>
+          <div class="text-muted mb-4"><%= gettext("Pending Payments") %></div>
+        </div>
+      </div>            
+    </div>
+
+  </div>
+
+  <div class="row row-cards">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><%= gettext("Top 6 Influencers") %></h3>
+        </div>
+        
+        <div class="card-body p-3 text-center">
+          <div class="row row-cards">
+            <div class="col-12" id="top-influencers">
+              <div class="col-6 col-sm-4 col-lg-2">
+                <span class="avatar avatar-xxl dashboard-influencers-avatar" style="background-image: url(./demo/faces/male/2.jpg)"></span>
+                <h3 class="mb-3">Peter Richards</h3>
+                <p class="mb-4">130 025   </p>
+              </div>
+              <div class="col-6 col-sm-4 col-lg-2">
+                <span class="avatar avatar-xxl dashboard-influencers-avatar" style="background-image: url(./demo/faces/male/2.jpg)"></span>
+                <h3 class="mb-3">Peter Richards</h3>
+                <p class="mb-4">130 025   </p>
+              </div>
+              <div class="col-6 col-sm-4 col-lg-2">
+                <span class="avatar avatar-xxl dashboard-influencers-avatar" style="background-image: url(./demo/faces/male/2.jpg)"></span>
+                <h3 class="mb-3">Peter Richards</h3>
+                <p class="mb-4">130 025   </p>
+              </div>
+              <div class="col-6 col-sm-4 col-lg-2">
+                <span class="avatar avatar-xxl dashboard-influencers-avatar" style="background-image: url(./demo/faces/male/2.jpg)"></span>
+                <h3 class="mb-3">Peter Richards</h3>
+                <p class="mb-4">130 025   </p>
+              </div>
+              <div class="col-6 col-sm-4 col-lg-2">
+                <span class="avatar avatar-xxl dashboard-influencers-avatar" style="background-image: url(./demo/faces/male/2.jpg)"></span>
+                <h3 class="mb-3">Peter Richards</h3>
+                <p class="mb-4">130 025   </p>
+              </div>
+              <div class="col-6 col-sm-4 col-lg-2">
+                <span class="avatar avatar-xxl dashboard-influencers-avatar" style="background-image: url(./demo/faces/male/2.jpg)"></span>
+                <h3 class="mb-3">Peter Richards</h3>
+                <p class="mb-4">130 025   </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>            
+    </div>
+  </div>
+  <div class="row row-cards">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Top 3 Countries</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <%= if @country1_amount == 0 do %>
+              <div class="col-12 col-lg-6">
+                Not enough sales for this metric.
+              </div>
+            <% else %>
+              <div class="col-12 col-lg-6">
+                <div id="chart-donut" style="height: 12rem;" country1-amount="<%= @country1_amount %>" country1-name="<%= @country1_name %>" country2-amount="<%= @country2_amount %>" country2-name="<%= @country2_name %>" country3-amount="<%= @country3_amount %>" country3-name="<%= @country3_name %>"></div>
+              </div>
+              <div class="col-12 col-lg-6">
+                <table class="table card-table">
+                  <tbody>
+                    <tr>
+                      <td><%= @country1_name %></td>
+                      <td class="text-right"><span class="text-muted"><%= @country1_amount %></span></td>
+                    </tr>
+                    <tr>
+                      <td><%= @country2_name %></td>
+                      <td class="text-right"><span class="text-muted"><%= @country2_amount %></span></td>
+                    </tr>
+                    <tr>
+                      <td><%= @country3_name %></td>
+                      <td class="text-right"><span class="text-muted"><%= @country3_amount %></span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>  
+    </div>  
+  </div>
+</div>

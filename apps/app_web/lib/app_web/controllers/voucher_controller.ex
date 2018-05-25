@@ -74,9 +74,23 @@ defmodule AppWeb.VoucherController do
           {:ok, body} ->
             case Vouchers.create_voucher(voucher_params) do
               {:ok, _voucher} ->
-                conn
-                |> put_flash(:info, "Voucher created successfully.")
-                |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
+        {:ok, voucher_contract} = Vouchers.get_voucher!(voucher.id)
+        case Decimal.equal?(voucher_contract.points_per_month, "0.0") do
+          true ->
+            nil
+
+          false ->
+            Johanna.every({732, :hr}, fn ->
+              Contracts.add_points_2(
+                voucher_contract.contract.id,
+                Decimal.to_float(voucher_contract.points_per_month)
+              )
+            end)
+        end
+
+        conn
+        |> put_flash(:info, "Voucher created successfully.")
+        |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
 
               {:error, %Ecto.Changeset{} = changeset} ->
                 render(conn, "new.html", changeset: changeset)
@@ -189,16 +203,12 @@ defmodule AppWeb.VoucherController do
            {"Content-Type", "application/json"}
          ]) do
       {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
-        # IO.inspect(body)
         {:ok, body}
 
       {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
         # code already exists
-        # IO.inspect(body)
         {:error, body}
-
       {:error, %HTTPoison.Error{reason: reason}} ->
-        # IO.inspect(reason, label: "erro:")
         {:error, reason}
     end
   end

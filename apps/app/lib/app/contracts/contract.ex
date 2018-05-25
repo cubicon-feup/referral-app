@@ -4,11 +4,16 @@ defmodule App.Contracts.Contract do
 
   schema "contracts" do
     belongs_to(:brand, App.Brands.Brand)
-    belongs_to(:influencer, App.Influencers.Influencer)
     field(:minimum_points, :integer, default: 0)
     field(:payment_period, :integer, default: 0)
     field(:points, :decimal, default: 0.0)
     has_many(:voucher, App.Vouchers.Voucher)
+    has_many(:payments, App.Payments.Payment)
+    field :email, :string
+    field :address, :string
+    field :name, :string
+    field :nib, :integer
+    belongs_to(:user, App.Users.User)
 
     timestamps()
   end
@@ -16,14 +21,9 @@ defmodule App.Contracts.Contract do
   @doc false
   def changeset(contract, attrs) do
     contract
-    |> cast(attrs, [:influencer_id, :brand_id, :minimum_points, :payment_period, :points])
+    |> cast(attrs, [:brand_id, :minimum_points, :payment_period, :points, :email, :address, :name, :nib, :user_id])
     |> cast_assoc(:brand)
-    |> cast_assoc(:influencer)
-    |> validate_required([:influencer_id, :brand_id])
-    |> unique_constraint(
-      :unique_index_brand_influencer,
-      name: :index_brand_influencer,
-      message: "A tua mae"
-    )
+    |> cast_assoc(:user)
+    |> validate_required([:brand_id])
   end
 end

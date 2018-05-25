@@ -4,6 +4,7 @@ defmodule App.Vouchers.Voucher do
 
   schema "vouchers" do
     belongs_to(:contract, App.Contracts.Contract)
+    has_many(:sales, App.Sales.Sale)
     field(:code, :string)
     field(:percent_on_sales, :decimal, default: 0.1)
     field(:points_on_sales, :decimal, default: 0.0)
