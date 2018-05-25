@@ -7,6 +7,8 @@ defmodule App.Sales do
   alias App.Repo
 
   alias App.Sales.Sale
+  alias App.Vouchers
+
 
   @doc """
   Returns the list of sales.

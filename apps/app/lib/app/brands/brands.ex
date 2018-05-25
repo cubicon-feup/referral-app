@@ -8,7 +8,7 @@ defmodule App.Brands do
 
   alias App.Brands.Brand
   alias App.Influencers.Influencer
-  alias App.Contracts.Contract
+  alias App.Contracts
 
   @doc """
   Returns the list of brands.
@@ -37,7 +37,9 @@ defmodule App.Brands do
       ** (Ecto.NoResultsError)
 
   """
-  def get_brand!(id), do: Repo.get!(Brand, id)
+  def get_brand!(id) do
+    brand = Repo.get!(Brand, id) |> Repo.preload(:contracts)
+  end
 
   def get_brand(id), do: Repo.get(Brand, id)
 
@@ -130,4 +132,87 @@ defmodule App.Brands do
   end
 
   def get_brand_id_by_hostname(hostname), do: Repo.get_by(Brand, hostname: hostname)
+
+  def get_total_brand_revenue(brand_id) do
+    brand = get_brand!(brand_id)
+    contracts = brand.contracts
+    revenue = get_value(contracts)
+    Decimal.to_integer(revenue)
+  end
+
+  def get_value([contract|contracts]) do
+    a = Decimal.new(Contracts.get_total_contract_revenue(contract.id))
+    b = Decimal.new(get_value(contracts))
+    Decimal.add(a,b)
+  end
+
+  def get_value([]) do
+    Decimal.new(0)
+  end
+
+  def get_number_of_sales(brand_id) do
+    brand = get_brand!(brand_id)
+    get_contracts_sales(brand.contracts)
+  end
+
+  def get_contracts_sales([contract|contracts]) do
+    Contracts.get_number_of_sales(contract.id) + get_contracts_sales(contracts)
+  end
+
+  def get_contracts_sales([]) do
+    0
+  end
+
+  def get_brand_total_views(brand_id) do
+    brand = get_brand!(brand_id)
+    get_contracts_views(brand.contracts)
+  end
+
+  def get_contracts_views([contract|contracts]) do
+    Contracts.get_total_contract_views(contract.id) + get_contracts_views(contracts)
+  end
+
+  def get_contracts_views([]) do
+    0
+  end
+
+  def get_brand_customers(brand_id) do
+    brand = get_brand!(brand_id)
+    customers = get_customers_from_contracts(brand.contracts)
+  end
+
+  def get_customers_from_contracts([contract|contracts]) do
+    custumers = Contracts.get_contract_customers(contract.id) ++ get_customers_from_contracts(contracts)
+  end
+
+  def get_customers_from_contracts([]) do
+    []
+  end
+
+
+  def get_brand_pending_payments(brand_id) do
+    brand = get_brand!(brand_id)
+    total = get_contract_pending_payments(brand.contracts)
+  end
+
+  def get_contract_pending_payments([contract|contracts]) do
+    Contracts.get_contract_pending_payments(contract.id) + get_contract_pending_payments(contracts)
+  end
+
+  def get_contract_pending_payments([]) do
+    0
+  end
+
+  def get_sales_countries(brand_id) do
+    brand = get_brand!(brand_id)
+    get_sales_countries_from_contracts(brand.contracts)
+  end
+
+  def get_sales_countries_from_contracts([contract|contracts]) do
+    countries = Contracts.get_sales_countries(contract.id) ++ get_sales_countries_from_contracts(contracts)
+  end
+
+  def get_sales_countries_from_contracts([]) do
+    []
+  end
 end

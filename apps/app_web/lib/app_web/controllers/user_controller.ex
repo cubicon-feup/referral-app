@@ -140,7 +140,7 @@ defmodule AppWeb.UserController do
 
 
             if upload = user_params["photo"] do
-              File.exists?(upload.path)
+              #File.exists?(upload.path)
               extension = Path.extname(upload.filename)
               File.cp(upload.path, "./apps/app_web/assets/static/images/media/#{user.id}-profile#{extension}")
             end
@@ -277,6 +277,7 @@ end
   def logout(conn, _) do
     conn
     |> Guardian.Plug.sign_out()
+    |> delete_session(:brand_id)
     |> redirect(to: user_path(conn, :index))
 
  end
