@@ -6,7 +6,7 @@ defmodule App.Contracts.Contract do
     belongs_to(:brand, App.Brands.Brand)
     field(:minimum_points, :integer, default: 0)
     field(:payment_period, :integer, default: 0)
-    field(:points, :decimal, default: 0.0)
+    field(:points, :decimal, default: Decimal.new("0.0"))
     has_many(:voucher, App.Vouchers.Voucher)
     has_many(:payments, App.Payments.Payment)
     field :email, :string
