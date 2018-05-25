@@ -75,7 +75,7 @@ defmodule App.VouchersTest do
         |> Vouchers.create_voucher()
         
       assert voucher.code == "some code"
-      assert voucher.percent_on_sales ==  Decimal.new("0.1")
+      assert voucher.percent_on_sales ==  Decimal.new("0.0")
       assert voucher.points_on_sales == Decimal.new("0.0")
       assert voucher.points_on_views == Decimal.new("0.0")
       assert voucher.points_per_month == Decimal.new("0.0")
@@ -100,7 +100,6 @@ defmodule App.VouchersTest do
       voucher = voucher_fixture()
       voucher_p=
         Repo.preload(voucher, :contract)
-        |> Repo.preload(:sales)
       assert {:error, %Ecto.Changeset{}} = Vouchers.update_voucher(voucher, @invalid_attrs)
       assert {:ok, voucher_p} == Vouchers.get_voucher!(voucher.id)
     end
