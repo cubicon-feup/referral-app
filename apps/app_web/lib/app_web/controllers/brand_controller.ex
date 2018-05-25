@@ -11,6 +11,7 @@ defmodule AppWeb.BrandController do
 
   def index(conn, _params) do
     brands = Brands.list_brands()
+    IO.inspect brands
     render(conn, "index.html", brands: brands)
   end
 

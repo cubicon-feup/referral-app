@@ -30,10 +30,20 @@
             <%= for brand <-@brands do %>
                 <tr>
                   <td><%= "1"%></td>
-                  <td><img src="<%= static_path(@conn, "/images/brands/sarasampaio.png") %>" class="" alt="inspiro logo"</td>
+                  <td>
+                  <%= if brand.picture_path != nil do %>
+                  teste
+                 <img class="ui circular small centered image" src=>
+                  <% else %>
+                 <img src="<%= static_path(@conn, "/images/brands/sarasampaio.jpg") %>" class="card-profile-img" alt="logo">
+                  <% end %>
+                  </td>
                   <td><%= brand.name %></td>
-
-
+                  <td><%= "1"%></td>
+                  <td><%= "1"%></td>
+                  <td><%= "1"%></td>  
+                  <td class="red_colour"><%= "€"<>"1"%></td>
+                  <td class="blue_colour"><%= "€"<>"1"%></td>   
                 </tr>
             <% end %>
           </tbody>
