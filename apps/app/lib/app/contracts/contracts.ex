@@ -127,6 +127,9 @@ defmodule App.Contracts do
   def get_contract_by_brand_and_influencer(brand_id, influencer_id),
     do: Repo.get_by(Contract, brand_id: brand_id, influencer_id: influencer_id)
 
+  def get_contract_by_brand_and_user(brand_id, user_id),
+    do: Repo.get_by(Contract, brand_id: brand_id, user_id: user_id)
+
   def get_total_contract_revenue(contract_id) do
     contract = get_contract!(contract_id)
     vouchers = contract.voucher
