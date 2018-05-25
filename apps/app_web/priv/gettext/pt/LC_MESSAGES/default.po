@@ -1,0 +1,162 @@
+## `msgid`s in this file come from POT (.pot) files.
+##
+## Do not add, change, or remove `msgid`s manually here as
+## they're tied to the ones in the corresponding POT file
+## (with the same domain).
+##
+## Use `mix gettext.extract --merge` or `mix gettext.merge`
+## to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: pt_PT\n"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:28
+msgid "Confirm Password"
+msgstr "Confirme a palavra pass"
+
+#, elixir-format
+#: lib/app_web/templates/user/index.html.eex:32
+msgid "Create an account"
+msgstr "Criar uma conta"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:9
+#: lib/app_web/templates/user/form.html.eex:41
+msgid "Create new account"
+msgstr "Criar uma conta nova"
+
+#, elixir-format
+#: lib/app_web/templates/user/index.html.eex:31
+msgid "Don't have account yet?"
+msgstr "Ainda não tem uma conta?"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:18
+#: lib/app_web/templates/user/index.html.eex:10
+msgid "Enter email"
+msgstr "Introduzir e-mail"
+
+#, elixir-format
+#: lib/app_web/templates/user/index.html.eex:15
+msgid "I forgot password"
+msgstr "Esqueci-me da palavra pass"
+
+#, elixir-format
+#: lib/app_web/templates/user/index.html.eex:7
+msgid "Login to your account"
+msgstr "Inicie sessão na conta"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:11
+#: lib/app_web/templates/user/show.html.eex:16
+msgid "Name"
+msgstr "Nome"
+
+#, elixir-format
+#: lib/app_web/templates/user/index.html.eex:16
+#: lib/app_web/templates/user/show.html.eex:21
+msgid "Password"
+msgstr "Palavra pass"
+
+#, elixir-format
+#: lib/app_web/templates/user/index.html.eex:22
+msgid "Remember me"
+msgstr "Lembrar-se de mim"
+
+#, elixir-format
+#: lib/app_web/templates/user/index.html.eex:26
+msgid "Sign in"
+msgstr "Iniciar sessão"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:47
+msgid " here"
+msgstr " aqui"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:36
+msgid " terms and policy"
+msgstr " termos e condições"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:35
+msgid "Agree the"
+msgstr "Concordar com os"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:47
+msgid "Already account? Sign in"
+msgstr "Já é membrom? Inicie sessão"
+
+#, elixir-format
+#: lib/app_web/templates/user/edit.html.eex:5
+#: lib/app_web/templates/user/show.html.eex:43
+msgid "Back"
+msgstr "Voltar"
+
+#, elixir-format
+#: lib/app_web/templates/layout/header.html.eex:19
+msgid "Dashboard"
+msgstr "Painel"
+
+#, elixir-format
+#: lib/app_web/templates/user/show.html.eex:6
+msgid "Date of birth"
+msgstr "Data de nascimento"
+
+#, elixir-format
+#: lib/app_web/templates/user/show.html.eex:36
+msgid "Deleted"
+msgstr "Apagado"
+
+#, elixir-format
+#: lib/app_web/templates/user/show.html.eex:42
+msgid "Edit"
+msgstr "Editar"
+
+#, elixir-format
+#: lib/app_web/templates/user/show.html.eex:11
+msgid "Email"
+msgstr "E-mail"
+
+#, elixir-format, fuzzy
+#: lib/app_web/templates/user/form.html.eex:13
+msgid "Enter name"
+msgstr "Introduzir o nome"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:23
+msgid "Enter password"
+msgstr "Introduzir a password"
+
+#, elixir-format
+#: lib/app_web/templates/user/show.html.eex:26
+msgid "Picture path"
+msgstr "Caminho da fotografia"
+
+#, elixir-format
+#: lib/app_web/templates/user/show.html.eex:31
+msgid "Privileges level"
+msgstr "Niveis de previlégio"
+
+#, elixir-format
+#: lib/app_web/templates/layout/header.html.eex:36
+msgid "Profile"
+msgstr "Perfil"
+
+#, elixir-format
+#: lib/app_web/templates/user/form.html.eex:30
+msgid "Repeat password"
+msgstr "Repetir a password"
+
+#, elixir-format
+#: lib/app_web/templates/layout/header.html.eex:22
+#: lib/app_web/templates/layout/header.html.eex:39
+msgid "Settings"
+msgstr "Definições"
+
+#, elixir-format
+#: lib/app_web/templates/layout/header.html.eex:42
+msgid "Sign out"
+msgstr "Sair"

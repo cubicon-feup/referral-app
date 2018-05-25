@@ -1,0 +1,7 @@
+<h2>New Voucher</h2>
+
+
+
+<%= render "form.html", changeset: @changeset, conn: @conn, action: contract_voucher_path(@conn, :create, @contract) %>
+
+<span><%= link "Back", to: contract_voucher_path(@conn, :index, @contract) %></span>

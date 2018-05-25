@@ -2,25 +2,31 @@ exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {
-      joinTo: "js/app.js"
+      joinTo: "js/app.js",
 
       // To use a separate vendor.js bundle, specify two files path
       // http://brunch.io/docs/config#-files-
       // joinTo: {
-      //   "js/app.js": /^js/,
-      //   "js/vendor.js": /^(?!js)/
-      // }
+      //  "js/app.js": /^js/,
+      //  "js/vendor.js": /^(?!js)/
+      // },
       //
       // To change the order of concatenation of files, explicitly mention here
-      // order: {
-      //   before: [
-      //     "vendor/js/jquery-2.1.1.js",
-      //     "vendor/js/bootstrap.min.js"
-      //   ]
-      // }
+      order: {
+        before: [
+          "assets/js/vendors/jquery-3.2.1.js",
+          "assets/js/vendors/selectize.min.js",
+        ]
+      }
     },
     stylesheets: {
-      joinTo: "css/app.css"
+      joinTo: "css/app.css",
+      order: {
+        before: [
+          "css/_variables.scss",
+          "css/app.scss",
+        ]
+      }
     },
     templates: {
       joinTo: "js/app.js"
@@ -47,7 +53,14 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/vendor/]
+    },
+    sass: {
+      options: {
+        includePaths: ['css']
+      }
     }
+
+
   },
 
   modules: {
@@ -58,8 +71,11 @@ exports.config = {
 
   npm: {
     enabled: true,
-    aliases: {
-      'vue': 'vue/dist/vue.common.js'
-    },
-  }
+    globals: {
+      $: 'jquery',
+      jQuery: 'jquery'
+    }
+  },
+
+  optimize: true
 };

@@ -38,6 +38,8 @@ defmodule AppWeb.Endpoint do
     key: "_app_web_key",
     signing_salt: "MS9vOuhG"
 
+
+  plug AppWeb.SetLocale
   plug AppWeb.Router
 
   @doc """

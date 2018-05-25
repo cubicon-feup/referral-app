@@ -1,0 +1,77 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-6">
+        Reward Type: <%= format_reward(@payment.type) %>
+      </div>
+      <div class="col-sm-6 text-right">
+        Request: <%= format_date(@payment.request_date) %>
+      </div>
+      <div class="col-sm-6">
+        <%# TODO %>
+      </div>
+      <%= case @payment.status do %>
+        <%= "pending" -> %>
+          <div class="col-sm-6 text-right deadline_date">
+            Deadline: <%= format_date(@payment.deadline_date) %>
+          </div>
+        <%= "complete" -> %>
+          <div class="col-sm-6 text-right payment_date">
+            Confirmed: <%= format_date(@payment.payment_date) %>
+          </div>
+        <%= "cancelled" -> %>
+          <div class="col-sm-6 text-right">    
+          </div>
+      <%= end %>
+    </div>
+    
+    <div class="row payment-description">
+      <div class="col-sm-12">
+        <%= 
+          case {@payment.status, @payment.type} do
+            {"pending", "money"} ->
+              "You have to pay "
+            {"pending", "voucher"} ->
+              "You have to give a voucher with a value of " 
+            {"pending", "products"} ->
+              "You have to give " 
+            {"complete", "money"} ->
+              "You have already paid " 
+            {"complete", "voucher"} ->
+              "You have already given a voucher with a value of " 
+            {"complete", "products"} ->
+              "You have already given " 
+            {"cancelled", y} ->
+              "Cancelled" 
+          end
+        %>
+        <%= 
+          if @payment.type == "products" do
+            @payment.description
+          else
+            @payment.value
+          end
+        %>
+        <%= 
+          if @payment.type != "products" do
+            "€"
+          end
+        %>
+        <%=  " to " <> @payment.contract.name %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8">
+        Requested by <%= link @payment.contract.name, to: contract_path(@conn, :show, @payment.contract) %>
+      </div>
+      <div class="col-sm-4">
+        <%= render "edit_status.html", Map.merge(assigns, %{
+          changeset: get_changeset(@payment),
+          action: payment_path(@conn, :update_status, @payment)
+        })%> 
+      </div>
+    </div>
+
+  </div>
+</div>

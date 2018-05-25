@@ -1,0 +1,23 @@
+<tr>
+  <td><%= link @payment.contract.name, to: contract_path(@conn, :show, @payment.contract) %></td>
+  <td><%= format_reward(@payment.type) %></td>
+  <td><%= @payment.value %>€ <%= @payment.description %></td>
+  <td><%= format_date(@payment.request_date) %></td>
+  <td><%= 
+     case @payment.status do
+      "pending" ->
+        format_date(@payment.deadline_date) <> " / -"
+      "complete" ->
+        "- / " <> format_date(@payment.payment_date) 
+      "cancelled" ->
+        "- / -"
+    end
+    %>
+  </td>
+  <td>
+    <%= render "edit_status.html", Map.merge(assigns, %{
+      changeset: get_changeset(@payment),
+      action: payment_path(@conn, :update_status, @payment)
+    })%> 
+  </td>
+</tr>

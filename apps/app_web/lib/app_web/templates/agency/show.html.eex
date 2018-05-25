@@ -1,0 +1,13 @@
+<h2>Show Agency</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @agency.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: agency_path(@conn, :edit, @agency) %></span>
+<span><%= link "Back", to: agency_path(@conn, :index) %></span>

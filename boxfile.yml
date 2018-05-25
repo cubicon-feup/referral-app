@@ -2,6 +2,7 @@ run.config:
   engine: elixir
   extra_packages:
     - nodejs
+    - python-2
   dev_packages:
     - inotify-tools
   cache_dirs:
@@ -14,9 +15,15 @@ deploy.config:
   extra_steps:
     - mix deps.get 
     - cd apps/app_web/assets && npm install
+    - mix phx.digest
+  # just before the new process comes online,
+  # let's migrate the database
+  before_live:
+    web.site:
+      - mix ecto.migrate
 
 data.db:
   image: nanobox/postgresql:9.5
 
 web.site:
-  start: node-start mix phoenix.server
+  start: node-start mix phx.server

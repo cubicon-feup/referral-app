@@ -4,42 +4,67 @@
 ### Develop
 [![Build Status](https://travis-ci.org/cubicon-feup/referral-app.svg?branch=develop)](https://travis-ci.org/cubicon-feup/referral-app)
 
-## Setup
+  ## Setup
 
-#### Install docker
-https://docs.docker.com/install/
+  #### Install docker
+  https://docs.docker.com/install/
 
-#### Install nanobox
-https://docs.nanobox.io/install/
+  #### Install nanobox
+  https://docs.nanobox.io/install/
 
-#### Add a local DNS
+  #### Add a local DNS
+  ```
+  nanobox dns add local phoenix.local
+  ```
+
+  #### Run the app 
+  ```
+  nanobox run iex -S mix phx.server
+  ```
+
+  Go to: ``` phoenix.local:4000 ``` to see your app!
+
+  ## Other commands
+
+  #### drop into a Nanobox console
+  ```nanobox run```
+
+  #### where elixir is installed,
+  ```elixir -v```
+
+  #### your packages are available,
+  ```mix list```
+
+  #### and your code is mounted
+  ```ls```
+
+  #### exit the console
+  ```exit```
+
+## GENERATING HTML AND JSON
+
+Example:
+
 ```
-nanobox dns add local phoenix.local
+mix phx.gen.html Blog Post posts title:string content:string
 ```
 
-#### Run the app 
+then run:
+
 ```
-nanobox run iex -S mix phx.server
+mix phx.gen.json Blog Post posts title:string content:string --web Api --no-context --no-schema
 ```
 
-Go to: ``` phoenix.local:4000 ``` to see your app!
+Other example:
+```
+mix phx.gen.json Users V1.User users date_of_birth:date deleted:boolean email:string:unique name:string password:string picture_path:string privileges_level:string
+```
 
-## Other commands
+then:
 
-#### drop into a Nanobox console
-```nanobox run```
-
-#### where elixir is installed,
-```elixir -v```
-
-#### your packages are available,
-```mix list```
-
-#### and your code is mounted
-```ls```
-
-#### exit the console
-```exit```
+```
+mix phx.gen.json Users User users date_of_birth:date deleted:boolean email:string:unique name:string password:string picture_path:string privileges_level:string --web Api --no-context --no-schema
+```
 
 
 Usefull commands:

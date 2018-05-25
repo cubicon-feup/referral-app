@@ -1,0 +1,49 @@
+<h2>Show Contract</h2>
+
+<ul>
+
+  <li>
+    <strong>Brand:</strong>
+    <%= @contract.brand_id %>
+  </li>
+
+  <li>
+    <strong>Minimum points:</strong>
+    <%= @contract.minimum_points %>
+  </li>
+
+  <li>
+    <strong>Payment period:</strong>
+    <%= @contract.payment_period %>
+  </li>
+
+  <li>
+    <strong>Points:</strong>
+    <%= @contract.points %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @contract.email %>
+  </li>
+
+  <li>
+    <strong>Address:</strong>
+    <%= @contract.address %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @contract.name %>
+  </li>
+
+  <li>
+    <strong>NIB:</strong>
+    <%= @contract.nib %>
+  </li>
+
+</ul>
+
+<span><%= link "Voucher", to: contract_voucher_path(@conn, :index, @contract) %></span> 
+<span><%= link "Edit", to: contract_path(@conn, :edit, @contract) %></span>
+<span><%= link "Back", to: contract_path(@conn, :index) %></span>
