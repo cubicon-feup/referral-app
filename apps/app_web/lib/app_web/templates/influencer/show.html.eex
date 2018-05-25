@@ -4,7 +4,7 @@
       <%= gettext("Influencers") %>
       <span style="color:#376ee7;">
         >
-        <%= @contract.name %>
+        <%= @influencer.name %>
       </span>
     </h1>
   </div>
@@ -13,7 +13,7 @@
       <div class="card text-center">
         <div class="card-body">
           <img src="" style="display: block;">
-          <%= @contract.name %>
+          <%= @influencer.name %>
 
         </div>
       </div>
@@ -28,7 +28,7 @@
               <%= gettext("Name") %>
             </div>
             <div>
-              <%= @contract.name %>
+              <%= @influencer.name %>
             </div>
           </div>
 
@@ -37,7 +37,7 @@
               <%= gettext("Address") %>
             </div>
             <div>
-              <%= @contract.address %>
+              <%= @influencer.address %>
             </div>
           </div>
 
@@ -46,7 +46,7 @@
               <%= gettext("Contact") %>
             </div>
             <div>
-              <%= @contract.email %>
+              <%= @influencer.contact %>
             </div>
           </div>
 
@@ -55,7 +55,7 @@
               <%= gettext("Brands") %>
             </div>
             <div>
-              <%= get_brands(@contract) %>
+              <%= get_brands(@influencer) %>
             </div>
           </div>
 
@@ -78,14 +78,14 @@
             </div>
           </div>
 
-          <!--<div class="info-field">
+          <div class="info-field">
             <div class="text-muted">
               <%= gettext("Format") %>
             </div>
             <div>
               TODO
             </div>
-          </div-->
+          </div>
 
           <div class="info-field">
             <div class="text-muted">
@@ -105,7 +105,7 @@
           <div class="card statistics">
             <div class="card-body pending">
               <div>
-                <%= get_pending(@contract) %> €
+                <%= get_pending(@influencer) %> €
               </div>
               <%= gettext("Rewards pending") %>
             </div>
@@ -115,7 +115,7 @@
           <div class="card statistics">
             <div class="card-body rewarded">
               <div>
-                <%= get_rewarded(@contract) %> €
+                <%= get_rewarded(@influencer) %> €
               </div>
               <%= gettext("Rewarded") %>
             </div>
@@ -125,32 +125,31 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header">
-              <div class="form-group">
-                <div class="selectgroup w-100">
-                  <label class="selectgroup-item">
-                    <input type="radio" name="view" value="payments" class="selectgroup-input" checked="">
-                    <span class="selectgroup-button"><%= gettext("Rewards") %></span>
-                  </label>
-                  <label class="selectgroup-item">
-                    <input type="radio" name="view" value="vouchers" class="selectgroup-input">
-                    <span class="selectgroup-button"><%= gettext("Vouchers") %></span>
-                  </label>
-                </div>
-              </div>
+              <%= gettext("Rewards") %>
             </div>
-            <div id="payment_board" class="card-body">
+            <div class="card-body">
               <%= render AppWeb.PaymentView, "board.html", Map.merge(assigns, %{
-                payments: get_payments(@contract)
+                payments: get_payments(@influencer)
               }) %>
             </div>
-            <div id="voucher_list" class="card-body">
-              <%= render "vouchers_table.html", Map.merge(assigns, %{
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <%= gettext("Vouchers") %>
+            </div>
+            <div class="card-body">
+               <%= render "vouchers_table.html", Map.merge(assigns, %{
                 vouchers: get_vouchers(@contract)
               }) %>
             </div>
           </div>
         </div>
+
       </div>
     </div>
+    
   </div>
 </div>

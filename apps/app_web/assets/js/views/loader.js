@@ -1,7 +1,7 @@
 import MainView    from './main';
 import UserView from './user';
 import PageView from './page';
-import InfluencerView from './influencer';
+import ContractView from './contract';
 import PaymentView from './payment';
 import VoucherView from './voucher';
 import BrandView from './brand';
@@ -10,7 +10,7 @@ import BrandView from './brand';
 const views = {
     UserView,
     PageView,
-    InfluencerView,
+    ContractView,
     PaymentView,
     VoucherView,
     BrandView

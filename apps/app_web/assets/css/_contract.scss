@@ -1,0 +1,58 @@
+#reportrange{
+	display: inline-block;
+}
+
+.info-field {
+	margin-bottom: 20px;
+}
+
+.statistics {
+	.rewarded {
+		background: #376ee7;
+		color: white;
+	}
+	
+	.pending{
+		background: #ff6262;
+		color: white;
+	}
+	
+	.pending,.rewarded {
+		font-size: 1.2em;
+		text-align: center;
+		padding: 40px;
+	
+		& div{
+			font-size: 2em;
+			margin: 10px;
+		}
+	}
+}
+
+select{
+  &.complete, &.complete:focus{
+    background: #376ee7;
+    color: white;
+  }
+
+  &.cancelled, &.cancelled:focus{
+    background: #444444;
+    color: white;
+  }
+
+  &.pending, &.pending:focus{
+    background: #ff6262;
+    color: white;
+  }
+
+  &.status { text-align-last: right; }
+
+  &.status option{
+    background: white;
+    color: black;
+    direction: rtl;
+  }
+}
+
+
+

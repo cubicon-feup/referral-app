@@ -30,7 +30,26 @@ export default class View extends MainView {
         cb(start, end);
     
     });
+
+    
+    var change_view = function (view) {
+      switch (view) {
+        case 'payments':
+          $("#voucher_list").hide();
+          $("#payment_board").show();
+          break;
+        case 'vouchers':
+          $("#voucher_list").show();
+          $("#payment_board").hide();
+          break;
+      }
+    }    
+    $('input[type=radio][name=view]').on('change', function () {
+      change_view($(this).val())
+    });
+    change_view('payments');
   }
+
   unmount() {
     super.unmount();
   }
