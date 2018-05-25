@@ -14,7 +14,7 @@
             <td><%= voucher.code %></td>
             <td><%= voucher.code %></td>
             <td>
-                <a href="<%= contract_voucher_path(@conn, :show, voucher.id) %>" class="nav-link"><i class="fa fa-edit"></i></a>
+                <a href="<%= contract_voucher_path(@conn, :show, voucher.contract_id, voucher.id) %>" class="nav-link"><i class="fa fa-edit"></i></a>
             </td>
           </tr>
       <% end %>

@@ -40,6 +40,7 @@ defmodule App.Contracts do
     contract =
       Repo.get!(Contract, id)
       |> Repo.preload(:voucher)
+      |> Repo.preload(:brand)
   end
 
   @doc """
@@ -218,19 +219,21 @@ defmodule App.Contracts do
   end
 
   def get_brands(%Contract{} = contract) do
-    query = Contract
-    |> where([c], c.user_id == ^contract.user_id) 
-    |> join( :inner, [c], brand in assoc(c, :brand))
-    |> distinct(true)
-    |> select([_, brand], brand)
+    query =
+      Contract
+      |> where([c], c.user_id == ^contract.user_id)
+      |> join(:inner, [c], brand in assoc(c, :brand))
+      |> distinct(true)
+      |> select([_, brand], brand)
 
     Repo.all(query)
   end
 
   def get_payments(%Contract{} = contract) do
-    query = App.Payments.Payment
-    |> where([p], p.contract_id == ^contract.id)
-    |> select([p], p)
+    query =
+      App.Payments.Payment
+      |> where([p], p.contract_id == ^contract.id)
+      |> select([p], p)
 
     Repo.all(query)
   end

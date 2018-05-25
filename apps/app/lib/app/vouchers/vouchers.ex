@@ -60,16 +60,19 @@ defmodule App.Vouchers do
 
       iex> create_voucher(%{field: value})
       {:ok, %Voucher{}}
+      iex> delete_voucher(voucher)
 
       iex> create_voucher(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_voucher(attrs \\ %{}) do
-    %Voucher{}
-    |> Voucher.changeset(attrs)
-    |> Repo.insert()
-  end
+
+    def create_voucher(attrs \\ %{}) do
+      %Voucher{}
+      |> Voucher.changeset(attrs)
+      |> Repo.insert()
+    end
+
 
   @doc """
   Updates a voucher.
@@ -97,7 +100,6 @@ defmodule App.Vouchers do
       iex> delete_voucher(voucher)
       {:ok, %Voucher{}}
 
-      iex> delete_voucher(voucher)
       {:error, %Ecto.Changeset{}}
 
   """
