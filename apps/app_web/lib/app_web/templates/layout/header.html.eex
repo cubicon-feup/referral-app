@@ -98,13 +98,13 @@
             </li>
             <li class="nav-item">
                 <%= if brand do %>
-                    <a href="<%= contract_path(@conn, :index) %>" class="nav-link"><i class="fa fa-users"></i> <%= gettext("Influencers") %></a>
+                    <a href="<%= brand_path(@conn, :influencers) %>" class="nav-link"><i class="fa fa-users"></i> <%= gettext("Influencers") %></a>
                 <% else %>
                     <a href="<%= brand_path(@conn, :index) %>" class="nav-link"><i class="fa fa-shopping-cart"></i> <%= gettext("Brands") %></a>
                 <% end %>
             </li>
             <li class="nav-item">
-                <a href="<%= contract_path(@conn, :index) %>" class="nav-link"><i class="fa fa-id-card"></i> <%= gettext("Contracts") %></a>
+                <a href="<%= brand_path(@conn, :vouchers) %>" class="nav-link"><i class="fa fa-id-card"></i> <%= gettext("Vouchers") %></a>
             </li>
             <li class="nav-item">
                 <a href="<%= payment_path(@conn, :index) %>" class="nav-link"><i class="fa fa-gift"></i> <%= gettext("Rewards") %></a>

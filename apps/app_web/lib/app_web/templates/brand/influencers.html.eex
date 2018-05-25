@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="col-lg-6 ml-auto text-right">
+          <div id="reportrange">
+            <span></span>
+            <i class="fa fa-calendar"></i>&nbsp;
+          </div>
+          <i class="fa fa-plus"></i>
+          <span><%= link "Create Influencer", to: brand_path(@conn, :new_contract, @brand) %></span>
+        </div>
+        <div class="col-lg order-lg-first">
+          <h2>Influencers</h2>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table card-table table-vcenter text-nowrap">
+          <thead>
+            <tr>
+              <th><%= gettext("Name") %></th>
+              <th><%= gettext("Revenue") %></th>
+              <th><%= gettext("Sales") %></th>
+              <th><%= gettext("AOV") %><th>
+              <th><%= gettext("Pending Payments") %></th>
+              <th><%= gettext("Vouchers Views") %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for contract <- @contracts do %>
+                <tr>
+                  <td><%= contract.name %></td>
+                  <td><%= revenue = get_influencer_revenue(contract.id) %></td>
+                  <td><%= sales_count = get_number_of_influencer_sales(contract.id) %></td>
+                  <td>
+                    <%= if sales_count == 0 do %>
+                      0
+                    <% else %>
+                      <%= div(Decimal.to_integer(revenue), sales_count) %>
+                    <% end %>
+                  </td>
+                  <td>
+                  </td>
+                  <td><%= get_influencer_pending_payments(contract.id) %></td>
+                  <td><%= get_influencer_voucher_views(contract.id) %></td>
+
+                  <td class="text-right">
+                    <span><%= link "Show", to: contract_path(@conn, :show, contract), class: "btn btn-default btn-xs" %></span>
+                    <%= if contract.user_id == nil do %>
+                      <span><%= link "Send Invite", to: contract_path(@conn, :invite, contract), class: "btn btn-default btn-xs" %></span>
+                    <%= end %>
+                    <span><%= link "Edit", to: contract_path(@conn, :edit, contract), class: "btn btn-default btn-xs" %></span>
+                    <span><%= link "Delete", to: contract_path(@conn, :delete, contract), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+                  </td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

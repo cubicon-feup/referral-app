@@ -2,10 +2,6 @@ import MainView from './main';
 
 export default class View extends MainView {
 
-  static get csrf() {
-    return $("meta[name=\"csrf\"]").attr("content");
-  }
-
   mount() {
     super.mount();
 
@@ -55,7 +51,7 @@ export default class View extends MainView {
           $('#usage_limit').toggle()
         });
 
-      
+
 
         $('#reward_type').change(function() {
           if (this.value === 'none') {
