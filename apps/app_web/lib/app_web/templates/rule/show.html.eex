@@ -1,0 +1,53 @@
+<h2>Show Rule</h2>
+
+<ul>
+
+  <li>
+    <strong>Contract:</strong>
+    <%= @rule.contract_id %>
+  </li>
+
+  <li>
+    <strong>Sales counter:</strong>
+    <%= @rule.sales_counter %>
+  </li>
+
+  <li>
+    <strong>Set of sales:</strong>
+    <%= @rule.set_of_sales %>
+  </li>
+
+  <li>
+    <strong>Percent on sales:</strong>
+    <%= @rule.percent_on_sales %>
+  </li>
+
+  <li>
+    <strong>Points on sales:</strong>
+    <%= @rule.points_on_sales %>
+  </li>
+
+  <li>
+    <strong>Views counter:</strong>
+    <%= @rule.views_counter %>
+  </li>
+
+  <li>
+    <strong>Set of views:</strong>
+    <%= @rule.set_of_views %>
+  </li>
+
+  <li>
+    <strong>Points on views:</strong>
+    <%= @rule.points_on_views %>
+  </li>
+
+  <li>
+    <strong>Points per month:</strong>
+    <%= @rule.points_per_month %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: rule_path(@conn, :edit, @rule) %></span>
+<span><%= link "Back", to: rule_path(@conn, :index) %></span>

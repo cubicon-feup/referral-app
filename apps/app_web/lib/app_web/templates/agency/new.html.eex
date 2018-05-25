@@ -1,0 +1,5 @@
+<h2>New Agency</h2>
+
+<%= render "form.html", Map.put(assigns, :action, agency_path(@conn, :create)) %>
+
+<span><%= link "Back", to: agency_path(@conn, :index) %></span>

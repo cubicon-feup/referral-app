@@ -1,0 +1,32 @@
+<h2>Show Voucher</h2>
+
+<ul>
+
+  <li>
+    <strong>Code:</strong>
+    <%= @voucher.code %>
+  </li>
+  <li>
+    <strong>usage_count:</strong>
+    <%=   voucher = Plug.Conn.get_session(@conn, :brand_id)
+      |>get_discount_code(@price_rule_id, @voucher_id)
+      voucher["usage_count"] %>
+  </li>
+  <li>
+    <strong>Nome regra:</strong>
+    <%=
+      idx = Plug.Conn.get_session(@conn, :brand_id)
+      |>get_price_rule(@price_rule_id)
+      idx["title"]%>
+  </li>
+  <li>
+    <strong>Code:</strong>
+    <%=idx["value_type"]%>
+  </li>
+  <li>
+    <strong>Code:</strong>
+    <%=idx["value"]%>
+  </li>
+
+  <span><%= link "Edit", to: contract_voucher_path(@conn, :edit, @contract, @voucher) %></span>
+  <span><%= link "Back", to: contract_path(@conn, :show, @contract) %></span>

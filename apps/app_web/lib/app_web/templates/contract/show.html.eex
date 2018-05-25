@@ -1,0 +1,34 @@
+<h2>Show Contract</h2>
+
+<ul>
+
+  <li>
+    <strong>Influencer:</strong>
+    <%= @contract.influencer_id %>
+  </li>
+
+  <li>
+    <strong>Brand:</strong>
+    <%= @contract.brand_id %>
+  </li>
+
+  <li>
+    <strong>Minimum points:</strong>
+    <%= @contract.minimum_points %>
+  </li>
+
+  <li>
+    <strong>Payment period:</strong>
+    <%= @contract.payment_period %>
+  </li>
+
+  <li>
+    <strong>Points:</strong>
+    <%= @contract.points %>
+  </li>
+
+</ul>
+
+<span><%= link "Voucher", to: contract_voucher_path(@conn, :index, @contract) %></span> 
+<span><%= link "Edit", to: contract_path(@conn, :edit, @contract) %></span>
+<span><%= link "Back", to: contract_path(@conn, :index) %></span>
