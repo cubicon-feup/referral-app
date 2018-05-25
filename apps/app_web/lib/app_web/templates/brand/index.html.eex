@@ -32,7 +32,6 @@
                   <td><%= "1"%></td>
                   <td>
                   <%= if brand.picture_path != nil do %>
-                  teste
                  <img class="ui circular small centered image" src=>
                   <% else %>
                  <img src="<%= static_path(@conn, "/images/brands/sarasampaio.jpg") %>" class="card-profile-img" alt="logo">
