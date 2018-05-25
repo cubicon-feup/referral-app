@@ -82,7 +82,7 @@ defmodule App.LinksTest do
         |> Enum.into(@valid_attrs)
         |> Links.create_link()
       #assert link.shortcode == "some shortcode"
-      assert link.url == "some url"
+      assert link.url == "https://example.com"
     end
 
     test "create_link/1 with invalid data returns error changeset" do
@@ -94,7 +94,7 @@ defmodule App.LinksTest do
       assert {:ok, link} = Links.update_link(link, @update_attrs)
       assert %Link{} = link
       #assert link.shortcode == "some updated shortcode"
-      assert link.url == "some updated url"
+      assert link.url == "https://example2.com"
     end
 
     test "update_link/2 with invalid data returns error changeset" do
