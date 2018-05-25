@@ -141,16 +141,6 @@ defmodule App.Brands do
     Decimal.to_integer(revenue)
   end
 
-  def get_value([contract|contracts]) do
-    a = Decimal.new(Contracts.get_total_contract_revenue(contract.id))
-    b = Decimal.new(get_value(contracts))
-    Decimal.add(a,b)
-  end
-
-  def get_value([]) do
-    Decimal.new(0)
-  end
-
   def get_number_of_sales(brand_id) do
     brand = get_brand!(brand_id)
     get_contracts_sales(brand.contracts)
@@ -215,5 +205,29 @@ defmodule App.Brands do
 
   def get_sales_countries_from_contracts([]) do
     []
+  end
+
+  def get_brand_vouchers(brand_id) do
+    brand = get_brand!(brand_id)
+    get_vouchers(brand.contracts)
+  end
+
+  def get_vouchers([contract|contracts]) do
+    loaded_contract = contract |> Repo.preload(:voucher)
+    loaded_contract.voucher ++ get_vouchers(contracts)
+  end
+
+  def get_vouchers([]) do
+    []
+  end
+
+  def get_value([contract|contracts]) do
+    a = Decimal.new(Contracts.get_total_contract_revenue(contract.id))
+    b = Decimal.new(get_value(contracts))
+    Decimal.add(a,b)
+  end
+
+  def get_value([]) do
+    Decimal.new(0)
   end
 end

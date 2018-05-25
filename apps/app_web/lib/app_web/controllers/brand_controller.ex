@@ -68,6 +68,19 @@ defmodule AppWeb.BrandController do
       country3_name: country3_name
     )
   end
+  
+  def influencers(conn, _params) do
+    brand_id = get_session(conn, :brand_id)
+    brand = Brands.get_brand!(brand_id)
+    contracts = brand.contracts
+    render(conn, "influencers.html", brand: brand, contracts: contracts)
+  end
+
+  def vouchers(conn, _params) do
+    brand_id = get_session(conn, :brand_id)
+    vouchers = Brands.get_brand_vouchers(brand_id)
+    render(conn, "vouchers.html", vouchers: vouchers)
+  end
 
   def new(conn, _params) do
     changeset = Brands.change_brand(%Brand{})

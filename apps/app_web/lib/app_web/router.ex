@@ -90,6 +90,8 @@ defmodule AppWeb.Router do
     get "/404", PageNotFoundController, :show
     get "/brand/:id/new_contract", BrandController, :new_contract
     post "/brand/:id/create_contract", BrandController, :create_contract
+    get "/brand/influencers", BrandController, :influencers
+    get "/brand/vouchers", BrandController, :vouchers
     get "/contracts/:email/:name/invited_contract", ContractController, :invited_contract
     get "/contracts/:id/invite", ContractController, :invite
 
