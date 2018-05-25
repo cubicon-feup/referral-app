@@ -3,6 +3,7 @@ defmodule AppWeb.VoucherView do
   alias App.Brands
   alias App.Price_rules.Price_rule
   alias App.Links
+  alias Map
 
   def get_price_rule(brand, price_rule_id) do
     url = build_url(brand) <> "/admin/price_rules/#{price_rule_id}.json"
@@ -37,6 +38,10 @@ defmodule AppWeb.VoucherView do
           Poison.Parser.parse!(body)
           |> get_in(["price_rules"])
     end
+  end
+
+  def build_rules_map(price_rules) do
+    Enum.map(price_rules, fn x -> y = {Map.get(x, "title"), Map.get(x, "id")} end)
   end
 
   def build_url(brand_id) do

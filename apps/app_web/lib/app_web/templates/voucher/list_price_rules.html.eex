@@ -6,7 +6,7 @@
     <p>
       <%= Map.get(rule, "title")  %>
        -
-      <%= Map.get(rule, "id")  %> 
+      <%= Map.get(rule, "id")  %>
     </p>
   <%=end%>
     <tr>
