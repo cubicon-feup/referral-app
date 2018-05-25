@@ -19,7 +19,9 @@ defmodule AppWeb.VoucherController do
 
   def lookup_voucher(voucher) do
     url =
-      build_url(voucher.contract_id) <> "/admin/discount_codes/lookup.json?code=" <> voucher.code
+      build_url(voucher.contract.id) <> "/admin/discount_codes/lookup.json?code=" <> voucher.code
+
+    IO.inspect(url)
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -66,33 +68,34 @@ defmodule AppWeb.VoucherController do
     price_rule_id = Map.get(voucher_params, "price_rule", nil)
     voucher_params = Map.put(voucher_params, "contract_id", contract.id)
     brand_id = Plug.Conn.get_session(conn, :brand_id)
-    IO.inspect(voucher_params)
 
     case voucher_params["add_price_rule"] do
       "true" ->
         case post_discount(voucher_params["code"], price_rule_id, brand_id) do
           {:ok, body} ->
             case Vouchers.create_voucher(voucher_params) do
-              {:ok, _voucher} ->
-        {:ok, voucher_contract} = Vouchers.get_voucher!(voucher.id)
-        case Decimal.equal?(voucher_contract.points_per_month, "0.0") do
-          true ->
-            nil
+              {:ok, voucher} ->
+                case Decimal.equal?(voucher.points_per_month, "0.0") do
+                  true ->
+                    nil
 
-          false ->
-            Johanna.every({732, :hr}, fn ->
-              Contracts.add_points_2(
-                voucher_contract.contract.id,
-                Decimal.to_float(voucher_contract.points_per_month)
-              )
-            end)
-        end
+                  false ->
+                    Johanna.every({732, :hr}, fn ->
+                      Contracts.add_points_2(
+                        voucher.contract.id,
+                        Decimal.to_float(voucher.points_per_month)
+                      )
+                    end)
+                end
 
-        conn
-        |> put_flash(:info, "Voucher created successfully.")
-        |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
+                conn
+                |> put_flash(:info, "Voucher created successfully.")
+                |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
 
               {:error, %Ecto.Changeset{} = changeset} ->
+                conn
+                |> put_flash(:info, "Voucher error.")
+
                 render(conn, "new.html", changeset: changeset)
             end
 
@@ -151,7 +154,7 @@ defmodule AppWeb.VoucherController do
       {:ok, voucher} ->
         conn
         |> put_flash(:info, "Voucher updated successfully.")
-        |> redirect(to: contract_voucher_path(conn, :show, conn.assigns[:contract], voucher))
+        |> redirect(to: contract_voucher_path(conn, :show, conn.assigns[:contract], voucher.id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", voucher: voucher, changeset: changeset)
@@ -208,6 +211,7 @@ defmodule AppWeb.VoucherController do
       {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
         # code already exists
         {:error, body}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
     end
@@ -224,10 +228,32 @@ defmodule AppWeb.VoucherController do
 
     case Map.get(voucher_params, "discount_type", nil) do
       "free_shipping" ->
-        nil
+        request = Map.put(request, "value_type", "percentage")
+
+        request =
+          Map.put(
+            request,
+            "value",
+            -100
+          )
+
+        request = Map.put(request, "allocation_method", "each")
+        request = Map.put(request, "target_type", "shipping_line")
+        request
 
       "percentage" ->
-        nil
+        request = Map.put(request, "value_type", "percentage")
+
+        request =
+          Map.put(
+            request,
+            "value",
+            String.to_integer(Map.get(voucher_params, "discount_value", nil)) * -1
+          )
+
+        request = Map.put(request, "allocation_method", "across")
+        request = Map.put(request, "target_type", "line_item")
+        request
 
       "fixed_amount" ->
         request = Map.put(request, "value_type", "fixed_amount")

@@ -222,6 +222,11 @@
 
     $('#voucher_add_price_rule').click(function() {
       $('#select-beast-div').toggle()
+      if($('#voucher_add_price_rule').prop('checked')){
+        $('#voucher_price_rule').prop('required', true);
+      } else {
+        $('#voucher_price_rule').prop('required', '');
+      }
     });
   });
   </script>

@@ -8,7 +8,6 @@ defmodule App.Vouchers do
   alias App.Contracts
   alias App.Sales
 
-
   alias App.Vouchers.Voucher
 
   @doc """
@@ -41,7 +40,7 @@ defmodule App.Vouchers do
   def get_voucher!(id) do
     voucher =
       Repo.get!(Voucher, id)
-      |> Repo.preload(:contract)
+      |> Repo.preload(contract: [:brand])
       |> Repo.preload(:sales)
 
     case voucher do
@@ -120,6 +119,8 @@ defmodule App.Vouchers do
 
   def get_vouchers_by_contract!(contract_id) do
     Repo.all(from(voucher in Voucher, where: [contract_id: ^contract_id]))
+    |> Repo.preload(:contract)
+    |> Repo.preload(contract: :brand)
   end
 
   def add_sale(%Voucher{} = voucher, sale_value) do
@@ -188,21 +189,21 @@ defmodule App.Vouchers do
     # IO.inspect(vouchers.contract.brand.hostname, label: "vouchers")
   end
 
-
   def get_total_voucher_revenue(voucher_id) do
     case get_voucher!(voucher_id) do
       {:ok, voucher} ->
         sales = voucher.sales
         get_value(sales)
+
       {:error, _} ->
-        ()
+        nil
     end
   end
 
-  def get_value([sale|sales]) do
+  def get_value([sale | sales]) do
     a = Decimal.new(sale.value)
     b = Decimal.new(get_value(sales))
-    Decimal.add(a,b)
+    Decimal.add(a, b)
   end
 
   def get_value([]) do
@@ -215,13 +216,12 @@ defmodule App.Vouchers do
     Enum.count(voucher.sales)
   end
 
-
   def get_voucher_customers(voucher_id) do
     {:ok, voucher} = get_voucher!(voucher_id)
     customers = get_customers_from_sale(voucher.sales)
   end
 
-  def get_customers_from_sale([sale|sales]) do
+  def get_customers_from_sale([sale | sales]) do
     custumers = [sale.customer_id] ++ get_customers_from_sale(sales)
   end
 
@@ -234,7 +234,7 @@ defmodule App.Vouchers do
     customers = get_countries_from_sale(voucher.sales)
   end
 
-  def get_countries_from_sale([sale|sales]) do
+  def get_countries_from_sale([sale | sales]) do
     case sale.customer_locale do
       nil -> get_countries_from_sale(sales)
       locale -> [locale] ++ get_countries_from_sale(sales)
