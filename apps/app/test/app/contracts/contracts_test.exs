@@ -31,11 +31,6 @@ defmodule App.ContractsTest do
     @update_attrs %{email: "some2@mail.com", address: "some address2", name: "some name2", nib: 34}
     @invalid_attrs %{brand_id: nil, email: nil, address: nil, name: nil, nib: nil}
 
-    defp create_contract(_) do
-      contract = fixture(:contract)
-      {:ok, contract: contract}
-    end
-
     def user_fixture() do
       {:ok, user} = Users.create_user(@valid_attrs_user)
       user
