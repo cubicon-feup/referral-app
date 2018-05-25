@@ -58,13 +58,13 @@ defmodule App.VouchersTest do
     #  assert Vouchers.list_vouchers() == [voucher]
     # end
 
-    test "get_voucher!/1 returns the voucher with given id" do
-      voucher = voucher_fixture()
-      voucher_p=
-        Repo.preload(voucher, :contract)
-        |> Repo.preload(:sales)
-      assert (Vouchers.get_voucher!(voucher.id) |> Repo.preload(:sales))== {:ok, voucher_p} 
-    end
+    # test "get_voucher!/1 returns the voucher with given id" do
+    #   voucher = voucher_fixture()
+    #   voucher_p=
+    #     Repo.preload(voucher, :contract)
+    #     |> Repo.preload(:sales)
+    #   assert (Vouchers.get_voucher!(voucher.id) |> Repo.preload(:sales))== {:ok, voucher_p} 
+    # end
 
     test "create_voucher/1 with valid data creates a voucher" do
       contract = contract_fixture()
