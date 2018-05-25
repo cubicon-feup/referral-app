@@ -62,7 +62,8 @@ defmodule App.VouchersTest do
       voucher = voucher_fixture()
       voucher_p=
         Repo.preload(voucher, :contract)
-      assert Vouchers.get_voucher!(voucher.id) == {:ok, voucher_p} 
+        |> Repo.preload(:sales)
+      assert (Vouchers.get_voucher!(voucher.id) |> Repo.preload(:sales))== {:ok, voucher_p} 
     end
 
     test "create_voucher/1 with valid data creates a voucher" do

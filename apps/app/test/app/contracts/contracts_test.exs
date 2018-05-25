@@ -60,7 +60,7 @@ defmodule App.ContractsTest do
 
     test "get_contract!/1 returns the contract with given id" do
       contract = contract_fixture()
-      assert Contracts.get_contract!(contract.id) == Repo.preload(contract, :voucher)
+      assert Contracts.get_contract!(contract.id) == (Repo.preload(contract, :voucher) |> Repo.preload(contract, :brand))
     end
 
     test "create_contract/1 with valid data creates a contract" do
@@ -100,7 +100,7 @@ defmodule App.ContractsTest do
     test "update_contract/2 with invalid data returns error changeset" do
       contract = contract_fixture()
       assert {:error, %Ecto.Changeset{}} = Contracts.update_contract(contract, @invalid_attrs)
-      assert Repo.preload(contract, :voucher) == Contracts.get_contract!(contract.id)
+      assert (Repo.preload(contract, :voucher) |> Repo.preload(contract, :voucher)) == Contracts.get_contract!(contract.id)
     end
 
     test "delete_contract/1 deletes the contract" do
