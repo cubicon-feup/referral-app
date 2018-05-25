@@ -16,17 +16,17 @@ defmodule App.BrandsTest do
         |> Enum.into(@valid_attrs)
         |> Brands.create_brand()
 
-      brand |> App.Repo.preload(:contracts)
+      brand# |> App.Repo.preload(:contracts)
     end
 
-    # test "list_brands/0 returns all brands" do
-    #   brand = brand_fixture()
-    #   assert Brands.list_brands() == [brand]
-    # end
+    test "list_brands/0 returns all brands" do
+      brand = brand_fixture()
+      assert Brands.list_brands() == [brand]
+    end
 
     test "get_brand!/1 returns the brand with given id" do
       brand = brand_fixture()
-      assert Brands.get_brand!(brand.id) == brand
+      assert Brands.get_brand!(brand.id) == Repo.preload(brand, :contracts)
     end
 
     test "create_brand/1 with valid data creates a brand" do
@@ -54,7 +54,7 @@ defmodule App.BrandsTest do
     test "update_brand/2 with invalid data returns error changeset" do
       brand = brand_fixture()
       assert {:error, %Ecto.Changeset{}} = Brands.update_brand(brand, @invalid_attrs)
-      assert brand == Brands.get_brand!(brand.id)
+      assert Brands.get_brand!(brand.id) == Repo.preload(brand, :contracts)
     end
 
     test "delete_brand/1 deletes the brand" do
@@ -66,6 +66,46 @@ defmodule App.BrandsTest do
     test "change_brand/1 returns a brand changeset" do
       brand = brand_fixture()
       assert %Ecto.Changeset{} = Brands.change_brand(brand)
+    end
+
+    test "get_brand_contracts/2 returns contracts" do
+      brand = brand_fixture()
+      assert Brands.get_brand_contracts(brand.id) == []
+    end
+
+    test "get_brand_id_by_hostname/2 returns contracts" do
+      brand = brand_fixture()
+      assert Brands.get_brand_id_by_hostname(brand.hostname) == brand
+    end
+
+    test "get_total_brand_revenue/2 returns correct value" do
+      brand = brand_fixture()
+      assert Brands.get_total_brand_revenue(brand.id) == 0
+    end
+
+    test "get_number_of_sales/2 returns correct value" do
+      brand = brand_fixture()
+      assert Brands.get_number_of_sales(brand.id) == 0
+    end
+    
+    test "get_brand_total_views/2 returns correct value" do
+      brand = brand_fixture()
+      assert Brands.get_brand_total_views(brand.id) == 0
+    end
+
+    test "get_brand_customers/2 returns correct value" do
+      brand = brand_fixture()
+      assert Brands.get_brand_customers(brand.id) == []
+    end
+
+    test "get_brand_pending_payments/2 returns correct value" do
+      brand = brand_fixture()
+      assert Brands.get_brand_pending_payments(brand.id) == 0
+    end
+
+    test "get_sales_countries/2 returns correct value" do
+      brand = brand_fixture()
+      assert Brands.get_sales_countries(brand.id) == []
     end
   end
 end
