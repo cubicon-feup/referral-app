@@ -62,7 +62,6 @@ defmodule App.VouchersTest do
       voucher = voucher_fixture()
       voucher_p=
         Repo.preload(voucher, :contract)
-        |> Repo.preload(:sales)
       assert Vouchers.get_voucher!(voucher.id) == {:ok, voucher_p} 
     end
 
@@ -100,6 +99,7 @@ defmodule App.VouchersTest do
       voucher = voucher_fixture()
       voucher_p=
         Repo.preload(voucher, :contract)
+        |> Repo.preload(:sales)
       assert {:error, %Ecto.Changeset{}} = Vouchers.update_voucher(voucher, @invalid_attrs)
       assert {:ok, voucher_p} == Vouchers.get_voucher!(voucher.id)
     end
