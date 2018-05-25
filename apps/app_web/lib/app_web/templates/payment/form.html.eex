@@ -14,8 +14,8 @@
         <div class="form-group">
           <%= label f, :contract_id, class: "control-label" %>
           <select name="payment[contract_id]" class="form-control custom-select" id="select-influencer">
+            <option value="">---Select Influencer---</option>
             <%= for contract <- @contracts do %>
-              <option value="">---Select Influencer---</option>
               <%= content_tag :option, contract.name, [data: [payment_period: contract.payment_period], value: contract.id] %>
             <% end %>
           </select>
