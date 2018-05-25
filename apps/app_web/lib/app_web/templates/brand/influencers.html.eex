@@ -13,7 +13,7 @@
         <div class="col-lg order-lg-first">
           <h2>Influencers</h2>
         </div>
-      </div> 
+      </div>
       <div class="table-responsive">
         <table class="table card-table table-vcenter text-nowrap">
           <thead>
@@ -33,11 +33,15 @@
                   <td><%= contract.name %></td>
                   <td><%= revenue = get_influencer_revenue(contract.id) %></td>
                   <td><%= sales_count = get_number_of_influencer_sales(contract.id) %></td>
-                  <%= if sales_count == 0 do %>
-                    <td>0</td>
-                  <% else %>
-                    <td><%= div(Decimal.to_integer(revenue), sales_count) %></td>
-                  <% end %>
+                  <td>
+                    <%= if sales_count == 0 do %>
+                      0
+                    <% else %>
+                      <%= div(Decimal.to_integer(revenue), sales_count) %>
+                    <% end %>
+                  </td>
+                  <td>
+                  </td>
                   <td><%= get_influencer_pending_payments(contract.id) %></td>
                   <td><%= get_influencer_voucher_views(contract.id) %></td>
 
