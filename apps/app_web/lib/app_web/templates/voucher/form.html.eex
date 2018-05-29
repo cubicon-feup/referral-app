@@ -228,5 +228,30 @@
         $('#voucher_price_rule').prop('required', '');
       }
     });
+
+    $('#voucher_price_rule').change(function(){
+      let id = $('#voucher_price_rule').find(":selected").val()
+      //TODO get brand id
+      let url = "../../../../api/price_rule/1/" + id;
+      $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+          format: 'json'
+        },
+        cache: false,
+        success: function(data){
+          let value_type = data["price_rule"]["value_type"]
+          let discount_value = data["price_rule"]["value"]
+
+          document.getElementById('voucher_discount_type').value=value_type;
+          document.getElementById('voucher_discount_type').disabled = true;
+          document.getElementById('voucher_discount_value').value=discount_value;
+          document.getElementById('voucher_discount_value').disabled = true;
+        },
+        error: function() {
+       }
+      });
+    });
   });
   </script>
