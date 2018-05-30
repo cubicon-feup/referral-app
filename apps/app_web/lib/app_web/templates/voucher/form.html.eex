@@ -1,3 +1,5 @@
+<div class="col-lg-12">
+
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
@@ -120,7 +122,7 @@
           <div class="form-group">
             <%= label f, :start_date,gettext("Start date") , class: "control-label" %>
               <div class="input-group">
-                <%= date_input f, :start_date, id: "start_date", class: "form-control" %>
+                <%= text_input f, :start_date, id: "start_date", class: "form-control" %>
                   <span class="input-group-append">
           <span class="input-group-text"><i class="fa fa-calendar"></i>&nbsp;</span>
                   </span>
@@ -213,7 +215,7 @@
           <%= submit "Submit", class: "btn btn-primary" %>
         </div>
         <% end %>
-
+</div>
 
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
