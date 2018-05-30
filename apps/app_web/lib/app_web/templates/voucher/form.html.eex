@@ -19,7 +19,7 @@
                 <%= text_input f, :code, class: "form-control" , required: true, minlength: 1, maxlength: 255 %>
                   <%= error_tag f, :code %>
             </div>
-          </div>
+
 
 
           <div class="form-group">
@@ -42,12 +42,14 @@
                       <%= error_tag f, :discount_value %>
                 </div>
           </div>
+            </div>
         </div>
 
         <div class="card">
           <div class="card-header">
             <h3 class="card-title"><%=gettext("Minimum Requirements") %></h3>
           </div>
+          <div class="card-body">
 
           <div class="form-group">
             <%= label f, :minimum_requirements, class: "control-label" %>
@@ -80,6 +82,7 @@
               <%= error_tag f, :minimum_requirements %>
           </div>
         </div>
+      </div>
 
         <div class="card">
           <div class="card-header">
@@ -99,7 +102,7 @@
               <%= error_tag f, :usage_limit %>
             </div>
             <div class="form-group">
-      <label class="custom-control custom-checkbox custom-control-inline">
+              <label class="custom-control custom-checkbox custom-control-inline">
               <%= error_tag f, :once_customer %>
                   <%= checkbox(f, :once_customer, class: "custom-control-input") %>
                     <span class="custom-control-label"><%=gettext("Limit to one use per customer")%></span>
@@ -112,6 +115,7 @@
           <div class="card-header">
             <h3 class="card-title"><%=gettext("Active Dates") %></h3>
           </div>
+          <div class="card-body">
 
           <div class="form-group">
             <%= label f, :start_date,gettext("Start date") , class: "control-label" %>
@@ -127,7 +131,6 @@
               </div>
               <%= error_tag f, :deadline_date %>
           </div>
-        </div>
 
         <div class="form-group">
           <%= label f, :end_date, gettext("End Date"), class: "control-label" %>
@@ -143,6 +146,8 @@
                 <input type="text" name="field-name" class="form-control" data-mask="00:00" data-mask-clearifnotmatch="true" placeholder="00:00" autocomplete="on" maxlength="5">
               </div>
         </div>
+      </div>
+      </div>
 
         <div class="form-group">
           <%= label f, :percent_on_sales, class: "control-label" %>
@@ -167,6 +172,7 @@
             <h3 class="card-title"><%=gettext("Reward Rules") %></h3>
           </div>
 
+          <div class="card-body">
 
           <div class="form-group">
             <%= label f, :reward_type, class: "control-label" %>
@@ -201,6 +207,7 @@
               <%= number_input f, :monthly_amount, class: "form-control", min: "0"%>
           </div>
         </div>
+      </div>
 
         <div class="form-group">
           <%= submit "Submit", class: "btn btn-primary" %>
@@ -220,38 +227,37 @@
                 $('#select-beast-div').show()
               }
 
-    $('#voucher_add_price_rule').click(function() {
-      $('#select-beast-div').toggle()
-      if($('#voucher_add_price_rule').prop('checked')){
-        $('#voucher_price_rule').prop('required', true);
-      } else {
-        $('#voucher_price_rule').prop('required', '');
-      }
-    });
+              $('#voucher_add_price_rule').click(function() {
+                $('#select-beast-div').toggle()
+                if ($('#voucher_add_price_rule').prop('checked')) {
+                  $('#voucher_price_rule').prop('required', true);
+                } else {
+                  $('#voucher_price_rule').prop('required', '');
+                }
+              });
 
-    $('#voucher_price_rule').change(function(){
-      let id = $('#voucher_price_rule').find(":selected").val()
-      //TODO get brand id
-      let url = "../../../../api/price_rule/1/" + id;
-      $.ajax({
-        type: "GET",
-        url: url,
-        data: {
-          format: 'json'
-        },
-        cache: false,
-        success: function(data){
-          let value_type = data["price_rule"]["value_type"]
-          let discount_value = data["price_rule"]["value"]
+              $('#voucher_price_rule').change(function() {
+                let id = $('#voucher_price_rule').find(":selected").val()
+                //TODO get brand id
+                let url = "../../../../api/price_rule/1/" + id;
+                $.ajax({
+                  type: "GET",
+                  url: url,
+                  data: {
+                    format: 'json'
+                  },
+                  cache: false,
+                  success: function(data) {
+                    let value_type = data["price_rule"]["value_type"]
+                    let discount_value = data["price_rule"]["value"]
 
-          document.getElementById('voucher_discount_type').value=value_type;
-          document.getElementById('voucher_discount_type').disabled = true;
-          document.getElementById('voucher_discount_value').value=discount_value;
-          document.getElementById('voucher_discount_value').disabled = true;
-        },
-        error: function() {
-       }
-      });
-    });
-  });
-  </script>
+                    document.getElementById('voucher_discount_type').value = value_type;
+                    document.getElementById('voucher_discount_type').disabled = true;
+                    document.getElementById('voucher_discount_value').value = discount_value;
+                    document.getElementById('voucher_discount_value').disabled = true;
+                  },
+                  error: function() {}
+                });
+              });
+            });
+          </script>
