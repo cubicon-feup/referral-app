@@ -123,6 +123,62 @@
         </div>
 
         <div class="col-sm-12">
+          <div class="table-responsive border rounded">
+            <table class="table card-table table-vcenter text-nowrap">
+              <thead>
+                <tr>
+                  <th><%= gettext("Sessions") %></th>
+                  <th><%= gettext("SRC") %></th>
+                  <th><%= gettext("AOV") %></th>
+                  <th><%= gettext("Sales") %></th>
+                  <th><%= gettext("Visitors") %></th>
+                  <th><%= gettext("VRC") %></th>
+                  <th><%= gettext("CAC") %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="table-responsive border rounded">
+            <table class="table card-table table-vcenter text-nowrap">
+              <thead>
+                <tr>
+                  <th><%= gettext("ILV") %></th>
+                  <th><%= gettext("Revenue") %></th>
+                  <th><%= gettext("SPS") %></th>
+                  <th><%= gettext("Customers") %></th>
+                  <th><%= gettext("RPV") %></th>
+                  <th><%= gettext("Rewards") %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                  <td>000 000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
           <div class="card">
             <div class="card-header">
               <div class="form-group">
@@ -154,3 +210,29 @@
     </div>
   </div>
 </div>
+
+<style>
+  .table thead th{
+    border-bottom: 0px;
+    padding-bottom: 0px;
+    padding-top: 15px;
+    font-size: smaller;
+    text-transform: initial;
+  }
+
+  .table tbody td{
+    padding-top: 0px;
+    padding-bottom: 15px;
+    color: #0E4FE1;
+    font-weight: bold;
+    font-size: x-large;
+  }
+
+  .table{
+    text-align: center;
+  }
+
+  .table-responsive.border.rounded{
+    margin-bottom: 21px;
+  }
+</style>
