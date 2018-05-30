@@ -66,6 +66,7 @@ defmodule AppWeb.VoucherController do
     price_rule_id = Map.get(voucher_params, "price_rule", nil)
     voucher_params = Map.put(voucher_params, "contract_id", contract.id)
     brand_id = Plug.Conn.get_session(conn, :brand_id)
+    IO.inspect(voucher_params)
 
     case voucher_params["add_price_rule"] do
       "true" ->
@@ -267,9 +268,54 @@ defmodule AppWeb.VoucherController do
         "all"
       )
 
+    case Map.get(voucher_params, "minimun_amount", nil) != nil do
+      true ->
+        request =
+          Map.put(request, "prerequisite_subtotal_range", %{
+            "greater_than_or_equal_to" => Map.get(voucher_params, "minimun_amount", nil)
+          })
+
+      false ->
+        nil
+    end
+
+    case Map.get(voucher_params, "minimun_items", nil) != nil do
+      true ->
+        request =
+          Map.put(request, "prerequisite_quantity_range", %{
+            "greater_than_or_equal_to" => Map.get(voucher_params, "minimun_items", nil)
+          })
+
+      false ->
+        nil
+    end
+
+    case Map.get(voucher_params, "once_customer", nil) != nil do
+      true ->
+        request =
+          Map.put(
+            request,
+            "once_per_customer",
+            true
+          )
+
+      false ->
+        nil
+    end
+
+    case Map.get(voucher_params, "usage_limit", nil) != nil do
+      true ->
+        request = Map.put(request, "usage_limit", Map.get(voucher_params, "usage_limit", nil))
+
+      false ->
+        nil
+    end
+
     request = Map.put(request, "starts_at", "2017-01-19T17:59:10Z")
 
     price_role = %{"price_rule" => request}
+
+    IO.inspect(price_role, label: "reqiest")
 
     case HTTPoison.post(url, Poison.encode!(price_role), [{"Content-Type", "application/json"}]) do
       {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
