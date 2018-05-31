@@ -311,7 +311,21 @@ defmodule AppWeb.VoucherController do
         nil
     end
 
-    request = Map.put(request, "starts_at", "2017-01-19T17:59:10Z")
+    case build_time(voucher_params["start_date"], voucher_params["start_hour"]) do
+      {:ok, start_time} ->
+        request = Map.put(request, "starts_at", start_time)
+
+      {:not, _} ->
+        nil
+    end
+
+    case build_time(voucher_params["end_date"], voucher_params["end_hour"]) do
+      {:ok, end_time} ->
+        request = Map.put(request, "ends_at", end_time)
+
+      {:not, _} ->
+        nil
+    end
 
     price_role = %{"price_rule" => request}
 
@@ -352,6 +366,16 @@ defmodule AppWeb.VoucherController do
         |> put_flash(:info, "Voucher error.")
 
         render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+  defp build_time(date, time) do
+    case date == nil do
+      true ->
+        {:not, nil}
+
+      false ->
+        {:ok, date <> "T" <> time["hour"] <> ":" <> time["minute"] <> ":00Z"}
     end
   end
 end
