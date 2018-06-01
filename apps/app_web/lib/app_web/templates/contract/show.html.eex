@@ -69,14 +69,7 @@
           <%= gettext("Contract information") %>
         </div>
         <div class="card-body">
-          <div class="info-field">
-            <div class="text-muted">
-              <%= gettext("Points") %>
-            </div>
-            <div>
-               <%= @contract.points %>
-            </div>
-          </div>
+
 
           <!--<div class="info-field">
             <div class="text-muted">
@@ -103,7 +96,7 @@
       <div class="row">
         <div class="col-sm-6">
           <div class="card statistics">
-            <div class="card-body pending">
+            <div class="card-body pending rounded">
               <div>
                 <%= get_pending(@contract) %> €
               </div>
@@ -113,12 +106,68 @@
         </div>
         <div class="col-sm-6">
           <div class="card statistics">
-            <div class="card-body rewarded">
+            <div class="card-body rewarded rounded">
               <div>
-                <%= get_rewarded(@contract) %> €
+                <%= @contract.points %> €
               </div>
-              <%= gettext("Rewarded") %>
+              <%= gettext("Current Balance") %>
             </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="table-responsive border rounded">
+            <table class="table card-table table-vcenter text-nowrap reporting">
+              <thead>
+                <tr>
+                  <th><%= gettext("SRC") %></th>
+                  <th><%= gettext("AOV") %></th>
+                  <th><%= gettext("Sales") %></th>
+                  <th><%= gettext("Visitors") %></th>
+                  <th><%= gettext("VRC") %></th>
+                  <th><%= gettext("CAC") %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>4</td>
+                  <td>€<%= get_aov(@contract) %></td>
+                  <td><%= get_sales(@contract) %></td>
+                  <td><%= get_sessions(@contract)%></td>
+                  <td><%= get_vcr(@contract)%>%</td>
+                  <td>€<%= get_cac(@contract)%></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="table-responsive border rounded">
+            <table class="table card-table table-vcenter text-nowrap reporting">
+              <thead>
+                <tr>
+                  <th><%= gettext("ILV") %></th>
+                  <th><%= gettext("Revenue") %></th>
+                  <th><%= gettext("SPS") %></th>
+                  <th><%= gettext("Customers") %></th>
+                  <th><%= gettext("RPV") %></th>
+                  <th><%= gettext("Rewarded") %></th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>000 000</td>
+                  <td>€<%= get_revenue(@contract) %></td>
+                  <td><%= get_sps(@contract)%></td>
+                  <td><%=get_customers(@contract) %></td>
+                  <td><%=get_rpv(@contract) %></td>
+                  <td>€<%= get_rewarded(@contract) %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -156,4 +205,29 @@
       </div>
     </div>
   </div>
+  <style>
+  .reporting thead th{
+    border-bottom: 5px;
+    padding-bottom: 0px;
+    padding-top: 15px;
+    font-size: smaller;
+    text-transform: initial;
+  }
+
+  .reporting tbody td{
+    padding-top: 5px;
+    padding-bottom: 15px;
+    color: #0E4FE1;
+    font-weight: bold;
+    font-size: x-large;
+  }
+
+  .table{
+    text-align: center;
+  }
+
+  .table-responsive.border.rounded{
+    margin-bottom: 21px;
+  }
+</style>
 </div>
