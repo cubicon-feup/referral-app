@@ -16,12 +16,7 @@ deploy.config:
     - mix deps.get 
     - cd apps/app_web/assets && npm install
     - mix phx.digest
-  # just before the new process comes online,
-  # let's migrate the database
-  before_live:
-    web.site:
-      - mix ecto.migrate
-
+    
 data.db:
   image: nanobox/postgresql:9.5
 
