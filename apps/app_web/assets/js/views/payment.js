@@ -98,7 +98,7 @@ export default class View extends MainView {
          item: function (data) {
            return '<div>' +
              //'<span class="image"><img src="' + data.image + '" alt=""></span>' +
-             data.text + 23 +
+             data.text +
              '</div>';
          }
        }
