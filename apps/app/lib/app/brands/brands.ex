@@ -61,8 +61,9 @@ defmodule App.Brands do
 
   """
   def get_brand_contracts(id) do
-    query = Contract
-    |> where([c], c.brand_id == ^id)
+    query =
+      Contract
+      |> where([c], c.brand_id == ^id)
 
     Repo.all(query)
   end
@@ -146,7 +147,7 @@ defmodule App.Brands do
     get_contracts_sales(brand.contracts)
   end
 
-  def get_contracts_sales([contract|contracts]) do
+  def get_contracts_sales([contract | contracts]) do
     Contracts.get_number_of_sales(contract.id) + get_contracts_sales(contracts)
   end
 
@@ -159,7 +160,7 @@ defmodule App.Brands do
     get_contracts_views(brand.contracts)
   end
 
-  def get_contracts_views([contract|contracts]) do
+  def get_contracts_views([contract | contracts]) do
     Contracts.get_total_contract_views(contract.id) + get_contracts_views(contracts)
   end
 
@@ -172,22 +173,23 @@ defmodule App.Brands do
     customers = get_customers_from_contracts(brand.contracts)
   end
 
-  def get_customers_from_contracts([contract|contracts]) do
-    custumers = Contracts.get_contract_customers(contract.id) ++ get_customers_from_contracts(contracts)
+  def get_customers_from_contracts([contract | contracts]) do
+    custumers =
+      Contracts.get_contract_customers(contract.id) ++ get_customers_from_contracts(contracts)
   end
 
   def get_customers_from_contracts([]) do
     []
   end
 
-
   def get_brand_pending_payments(brand_id) do
     brand = get_brand!(brand_id)
     total = get_contract_pending_payments(brand.contracts)
   end
 
-  def get_contract_pending_payments([contract|contracts]) do
-    Contracts.get_contract_pending_payments(contract.id) + get_contract_pending_payments(contracts)
+  def get_contract_pending_payments([contract | contracts]) do
+    Contracts.get_contract_pending_payments(contract.id) +
+      get_contract_pending_payments(contracts)
   end
 
   def get_contract_pending_payments([]) do
@@ -199,8 +201,9 @@ defmodule App.Brands do
     get_sales_countries_from_contracts(brand.contracts)
   end
 
-  def get_sales_countries_from_contracts([contract|contracts]) do
-    countries = Contracts.get_sales_countries(contract.id) ++ get_sales_countries_from_contracts(contracts)
+  def get_sales_countries_from_contracts([contract | contracts]) do
+    countries =
+      Contracts.get_sales_countries(contract.id) ++ get_sales_countries_from_contracts(contracts)
   end
 
   def get_sales_countries_from_contracts([]) do
@@ -212,8 +215,8 @@ defmodule App.Brands do
     get_vouchers(brand.contracts)
   end
 
-  def get_vouchers([contract|contracts]) do
-    loaded_contract = contract |> Repo.preload(:voucher)
+  def get_vouchers([contract | contracts]) do
+    loaded_contract = contract |> Repo.preload(voucher: :contract)
     loaded_contract.voucher ++ get_vouchers(contracts)
   end
 
@@ -221,10 +224,10 @@ defmodule App.Brands do
     []
   end
 
-  def get_value([contract|contracts]) do
+  def get_value([contract | contracts]) do
     a = Decimal.new(Contracts.get_total_contract_revenue(contract.id))
     b = Decimal.new(get_value(contracts))
-    Decimal.add(a,b)
+    Decimal.add(a, b)
   end
 
   def get_value([]) do

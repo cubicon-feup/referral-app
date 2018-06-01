@@ -10,7 +10,7 @@
         <div class="col-lg order-lg-first">
           <h2>Vouchers</h2>
         </div>
-      </div> 
+      </div>
       <div class="table-responsive">
         <table class="table card-table table-vcenter text-nowrap">
           <thead>
@@ -19,23 +19,19 @@
               <th>Views</th>
               <th>Short Url</th>
 
-              <th></th>
             </tr>
           </thead>
           <tbody>
             <%= for voucher <- @vouchers do %>
                 <tr>
-                  <td><%= voucher.code %></td>
+                  <td><%= link voucher.code, to: contract_voucher_path(@conn, :show, @contract.id, voucher.id), class: "btn btn-default btn-xs" %></td>
                   <td><%= voucher.views_counter %></td>
                   <td><span>
                       <a class="btn btn-default btn-xs share-shorten-url" id="voucher-<%=voucher.code%>" voucher-id="<%=voucher.id%>" discount-code="<%=voucher.code%>">Share</a>
                     </span>
                   </td>
 
-                  <td class="text-right">
-                    
-                    <span><%= link "Delete", to: contract_voucher_path(@conn, :delete, @contract, voucher), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-                  </td>
+
                 </tr>
             <% end %>
           </tbody>
