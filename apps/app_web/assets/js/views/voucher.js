@@ -123,8 +123,8 @@ export default class View extends MainView {
 
     $('#voucher_price_rule').change(function() {
       let id = $('#voucher_price_rule').find(":selected").val()
-      console.log($("meta[name=\"brand_id\"]").attr("content"));
-      let url = "../../../../api/price_rule/1/" + id;
+      let brand_id = $("meta[name=\"brand_id\"]").attr("content");
+      let url = "../../../../api/price_rule/" + brand_id + "/" + id;
       $.ajax({
         type: "GET",
         url: url,
