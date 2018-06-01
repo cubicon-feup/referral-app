@@ -8,9 +8,15 @@ defmodule AppWeb.ContractView do
   Decimal.set_context(%Decimal.Context{Decimal.get_context() | precision: 4})
 
   def get_brands(%Contract{} = contract) do
-    Contracts.get_brands(contract)
-    |> Enum.map(fn brand -> brand.name end)
-    |> Enum.join(", ")
+    case Contracts.get_brands(contract) do
+      {:ok, brands} ->
+        brands
+        |> Enum.map(fn brand -> brand.name end)
+        |> Enum.join(", ")
+
+      {:error, _} ->
+        nil
+    end
   end
 
   def get_pending(%Contract{} = contract) do
@@ -66,12 +72,24 @@ defmodule AppWeb.ContractView do
   end
 
   def get_aov(%Contract{} = contract) do
-    Decimal.div(get_revenue(contract), get_sales(contract))
+    case Decimal.equal?(get_revenue(contract), 0) do
+      true ->
+        0
+
+      false ->
+        Decimal.div(get_revenue(contract), get_sales(contract))
+    end
   end
 
   def get_vcr(%Contract{} = contract) do
-    Decimal.div(get_sessions(contract), get_customers(contract))
-    |> Decimal.mult(100)
+    case Decimal.equal?(get_sessions(contract), 0) do
+      true ->
+        0
+
+      false ->
+        Decimal.div(get_sessions(contract), get_customers(contract))
+        |> Decimal.mult(100)
+    end
   end
 
   def get_rpv(%Contract{} = contract) do
@@ -83,11 +101,16 @@ defmodule AppWeb.ContractView do
   end
 
   def get_sps(%Contract{} = contract) do
-    Decimal.div(get_sessions(contract), get_sales(contract))
+    case Decimal.equal?(get_sessions(contract), 0) do
+      true ->
+        0
+
+      false ->
+        Decimal.div(get_sessions(contract), get_sales(contract))
+    end
   end
 
   def format_date(date) do
-    # date.year <> "/" <> date.month <> "/" <> date.day
     Enum.join([date.year, date.month, date.day], "/")
   end
 end

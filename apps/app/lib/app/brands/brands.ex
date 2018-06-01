@@ -187,8 +187,10 @@ defmodule App.Brands do
   end
 
   def get_contract_pending_payments([contract | contracts]) do
-    Contracts.get_contract_pending_payments(contract.id) +
+    Decimal.add(
+      Contracts.get_contract_pending_payments(contract.id),
       get_contract_pending_payments(contracts)
+    )
   end
 
   def get_contract_pending_payments([]) do

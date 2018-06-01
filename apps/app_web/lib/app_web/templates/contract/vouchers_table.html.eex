@@ -11,13 +11,18 @@
     <tbody>
       <%= for voucher <- @vouchers do %>
           <tr>
-            <td><%= voucher.code %></td>
-            <td><%= voucher.code %></td>
+            <td><%= link voucher.code, to: contract_voucher_path(@conn, :show, @contract.id, voucher.id), class: "btn btn-default btn-xs" %></td>
+
+            <td><span>
+                <a class="btn btn-default btn-xs share-shorten-url" id="voucher-<%=voucher.code%>" voucher-id="<%=voucher.id%>" discount-code="<%=voucher.code%>">Share</a>
+              </span>
+            </td>
             <td>
                 <a href="<%= contract_voucher_path(@conn, :show, voucher.contract_id, voucher.id) %>" class="nav-link"><i class="fa fa-edit"></i></a>
             </td>
           </tr>
       <% end %>
+    
     </tbody>
   </table>
 </div>

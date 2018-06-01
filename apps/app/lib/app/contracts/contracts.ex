@@ -41,6 +41,7 @@ defmodule App.Contracts do
       Repo.get!(Contract, id)
       |> Repo.preload(:voucher)
       |> Repo.preload(:brand)
+      |> Repo.preload(:user)
   end
 
   @doc """
@@ -112,8 +113,7 @@ defmodule App.Contracts do
     Repo.get_by(Contract, email: email)
   end
 
-  def get_contract_by_brand(brand_id),
-    do: Repo.get_by(Contract, brand_id: brand_id)
+  def get_contract_by_brand(brand_id), do: Repo.get_by(Contract, brand_id: brand_id)
 
   def add_points(%Contract{} = contract, add) do
     new_points = Decimal.to_float(contract.points) + add
@@ -194,7 +194,7 @@ defmodule App.Contracts do
   def get_pending_payments([payment | payments]) do
     case payment.status do
       "pending" ->
-        payment.value + get_pending_payments(payments)
+        Decimal.add(payment.value, get_pending_payments(payments))
 
       _ ->
         get_pending_payments(payments)
@@ -219,14 +219,20 @@ defmodule App.Contracts do
   end
 
   def get_brands(%Contract{} = contract) do
-    query =
-      Contract
-      |> where([c], c.user_id == ^contract.user_id)
-      |> join(:inner, [c], brand in assoc(c, :brand))
-      |> distinct(true)
-      |> select([_, brand], brand)
+    case is_nil(contract.user_id) do
+      false ->
+        query =
+          Contract
+          |> where([c], c.user_id == ^contract.user_id)
+          |> join(:inner, [c], brand in assoc(c, :brand))
+          |> distinct(true)
+          |> select([_, brand], brand)
 
-    Repo.all(query)
+        {:ok, Repo.all(query)}
+
+      true ->
+        {:error, nil}
+    end
   end
 
   def get_payments(%Contract{} = contract) do
@@ -236,5 +242,6 @@ defmodule App.Contracts do
       |> select([p], p)
 
     Repo.all(query)
+    |> Repo.preload(:contract)
   end
 end
