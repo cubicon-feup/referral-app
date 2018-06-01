@@ -37,7 +37,8 @@
                     <%= if sales_count == 0 do %>
                       0
                     <% else %>
-                      <%= div(Decimal.to_integer(revenue), sales_count) %>
+                      <% Decimal.set_context(%Decimal.Context{Decimal.get_context | precision: 4}) %>
+                      <%= Decimal.div(revenue, Decimal.new(sales_count)) %>
                     <% end %>
                   </td>
                   <td>
