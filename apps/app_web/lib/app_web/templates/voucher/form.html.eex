@@ -153,33 +153,16 @@
                       <%= error_tag f, :end_date %>
                   </div>
                   <div class="col-6">
-                      <%= label f, :end_hour, gettext("Start Hour") , class: "control-label" %>
-                        <div class="input-group">
-                          <%= time_select( f, :end_hour) %>
-                        </div>
+                    <%= label f, :end_hour, gettext("Start Hour") , class: "control-label" %>
+                      <div class="input-group">
+                        <%= time_select( f, :end_hour) %>
+                      </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <%= label f, :percent_on_sales, class: "control-label" %>
-              <%= text_input f, :percent_on_sales, class: "form-control" %>
-                <%= error_tag f, :percent_on_sales %>
-          </div>
-
-          <div class="form-group">
-            <%= label f, :points_on_sales, class: "control-label" %>
-              <%= text_input f, :points_on_sales, class: "form-control" %>
-                <%= error_tag f, :points_on_sales %>
-          </div>
-
-          <div class="form-group">
-            <%= label f, :points_per_month, class: "control-label" %>
-              <%= text_input f, :points_per_month, class: "form-control" %>
-                <%= error_tag f, :points_per_month %>
-          </div>
 
           <div class="card">
             <div class="card-header">
@@ -189,141 +172,137 @@
             <div class="card-body">
 
               <div class="form-group">
-                <%= label f, :reward_type, class: "control-label" %>
-                  <select id="reward_type">
-        <option value="none"><%=gettext("None") %></option>
-        <option value="sales"><%=gettext("Number of sales") %></option>
-        <option value="comission"><%=gettext("Comission") %></option>
-        <option value="monthly"><%=gettext("Monthly") %></option>
-      </select>
-
-
+                <%= label f, :reward_type,  class: "control-label" %>
+                  <%= select(f, :reward_type , [{gettext("None"),"none"},{gettext("Number of sales"),"sales"}, {gettext("Comission"),"comission"},{gettext("Monthly"),"monthly"} ], id: "reward_type") %>
               </div>
               <div class="form-group" id="number_sales_group" style="display:none">
+                <div class="row">
+                  <%= error_tag f, :points_on_sales %>
+                    <%= label f, :points_on_sales, gettext("Reward amount"), class: "control-label col-1" %>
+                      <%= number_input f, :points_on_sales, class: "form-control col-3", min: "0"%>
 
-                <%= error_tag f, :number_sales_value %>
-                  <%= number_input f, :number_sales_value, class: "form-control", min: "1"%>
+                        <%= error_tag f, :set_of_sales %>
+                          <%= label f, :set_of_sales, gettext("Number of sales"), class: "control-label col-1" %>
+                            <%= number_input f, :set_of_sales, class: "form-control col-3", min: "1"%>
+                </div>
               </div>
 
-              <div class="form-group" id="amount_sales_group" style="display:none">
-
-                <%= error_tag f, :amount_sales_value %>
-                  <%= number_input f, :amount_sales_value, class: "form-control", min: "0"%>
-              </div>
               <div class="form-group" id="comission_group" style="display:none">
 
-                <%= error_tag f, :comission_amount %>
-                  <%= number_input f, :comission_amount, class: "form-control", min: "0"%>
-              </div>
-              <div class="form-group" id="monthly_group" style="display:none">
-
-                <%= error_tag f, :monthly_amount %>
-                  <%= number_input f, :monthly_amount, class: "form-control", min: "0"%>
+                <%= error_tag f, :percent_on_sales %>
+                  <%= label f, :percent_on_sales, gettext("Percentage"), class: "control-label" %>
+                    <%= number_input f, :percent_on_sales, class: "form-control", min: "0", max: "100"%>
               </div>
             </div>
+            <div class="form-group" id="monthly_group" style="display:none">
+              <%= label f, :points_per_month, gettext("Montly amount"), class: "control-label" %>
+                <%= error_tag f, :points_per_month %>
+                  <%= number_input f, :points_per_month, class: "form-control", min: "0"%>
+            </div>
           </div>
-
-          <div class="form-group">
-            <%= submit "Submit", class: "btn btn-primary" %>
-          </div>
-          <% end %>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="form-group">
+  <%= submit "Submit", class: "btn btn-primary" %>
+</div>
+<% end %>
+  </div>
 
-<script>
-  $(document).ready(function() {
-    if ($('#voucher_discount_type').val() === 'free_shipping') {
-      $("#discount_value_group").hide();
-    }
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    if ($('#voucher_add_price_rule').prop('checked')) {
-      $('#select-beast-div').show()
-    }
+  <script>
+    $(document).ready(function() {
+      if ($('#voucher_discount_type').val() === 'free_shipping') {
+        $("#discount_value_group").hide();
+      }
 
-    $('#voucher_add_price_rule').click(function() {
-      $('#select-beast-div').toggle()
       if ($('#voucher_add_price_rule').prop('checked')) {
-        $('#voucher_price_rule').prop('required', true);
-      } else {
-        $('#voucher_price_rule').prop('required', '');
+        $('#select-beast-div').show()
       }
-    });
 
-    $(function() {
-      $('input[name="voucher[start_date]"]').daterangepicker({
-          singleDatePicker: true,
-          showDropdowns: true,
-          minDate: moment(),
-          ranges: {
-            'Today': [moment(), moment()],
-            'Tomorrow': [moment().add(1, 'days'), moment()],
-            'One Week': [moment().add(7, 'days'), moment()],
-            'One Month': [moment().add(1, 'months'), moment()]
+      $('#voucher_add_price_rule').click(function() {
+        $('#select-beast-div').toggle()
+        if ($('#voucher_add_price_rule').prop('checked')) {
+          $('#voucher_price_rule').prop('required', true);
+        } else {
+          $('#voucher_price_rule').prop('required', '');
+        }
+      });
+
+      $(function() {
+        $('input[name="voucher[start_date]"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minDate: moment(),
+            ranges: {
+              'Today': [moment(), moment()],
+              'Tomorrow': [moment().add(1, 'days'), moment()],
+              'One Week': [moment().add(7, 'days'), moment()],
+              'One Month': [moment().add(1, 'months'), moment()]
+            },
+            locale: {
+              format: 'YYYY-MM-DD'
+            }
           },
-          locale: {
-            format: 'YYYY-MM-DD'
-          }
-        },
 
-        function(start, label) {
-          var drp = $('input[name="voucher[end_date]"]').data('daterangepicker');
-          drp.minDate = start;
+          function(start, label) {
+            var drp = $('input[name="voucher[end_date]"]').data('daterangepicker');
+            drp.minDate = start;
 
-        });
-    });
+          });
+      });
 
-    $('input[name="voucher[end_date]"]').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
+      $('input[name="voucher[end_date]"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
         autoUpdateInput: false,
-          minDate: moment(),
-      ranges: {
-        'Today': [moment(), moment()],
-        'Tomorrow': [moment().add(1, 'days'), moment()],
-        'One Week': [moment().add(7, 'days'), moment()],
-        'One Month': [moment().add(1, 'months'), moment()]
-      },
-      locale: {
-        format: 'YYYY-MM-DD'
-      }
-    });
-
-    $('input[name="voucher[end_date]"]').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('YYYY-MM-DD'));
-  });
-
-  $('input[name="voucher[end_date]"]').on('cancel.daterangepicker', function(ev, picker) {
-      $(this).val('');
-  });
-
-    $('#end_date_checkbox').click(function() {
-      $('#end_date_section').toggle();
-      $('input[name="voucher[end_date]"]').val('');
-    });
-
-    $('#voucher_price_rule').change(function() {
-      let id = $('#voucher_price_rule').find(":selected").val()
-      //TODO get brand id
-      let url = "../../../../api/price_rule/1/" + id;
-      $.ajax({
-        type: "GET",
-        url: url,
-        data: {
-          format: 'json'
+        minDate: moment(),
+        ranges: {
+          'Today': [moment(), moment()],
+          'Tomorrow': [moment().add(1, 'days'), moment()],
+          'One Week': [moment().add(7, 'days'), moment()],
+          'One Month': [moment().add(1, 'months'), moment()]
         },
-        cache: false,
-        success: function(data) {
-          let value_type = data["price_rule"]["value_type"]
-          let discount_value = data["price_rule"]["value"]
+        locale: {
+          format: 'YYYY-MM-DD'
+        }
+      });
 
-          document.getElementById('voucher_discount_type').value = value_type;
-          document.getElementById('voucher_discount_type').disabled = true;
-          document.getElementById('voucher_discount_value').value = discount_value;
-          document.getElementById('voucher_discount_value').disabled = true;
-        },
-        error: function() {}
+      $('input[name="voucher[end_date]"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD'));
+      });
+
+      $('input[name="voucher[end_date]"]').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+      });
+
+      $('#end_date_checkbox').click(function() {
+        $('#end_date_section').toggle();
+        $('input[name="voucher[end_date]"]').val('');
+      });
+
+      $('#voucher_price_rule').change(function() {
+        let id = $('#voucher_price_rule').find(":selected").val()
+        //TODO get brand id
+        let url = "../../../../api/price_rule/1/" + id;
+        $.ajax({
+          type: "GET",
+          url: url,
+          data: {
+            format: 'json'
+          },
+          cache: false,
+          success: function(data) {
+            let value_type = data["price_rule"]["value_type"]
+            let discount_value = data["price_rule"]["value"]
+
+            document.getElementById('voucher_discount_type').value = value_type;
+            document.getElementById('voucher_discount_type').disabled = true;
+            document.getElementById('voucher_discount_value').value = discount_value;
+            document.getElementById('voucher_discount_value').disabled = true;
+          },
+          error: function() {}
+        });
       });
     });
-  });
-</script>
+  </script>

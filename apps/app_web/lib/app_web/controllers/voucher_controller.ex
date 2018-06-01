@@ -342,19 +342,77 @@ defmodule AppWeb.VoucherController do
   end
 
   defp insert_voucher(conn, voucher_params) do
-    case Vouchers.create_voucher(voucher_params) do
-      {:ok, voucher} ->
-        case Decimal.equal?(voucher.points_per_month, "0.0") do
-          true ->
+    case voucher_params["reward_type"] do
+      "none" ->
+        case Vouchers.create_voucher(%{
+               "code" => voucher_params["code"],
+               "contract_id" => voucher_params["contract_id"]
+             }) do
+          {:ok, voucher} ->
+            #  IO.inspect(voucher)
             nil
 
-          false ->
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Voucher error.")
+
+            render(conn, "new.html", changeset: changeset)
+        end
+
+      "sales" ->
+        case Vouchers.create_voucher(%{
+               "code" => voucher_params["code"],
+               "points_on_sales" => voucher_params["points_on_sales"],
+               "set_of_sales" => voucher_params["set_of_sales"],
+               "contract_id" => voucher_params["contract_id"]
+             }) do
+          {:ok, voucher} ->
+            # IO.inspect(voucher)
+            nil
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Voucher error.")
+
+            render(conn, "new.html", changeset: changeset)
+        end
+
+      "comission" ->
+        case Vouchers.create_voucher(%{
+               "code" => voucher_params["code"],
+               "percent_on_sales" => voucher_params["percent_on_sales"],
+               "contract_id" => voucher_params["contract_id"]
+             }) do
+          {:ok, voucher} ->
+            # IO.inspect(voucher)
+            nil
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Voucher error.")
+
+            render(conn, "new.html", changeset: changeset)
+        end
+
+      "monthly" ->
+        case Vouchers.create_voucher(%{
+               "code" => voucher_params["code"],
+               "points_per_month" => voucher_params["points_per_month"],
+               "contract_id" => voucher_params["contract_id"]
+             }) do
+          {:ok, voucher} ->
             Johanna.every({732, :hr}, fn ->
               Contracts.add_points_2(
                 voucher.contract.id,
                 Decimal.to_float(voucher.points_per_month)
               )
             end)
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Voucher error.")
+
+            render(conn, "new.html", changeset: changeset)
         end
 
         conn
