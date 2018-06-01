@@ -134,7 +134,7 @@ export default class View extends MainView {
         cache: false,
         success: function(data) {
           let value_type = data["price_rule"]["value_type"]
-          let discount_value = data["price_rule"]["value"]
+          let discount_value = data["price_rule"]["value"] * -1
 
           document.getElementById('voucher_discount_type').value = value_type;
           document.getElementById('voucher_discount_type').disabled = true;
