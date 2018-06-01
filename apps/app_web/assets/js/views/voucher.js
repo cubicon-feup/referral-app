@@ -63,6 +63,7 @@ export default class View extends MainView {
       $('#select-beast-div').toggle()
       if ($('#voucher_add_price_rule').prop('checked')) {
         $('#voucher_price_rule').prop('required', true);
+        $('#voucher_discount_value').prop('required', '');
       } else {
         $('#voucher_price_rule').prop('required', '');
       }

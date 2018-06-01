@@ -74,6 +74,10 @@ defmodule AppWeb.VoucherController do
           {:ok, body} ->
             insert_voucher(conn, voucher_params)
 
+            conn
+            |> put_flash(:info, "Voucher created successfully.")
+            |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
+
           {:error, error} ->
             conn
             |> put_flash(:error, error)
