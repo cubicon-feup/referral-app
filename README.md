@@ -4,42 +4,42 @@
 ### Develop
 [![Build Status](https://travis-ci.org/cubicon-feup/referral-app.svg?branch=develop)](https://travis-ci.org/cubicon-feup/referral-app)
 
-## Setup
+  ## Setup
 
-#### Install docker
-https://docs.docker.com/install/
+  #### Install docker
+  https://docs.docker.com/install/
 
-#### Install nanobox
-https://docs.nanobox.io/install/
+  #### Install nanobox
+  https://docs.nanobox.io/install/
 
-#### Add a local DNS
-```
-nanobox dns add local phoenix.local
-```
+  #### Add a local DNS
+  ```
+  nanobox dns add local phoenix.local
+  ```
 
-#### Run the app 
-```
-nanobox run iex -S mix phx.server
-```
+  #### Run the app 
+  ```
+  nanobox run iex -S mix phx.server
+  ```
 
-Go to: ``` phoenix.local:4000 ``` to see your app!
+  Go to: ``` phoenix.local:4000 ``` to see your app!
 
-## Other commands
+  ## Other commands
 
-#### drop into a Nanobox console
-```nanobox run```
+  #### drop into a Nanobox console
+  ```nanobox run```
 
-#### where elixir is installed,
-```elixir -v```
+  #### where elixir is installed,
+  ```elixir -v```
 
-#### your packages are available,
-```mix list```
+  #### your packages are available,
+  ```mix list```
 
-#### and your code is mounted
-```ls```
+  #### and your code is mounted
+  ```ls```
 
-#### exit the console
-```exit```
+  #### exit the console
+  ```exit```
 
 ## GENERATING HTML AND JSON
 
