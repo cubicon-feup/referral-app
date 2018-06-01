@@ -45,6 +45,27 @@ defmodule AppWeb.ContractView do
     Vouchers.get_vouchers_by_contract!(contract.id)
   end
 
+  def get_sales(%Contract{} = contract) do
+    Contracts.get_number_of_sales(contract.id)
+  end
+
+  def get_costumers(%Contract{} = contract) do
+    Contracts.get_contract_customers(contract.id)
+    |> Enum.uniq()
+    |> Enum.count()
+  end
+
+  def get_revenue(%Contract{} = contract) do
+    Contracts.get_total_contract_revenue(contract.id)
+  end
+
+  def get_sessions(%Contract{} = contract) do
+    Contracts.get_total_contract_views(contract.id)
+  end
+
+  def get_aov(%Contract{} = contract) do
+    Decimal.div(get_revenue(contract), get_sales(contract))
+  end
 
   def format_date(date) do
     #date.year <> "/" <> date.month <> "/" <> date.day

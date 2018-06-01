@@ -103,7 +103,7 @@
       <div class="row">
         <div class="col-sm-6">
           <div class="card statistics">
-            <div class="card-body pending">
+            <div class="card-body pending rounded">
               <div>
                 <%= get_pending(@contract) %> €
               </div>
@@ -113,7 +113,7 @@
         </div>
         <div class="col-sm-6">
           <div class="card statistics">
-            <div class="card-body rewarded">
+            <div class="card-body rewarded rounded">
               <div>
                 <%= get_rewarded(@contract) %> €
               </div>
@@ -138,10 +138,10 @@
               </thead>
               <tbody>
                 <tr>
+                  <td><%= get_sessions(@contract) %></td>
                   <td>000 000</td>
-                  <td>000 000</td>
-                  <td>000 000</td>
-                  <td>000 000</td>
+                  <td>€<%= get_aov(@contract) %></td>
+                  <td><%= get_sales(@contract) %></td>
                   <td>000 000</td>
                   <td>000 000</td>
                   <td>000 000</td>
@@ -167,9 +167,9 @@
               <tbody>
                 <tr>
                   <td>000 000</td>
+                  <td>€<%= get_revenue(@contract) %></td>
                   <td>000 000</td>
-                  <td>000 000</td>
-                  <td>000 000</td>
+                  <td><%= get_costumers(@contract) %></td>
                   <td>000 000</td>
                   <td>000 000</td>
                 </tr>
