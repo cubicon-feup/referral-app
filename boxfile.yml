@@ -15,7 +15,6 @@ deploy.config:
   extra_steps:
     - mix deps.get 
     - cd apps/app_web/assets && npm install
-    - mix phx.digest
     
 data.db:
   image: nanobox/postgresql:9.5
