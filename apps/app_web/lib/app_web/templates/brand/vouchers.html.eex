@@ -3,9 +3,6 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <div class="col-lg-6 ml-auto text-right">
-          <i class="fa fa-plus"></i>
-        </div>
         <div class="col-lg order-lg-first">
           <h2>Vouchers</h2>
         </div>

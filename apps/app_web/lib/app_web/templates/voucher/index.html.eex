@@ -4,8 +4,7 @@
     <div class="card">
       <div class="card-header">
         <div class="col-lg-6 ml-auto text-right">
-          <i class="fa fa-plus"></i>
-          <span><%= link "Create Voucher", to: contract_voucher_path(@conn, :new, @contract) %></span>
+          <span><%= link "Create Voucher", to: contract_voucher_path(@conn, :new, @contract), class: "btn btn-primary" %></span>
         </div>
         <div class="col-lg order-lg-first">
           <h2>Vouchers</h2>
