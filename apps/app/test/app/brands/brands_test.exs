@@ -80,7 +80,7 @@ defmodule App.BrandsTest do
 
     test "get_total_brand_revenue/2 returns correct value" do
       brand = brand_fixture()
-      assert Brands.get_total_brand_revenue(brand.id) == 0
+      assert Brands.get_total_brand_revenue(brand.id) == Decimal.new(0)
     end
 
     test "get_number_of_sales/2 returns correct value" do
