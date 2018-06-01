@@ -130,7 +130,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>4</td>
+                  <td>4%</td>
                   <td>€<%= get_aov(@contract) %></td>
                   <td><%= get_sales(@contract) %></td>
                   <td><%= get_sessions(@contract)%></td>
@@ -158,11 +158,11 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>000 000</td>
+                  <td>000</td>
                   <td>€<%= get_revenue(@contract) %></td>
                   <td><%= get_sps(@contract)%></td>
                   <td><%=get_customers(@contract) %></td>
-                  <td><%=get_rpv(@contract) %></td>
+                  <td>€<%=get_rpv(@contract) %></td>
                   <td>€<%= get_rewarded(@contract) %>
                   </td>
                 </tr>
