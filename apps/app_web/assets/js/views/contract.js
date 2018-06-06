@@ -37,10 +37,12 @@ export default class View extends MainView {
         case 'payments':
           $("#voucher_list").hide();
           $("#payment_board").show();
+          $("#create-voucher").hide();
           break;
         case 'vouchers':
           $("#voucher_list").show();
           $("#payment_board").hide();
+          $("#create-voucher").show();
           break;
       }
     }    

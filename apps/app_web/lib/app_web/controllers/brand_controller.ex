@@ -13,6 +13,8 @@ defmodule AppWeb.BrandController do
 
   def index(conn, _params) do
 
+    Decimal.set_context(%Decimal.Context{Decimal.get_context | precision: 4})
+
     brand_id = get_session(conn, :brand_id)
 
     revenue = 
@@ -34,7 +36,7 @@ defmodule AppWeb.BrandController do
     aov = 
       case sales_count do
         0 -> 0
-        sales_count -> div(revenue, sales_count)
+        sales_count -> Decimal.div(revenue, Decimal.new(sales_count))
       end
 
     countries = 

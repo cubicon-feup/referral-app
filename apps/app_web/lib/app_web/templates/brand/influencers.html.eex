@@ -3,12 +3,7 @@
     <div class="card">
       <div class="card-header">
         <div class="col-lg-6 ml-auto text-right">
-          <div id="reportrange">
-            <span></span>
-            <i class="fa fa-calendar"></i>&nbsp;
-          </div>
-          <i class="fa fa-plus"></i>
-          <span><%= link "Create Influencer", to: brand_path(@conn, :new_contract, @brand) %></span>
+          <span><%= link "+ Create Influencer", to: brand_path(@conn, :new_contract, @brand), class: "btn btn-primary" %></span>
         </div>
         <div class="col-lg order-lg-first">
           <h2>Influencers</h2>
@@ -37,7 +32,8 @@
                     <%= if sales_count == 0 do %>
                       0
                     <% else %>
-                      <%= div(Decimal.to_integer(revenue), sales_count) %>
+                      <% Decimal.set_context(%Decimal.Context{Decimal.get_context | precision: 4}) %>
+                      <%= Decimal.div(revenue, Decimal.new(sales_count)) %>
                     <% end %>
                   </td>
                   <td>

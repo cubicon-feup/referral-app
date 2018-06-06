@@ -23,7 +23,7 @@ defmodule AppWeb.WebhookController do
 
     case discount_codes do
       nil ->
-        send_resp(conn, 200, "no discount codes")
+        send_resp(conn, 404, "no discount codes")
 
       store ->
         store =

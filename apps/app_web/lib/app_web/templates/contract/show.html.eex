@@ -125,7 +125,7 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header">
-              <div class="form-group">
+              <div class="col-lg-4 form-group">
                 <div class="selectgroup w-100">
                   <label class="selectgroup-item">
                     <input type="radio" name="view" value="payments" class="selectgroup-input" checked="">
@@ -136,6 +136,9 @@
                     <span class="selectgroup-button"><%= gettext("Vouchers") %></span>
                   </label>
                 </div>
+              </div>
+              <div class="col-lg-8 ml-rigth text-right" id="create-voucher">
+                <span><%= link "Create Voucher", to: contract_voucher_path(@conn, :new, @contract), class: "btn btn-primary" %></span>
               </div>
             </div>
             <div id="payment_board" class="card-body">
