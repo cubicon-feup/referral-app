@@ -2,7 +2,7 @@ defmodule App.ContractsTest do
   use App.DataCase
 
   alias App.Repo
-  
+
   alias App.Contracts
   alias App.Users
   alias App.Brands
@@ -19,7 +19,7 @@ defmodule App.ContractsTest do
       picture_path: "some picture_path",
       privileges_level: "user"
     }
-    
+
     @valid_attrs_brand %{
       api_key: "some api_key",
       api_password: "some api_password",
@@ -28,7 +28,12 @@ defmodule App.ContractsTest do
     }
 
     @valid_attrs %{email: "some@mail.com", address: "some address", name: "some name", nib: 33}
-    @update_attrs %{email: "some2@mail.com", address: "some address2", name: "some name2", nib: 34}
+    @update_attrs %{
+      email: "some2@mail.com",
+      address: "some address2",
+      name: "some name2",
+      nib: 34
+    }
     @invalid_attrs %{brand_id: nil, email: nil, address: nil, name: nil, nib: nil}
 
     def user_fixture() do
@@ -44,6 +49,7 @@ defmodule App.ContractsTest do
     def contract_fixture(attrs \\ %{}) do
       brand = brand_fixture()
       user = user_fixture()
+
       {:ok, contract} =
         attrs
         |> Enum.into(%{user_id: user.id, brand_id: brand.id})
@@ -67,9 +73,9 @@ defmodule App.ContractsTest do
       brand = brand_fixture()
 
       assert {:ok, %Contract{} = contract} =
-        %{brand_id: brand.id}
-        |> Enum.into(@valid_attrs)
-        |> Contracts.create_contract()
+               %{brand_id: brand.id}
+               |> Enum.into(@valid_attrs)
+               |> Contracts.create_contract()
 
       assert contract.minimum_points == 0
       assert contract.payment_period == 0
@@ -114,18 +120,18 @@ defmodule App.ContractsTest do
       assert %Ecto.Changeset{} = Contracts.change_contract(contract)
     end
 
-    #------------------------------------
-    #------------------------------------
-    #------------------------------------
+    # ------------------------------------
+    # ------------------------------------
+    # ------------------------------------
 
     test "get_contract_by_email/1 returns a contract" do
       contract = contract_fixture()
-      assert Contracts.get_contract_by_email!(contract.email) ==contract
+      assert Contracts.get_contract_by_email!(contract.email) == contract
     end
 
     test "get_contract_by_brand/1 returns a contract" do
       contract = contract_fixture()
-      assert Contracts.get_contract_by_brand(contract.brand_id) ==contract
+      assert Contracts.get_contract_by_brand(contract.brand_id) == contract
     end
 
     test "add_points/1 updates contract" do
@@ -173,11 +179,14 @@ defmodule App.ContractsTest do
     test "get_brands/1 gets right result" do
       brand = brand_fixture()
       user = user_fixture()
+
       {:ok, contract} =
         %{user_id: user.id, brand_id: brand.id}
         |> Enum.into(@valid_attrs)
         |> Contracts.create_contract()
-      assert Contracts.get_brands(contract) == [brand]
+
+      {:ok, get_brand} = Contracts.get_brands(contract)
+      assert get_brand == [brand]
     end
 
     test "get_payments/1 gets right result" do
