@@ -6,12 +6,15 @@
         <div class="col-lg order-lg-first">
           <h2>Vouchers</h2>
         </div>
-      </div> 
+      </div>
       <div class="table-responsive">
         <table class="table card-table table-vcenter text-nowrap">
           <thead>
             <tr>
-              <th>Name</th>
+              <th>
+                influencer
+              </th>
+              <th>Code</th>
               <th>Views</th>
               <th>Short Url</th>
 
@@ -21,14 +24,17 @@
           <tbody>
             <%= for voucher <- @vouchers do %>
                 <tr>
-                  <td><%= voucher.code %></td>
+                  <td>
+                    <%= link voucher.contract.name, to: contract_path(@conn, :show, voucher.contract_id), class: "btn btn-default btn-xs" %>
+                  </td>
+                  <td><%= link voucher.code, to: contract_voucher_path(@conn, :show, voucher.contract_id, voucher.id), class: "btn btn-default btn-xs" %></td>
                   <td><%= voucher.views_counter %></td>
                   <td><span>
                       <a class="btn btn-default btn-xs share-shorten-url" id="voucher-<%=voucher.code%>" voucher-id="<%=voucher.id%>" discount-code="<%=voucher.code%>">Share</a>
                     </span>
                   </td>
 
-                  <td class="text-right"> 
+                  <td class="text-right">
                   </td>
                 </tr>
             <% end %>

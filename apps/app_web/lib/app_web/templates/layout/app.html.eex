@@ -30,6 +30,7 @@
     <%= if Guardian.Plug.current_token(@conn) do %>
       <meta name='guardian_token' content="<%= Guardian.Plug.current_token(@conn) %>">
     <%end%>
+    <meta name="brand_id" content="<%= Plug.Conn.get_session(@conn, :brand_id)%>">
 
     <div class="page">
       <div class="page-main">

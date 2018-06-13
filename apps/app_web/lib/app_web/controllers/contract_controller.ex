@@ -18,14 +18,17 @@ defmodule AppWeb.ContractController do
         conn
         |> put_flash(:info, "You must be a brand to see this content.")
         |> redirect(to: "/")
+
       brand_id ->
-        brand = Brands.get_brand(brand_id)
-        |> Repo.preload(:contracts)
+        brand =
+          Brands.get_brand(brand_id)
+          |> Repo.preload(:contracts)
 
         contracts =
           for contract <- brand.contracts do
             contract
           end
+
         render(conn, "index.html", contracts: contracts, brand: brand)
     end
   end
@@ -41,12 +44,15 @@ defmodule AppWeb.ContractController do
         conn
         |> put_flash(:info, "Contract created successfully.")
         |> redirect(to: contract_path(conn, :show, contract))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
+    Decimal.set_context(%Decimal.Context{Decimal.get_context() | precision: 4, rounding: :half_up})
+
     contract = Contracts.get_contract!(id)
     render(conn, "show.html", contract: contract)
   end
@@ -65,6 +71,7 @@ defmodule AppWeb.ContractController do
         conn
         |> put_flash(:info, "Contract updated successfully.")
         |> redirect(to: contract_path(conn, :show, contract))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", contract: contract, changeset: changeset)
     end
@@ -79,7 +86,6 @@ defmodule AppWeb.ContractController do
     |> redirect(to: contract_path(conn, :index))
   end
 
-
   def invite(conn, %{"id" => id}) do
     contract = Contracts.get_contract!(id)
     send_welcome_email(contract.email, contract.name)
@@ -91,20 +97,23 @@ defmodule AppWeb.ContractController do
 
   def invited_contract(conn, %{"email" => email, "name" => name}) do
     case Guardian.Plug.current_resource(conn) do
-      nil->
+      nil ->
         conn
         |> put_flash(:info, "You need to be logged in to see this page")
         |> redirect(to: user_path(conn, :index))
-      user->
+
+      user ->
         if user.email == email do
           case Contracts.get_contract_by_email!(email) do
-            nil->
+            nil ->
               PageNotFoundController.error(conn, %{})
-            contract->
+
+            contract ->
               case Contracts.update_contract(contract, %{user_id: user.id}) do
                 {:ok, contract} ->
                   conn
                   |> redirect(to: user_path(conn, :index))
+
                 {:error, %Ecto.Changeset{} = changeset} ->
                   conn
                   |> PageNotFoundController.error(%{})

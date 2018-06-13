@@ -66,12 +66,17 @@ defmodule AppWeb.VoucherController do
     price_rule_id = Map.get(voucher_params, "price_rule", nil)
     voucher_params = Map.put(voucher_params, "contract_id", contract.id)
     brand_id = Plug.Conn.get_session(conn, :brand_id)
+    # IO.inspect(voucher_params)
 
     case voucher_params["add_price_rule"] do
       "true" ->
         case post_discount(voucher_params["code"], price_rule_id, brand_id) do
           {:ok, body} ->
             insert_voucher(conn, voucher_params)
+
+            conn
+            |> put_flash(:info, "Voucher created successfully.")
+            |> redirect(to: contract_voucher_path(conn, :index, conn.assigns[:contract]))
 
           {:error, error} ->
             conn
@@ -267,9 +272,68 @@ defmodule AppWeb.VoucherController do
         "all"
       )
 
-    request = Map.put(request, "starts_at", "2017-01-19T17:59:10Z")
+    case Map.get(voucher_params, "minimun_amount", nil) != nil do
+      true ->
+        request =
+          Map.put(request, "prerequisite_subtotal_range", %{
+            "greater_than_or_equal_to" => Map.get(voucher_params, "minimun_amount", nil)
+          })
+
+      false ->
+        nil
+    end
+
+    case Map.get(voucher_params, "minimun_items", nil) != nil do
+      true ->
+        request =
+          Map.put(request, "prerequisite_quantity_range", %{
+            "greater_than_or_equal_to" => Map.get(voucher_params, "minimun_items", nil)
+          })
+
+      false ->
+        nil
+    end
+
+    case Map.get(voucher_params, "once_customer", nil) != nil do
+      true ->
+        request =
+          Map.put(
+            request,
+            "once_per_customer",
+            true
+          )
+
+      false ->
+        nil
+    end
+
+    case Map.get(voucher_params, "usage_limit", nil) != nil do
+      true ->
+        request = Map.put(request, "usage_limit", Map.get(voucher_params, "usage_limit", nil))
+
+      false ->
+        nil
+    end
+
+    case build_time(voucher_params["start_date"], voucher_params["start_hour"]) do
+      {:ok, start_time} ->
+        request = Map.put(request, "starts_at", start_time)
+
+      {:not, _} ->
+        nil
+    end
+
+    case build_time(voucher_params["end_date"], voucher_params["end_hour"]) do
+      {:ok, end_time} ->
+        request = Map.put(request, "ends_at", end_time)
+
+      {:not, _} ->
+        nil
+    end
 
     price_role = %{"price_rule" => request}
+
+    # IO.inspect(price_role, label: "reqiest")
 
     case HTTPoison.post(url, Poison.encode!(price_role), [{"Content-Type", "application/json"}]) do
       {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
@@ -282,19 +346,77 @@ defmodule AppWeb.VoucherController do
   end
 
   defp insert_voucher(conn, voucher_params) do
-    case Vouchers.create_voucher(voucher_params) do
-      {:ok, voucher} ->
-        case Decimal.equal?(voucher.points_per_month, "0.0") do
-          true ->
+    case voucher_params["reward_type"] do
+      "none" ->
+        case Vouchers.create_voucher(%{
+               "code" => voucher_params["code"],
+               "contract_id" => voucher_params["contract_id"]
+             }) do
+          {:ok, voucher} ->
+            #  IO.inspect(voucher)
             nil
 
-          false ->
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Voucher error.")
+
+            render(conn, "new.html", changeset: changeset)
+        end
+
+      "sales" ->
+        case Vouchers.create_voucher(%{
+               "code" => voucher_params["code"],
+               "points_on_sales" => voucher_params["points_on_sales"],
+               "set_of_sales" => voucher_params["set_of_sales"],
+               "contract_id" => voucher_params["contract_id"]
+             }) do
+          {:ok, voucher} ->
+            # IO.inspect(voucher)
+            nil
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Voucher error.")
+
+            render(conn, "new.html", changeset: changeset)
+        end
+
+      "comission" ->
+        case Vouchers.create_voucher(%{
+               "code" => voucher_params["code"],
+               "percent_on_sales" => voucher_params["percent_on_sales"],
+               "contract_id" => voucher_params["contract_id"]
+             }) do
+          {:ok, voucher} ->
+            # IO.inspect(voucher)
+            nil
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Voucher error.")
+
+            render(conn, "new.html", changeset: changeset)
+        end
+
+      "monthly" ->
+        case Vouchers.create_voucher(%{
+               "code" => voucher_params["code"],
+               "points_per_month" => voucher_params["points_per_month"],
+               "contract_id" => voucher_params["contract_id"]
+             }) do
+          {:ok, voucher} ->
             Johanna.every({732, :hr}, fn ->
               Contracts.add_points_2(
                 voucher.contract.id,
                 Decimal.to_float(voucher.points_per_month)
               )
             end)
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Voucher error.")
+
+            render(conn, "new.html", changeset: changeset)
         end
 
         conn
@@ -306,6 +428,16 @@ defmodule AppWeb.VoucherController do
         |> put_flash(:info, "Voucher error.")
 
         render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+  defp build_time(date, time) do
+    case date == nil do
+      true ->
+        {:not, nil}
+
+      false ->
+        {:ok, date <> "T" <> time["hour"] <> ":" <> time["minute"] <> ":00Z"}
     end
   end
 end

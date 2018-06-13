@@ -20,12 +20,38 @@
       idx["title"]%>
   </li>
   <li>
-    <strong>Code:</strong>
+    <strong>Discount type:</strong>
     <%=idx["value_type"]%>
   </li>
   <li>
-    <strong>Code:</strong>
-    <%=idx["value"]%>
+    <strong>Discount Value:</strong>
+    <%=Decimal.mult(idx["value"],-1) %>
+  </li>
+  <li>
+    <strong>Once per customer:</strong>
+    <%=idx["once_per_customer"] %>
+  </li>
+
+  <li>
+    <strong>usage_limit:</strong>
+    <%=idx["usage_limit"] %>
+  </li>
+
+  <li>
+    <strong>starts_at:</strong>
+    <%=idx["starts_at" ]%>
+  </li>
+  <li>
+    <strong>ends_at:</strong>
+    <%=idx["ends_at" ]%>
+  </li>
+  <li>
+    <strong>Minimum purchase value:</strong>
+    <%=idx["prerequisite_subtotal_range"]["greater_than_or_equal_to"]%>
+  </li>
+  <li>
+    <strong>Minimum number items:</strong>
+    <%=idx["prerequisite_quantity_range"]["greater_than_or_equal_to"]%>
   </li>
 
   <span><%= link "Edit", to: contract_voucher_path(@conn, :edit, @contract, @voucher) %></span>

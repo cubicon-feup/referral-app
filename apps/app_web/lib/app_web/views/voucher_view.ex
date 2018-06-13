@@ -44,6 +44,11 @@ defmodule AppWeb.VoucherView do
     Enum.map(price_rules, fn x -> y = {Map.get(x, "title"), Map.get(x, "id")} end)
   end
 
+  def get_price_rule_info(brand_id, price_rule_id) do
+    Brands.get_brand!(brand_id)
+    |> get_price_rule(price_rule_id)
+  end
+
   def build_url(brand_id) do
     brand = Brands.get_brand!(brand_id)
 
