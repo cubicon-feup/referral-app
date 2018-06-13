@@ -151,7 +151,7 @@ defmodule AppWeb.BrandController do
           {:ok, contract} ->
             conn
             |> put_flash(:info, "Contract created successfully.")
-            |> redirect(to: brand_path(conn, :show, id))
+            |> redirect(to: contract_path(conn, :show, contract))
           {:error, %Ecto.Changeset{} = changeset} ->
             render(conn, "new_contract.html", brand: brand, changeset: changeset)
         end
