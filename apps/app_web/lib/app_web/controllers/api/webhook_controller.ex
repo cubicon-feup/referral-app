@@ -13,8 +13,6 @@ defmodule AppWeb.WebhookController do
   alias App.Vouchers.Voucher
 
   def handleData(conn, params) do
-    send_resp(conn, 200, "ok")
-
     discount_codes = conn.body_params["discount_codes"]
 
     value = Decimal.new(conn.body_params["total_price"])
@@ -43,6 +41,8 @@ defmodule AppWeb.WebhookController do
           customer_id,
           date
         )
+
+        send_resp(conn, 200, "ok")
     end
   end
 

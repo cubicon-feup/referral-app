@@ -7,6 +7,7 @@ defmodule App.Contracts.Contract do
     field(:minimum_points, :integer, default: 0)
     field(:payment_period, :integer, default: 0)
     field(:points, :decimal, default: Decimal.new("0.0"))
+    field(:points, :decimal, default: Decimal.new("0.00"))
     has_many(:voucher, App.Vouchers.Voucher)
     has_many(:payments, App.Payments.Payment)
     field :email, :string
