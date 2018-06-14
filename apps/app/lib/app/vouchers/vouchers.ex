@@ -8,7 +8,6 @@ defmodule App.Vouchers do
   alias App.Contracts
   alias App.Sales
 
-
   alias App.Vouchers.Voucher
 
   @doc """
