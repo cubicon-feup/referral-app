@@ -15,8 +15,8 @@ defmodule App.Vouchers do
 
   ## Examples
 
-      iex> list_vouchers()
-      [%Voucher{}, ...]
+  iex> list_vouchers()
+  [%Voucher{}, ...]
 
   """
   def list_vouchers do
@@ -30,11 +30,11 @@ defmodule App.Vouchers do
 
   ## Examples
 
-      iex> get_voucher!(123)
-      %Voucher{}
+  iex> get_voucher!(123)
+  %Voucher{}
 
-      iex> get_voucher!(456)
-      ** (Ecto.NoResultsError)
+  iex> get_voucher!(456)
+  ** (Ecto.NoResultsError)
 
   """
   def get_voucher!(id) do
@@ -57,32 +57,31 @@ defmodule App.Vouchers do
 
   ## Examples
 
-      iex> create_voucher(%{field: value})
-      {:ok, %Voucher{}}
-      iex> delete_voucher(voucher)
+  iex> create_voucher(%{field: value})
+  {:ok, %Voucher{}}
+  iex> delete_voucher(voucher)
 
-      iex> create_voucher(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+  iex> create_voucher(%{field: bad_value})
+  {:error, %Ecto.Changeset{}}
 
   """
 
-    def create_voucher(attrs \\ %{}) do
-      %Voucher{}
-      |> Voucher.changeset(attrs)
-      |> Repo.insert()
-    end
-
+  def create_voucher(attrs \\ %{}) do
+    %Voucher{}
+    |> Voucher.changeset(attrs)
+    |> Repo.insert()
+  end
 
   @doc """
   Updates a voucher.
 
   ## Examples
 
-      iex> update_voucher(voucher, %{field: new_value})
-      {:ok, %Voucher{}}
+  iex> update_voucher(voucher, %{field: new_value})
+  {:ok, %Voucher{}}
 
-      iex> update_voucher(voucher, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+  iex> update_voucher(voucher, %{field: bad_value})
+  {:error, %Ecto.Changeset{}}
 
   """
   def update_voucher(%Voucher{} = voucher, attrs) do
@@ -96,10 +95,10 @@ defmodule App.Vouchers do
 
   ## Examples
 
-      iex> delete_voucher(voucher)
-      {:ok, %Voucher{}}
+  iex> delete_voucher(voucher)
+  {:ok, %Voucher{}}
 
-      {:error, %Ecto.Changeset{}}
+  {:error, %Ecto.Changeset{}}
 
   """
   def delete_voucher(%Voucher{} = voucher) do
@@ -111,8 +110,8 @@ defmodule App.Vouchers do
 
   ## Examples
 
-      iex> change_voucher(voucher)
-      %Ecto.Changeset{source: %Voucher{}}
+  iex> change_voucher(voucher)
+  %Ecto.Changeset{source: %Voucher{}}
 
   """
   def change_voucher(%Voucher{} = voucher) do
@@ -130,13 +129,17 @@ defmodule App.Vouchers do
     # calculate points
     fixed =
       if voucher.set_of_sales != 0 and Integer.mod(new_counter, voucher.set_of_sales) == 0 do
-        Decimal.to_float(voucher.points_on_sales)
+        Decimal.new(voucher.points_on_sales)
       else
         0
       end
 
-    percent = Float.floor(Decimal.to_float(voucher.percent_on_sales) * sale_value, 2)
-    points = fixed + percent
+    percent =
+      Decimal.div(voucher.percent_on_sales, 100)
+      |> Decimal.mult(sale_value)
+      |> Decimal.round(2)
+
+    points = Decimal.add(fixed, percent)
 
     # check if not zero
     if points != 0 do
@@ -189,21 +192,23 @@ defmodule App.Vouchers do
     # IO.inspect(vouchers.contract.brand.hostname, label: "vouchers")
   end
 
-
   def get_total_voucher_revenue(voucher_id) do
     case get_voucher!(voucher_id) do
       {:ok, voucher} ->
         sales = voucher.sales
         get_value(sales)
+
       {:error, _} ->
-        ()
+        nil
     end
   end
 
-  def get_value([sale|sales]) do
+  def get_value([sale | sales]) do
     a = Decimal.new(sale.value)
+
     b = Decimal.new(get_value(sales))
-    Decimal.add(a,b)
+
+    Decimal.add(a, b)
   end
 
   def get_value([]) do
@@ -216,13 +221,12 @@ defmodule App.Vouchers do
     Enum.count(voucher.sales)
   end
 
-
   def get_voucher_customers(voucher_id) do
     {:ok, voucher} = get_voucher!(voucher_id)
     customers = get_customers_from_sale(voucher.sales)
   end
 
-  def get_customers_from_sale([sale|sales]) do
+  def get_customers_from_sale([sale | sales]) do
     custumers = [sale.customer_id] ++ get_customers_from_sale(sales)
   end
 
@@ -235,7 +239,7 @@ defmodule App.Vouchers do
     customers = get_countries_from_sale(voucher.sales)
   end
 
-  def get_countries_from_sale([sale|sales]) do
+  def get_countries_from_sale([sale | sales]) do
     case sale.customer_locale do
       nil -> get_countries_from_sale(sales)
       locale -> [locale] ++ get_countries_from_sale(sales)

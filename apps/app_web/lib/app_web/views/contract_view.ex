@@ -65,6 +65,7 @@ defmodule AppWeb.ContractView do
 
   def get_revenue(%Contract{} = contract) do
     Contracts.get_total_contract_revenue(contract.id)
+    |> Decimal.round(2)
   end
 
   def get_sessions(%Contract{} = contract) do
@@ -74,10 +75,12 @@ defmodule AppWeb.ContractView do
   def get_aov(%Contract{} = contract) do
     case Decimal.equal?(get_revenue(contract), 0) do
       true ->
-        0
+        Decimal.new(0.00)
+        |> Decimal.round(2)
 
       false ->
         Decimal.div(get_revenue(contract), get_sales(contract))
+        |> Decimal.round(2)
     end
   end
 

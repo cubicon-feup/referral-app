@@ -116,7 +116,7 @@ defmodule App.Contracts do
   def get_contract_by_brand(brand_id), do: Repo.get_by(Contract, brand_id: brand_id)
 
   def add_points(%Contract{} = contract, add) do
-    new_points = Decimal.to_float(contract.points) + add
+    new_points = Decimal.add(contract.points, add)
     update_contract(contract, %{points: new_points})
   end
 
