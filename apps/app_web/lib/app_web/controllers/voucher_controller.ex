@@ -304,7 +304,12 @@ defmodule AppWeb.VoucherController do
           )
 
       false ->
-        nil
+        request =
+          Map.put(
+            request,
+            "once_per_customer",
+            false
+          )
     end
 
     case Map.get(voucher_params, "usage_limit", nil) != nil do
